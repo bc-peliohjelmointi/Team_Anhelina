@@ -1,8 +1,0 @@
-Model Information:
-* title:	Soviet Fence Block
-* source:	https://sketchfab.com/3d-models/soviet-fence-block-c6987c2c901548e29ea2af1c08c87251
-* author:	Roman62 (https://sketchfab.com/romanbushuev.2021)
-
-Model License:
-* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
-* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
