@@ -1,0 +1,11 @@
+Model Information:
+* title:	Trail on the Hochvogel (2592m)
+* source:	https://sketchfab.com/3d-models/trail-on-the-hochvogel-2592m-3b09f7213be444478e540966d20bc3cc
+* author:	realviz.org (https://sketchfab.com/dagobert69)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Trail on the Hochvogel (2592m)" (https://sketchfab.com/3d-models/trail-on-the-hochvogel-2592m-3b09f7213be444478e540966d20bc3cc) by realviz.org (https://sketchfab.com/dagobert69) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

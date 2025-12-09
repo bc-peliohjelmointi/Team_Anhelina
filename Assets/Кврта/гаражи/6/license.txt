@@ -1,0 +1,11 @@
+Model Information:
+* title:	Garages
+* source:	https://sketchfab.com/3d-models/garages-775910f351ad4d1b9ce5fc83ebbc4437
+* author:	count_zero (https://sketchfab.com/count_zero)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Garages" (https://sketchfab.com/3d-models/garages-775910f351ad4d1b9ce5fc83ebbc4437) by count_zero (https://sketchfab.com/count_zero) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

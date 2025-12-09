@@ -1,0 +1,278 @@
+# Blender 3.4.1 MTL File: 'Building.blend'
+# www.blender.org
+
+newmtl Balconies
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Balcony_Glass
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Building_EntranceDoor
+Ns 317.685944
+Ka 1.000000 1.000000 1.000000
+Ks 0.409091 0.409091 0.409091
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd Textures/Entrance_D.png
+map_d Textures/Entrance_D.png
+map_Bump -bm 1.000000 Textures/Entrance_N.png
+
+newmtl Buildings_BottomPurpleStripes
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns Textures/house_yellow_Roughness.png
+map_Bump -bm 1.000000 Textures/house_yellow_Normal.png
+
+newmtl Buildings_Walls
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns Textures/house_yellow_Roughness.png
+map_Bump -bm 1.000000 Textures/house_yellow_Normal.png
+
+newmtl ConcreteDam
+Ns 36.446281
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Textures/ConcDam_Albedo.jpg
+map_Bump -bm 1.000000 Textures/ConcDam_Normal.jpg
+
+newmtl Doors
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd Textures/Doors.png
+map_d Textures/Doors.png
+map_Bump -bm 1.000000 Textures/Doors_Normal.png
+
+newmtl Fundament
+Ns 92.747940
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -s 20 20 1 Textures/Conc_Fundam_D.png
+map_Bump -s 20 20 1 -bm 0.500000 Textures/Conc_Fundam_N.png
+
+newmtl GreenPaint_Entrance
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Textures/Entrance_Green_Albedo.png
+map_Ns Textures/wi5hccujw_2K_Roughness.jpg
+map_Bump -bm 0.500000 Textures/Entrance_Green_Normal.png
+
+newmtl Metal_Dirty
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_refl Textures/se4objgc_4K_Metalness.jpg
+map_Bump -bm 1.000000 Textures/se4objgc_4K_Normal.jpg
+
+newmtl RoofMetal
+Ns 250.000000
+Ka 0.804545 0.804545 0.804545
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd Textures/RoofMetal_2K_Albedo.png
+map_Bump -bm 1.000000 Textures/RoofMetal_2K_Normal.dds
+
+newmtl Satellite_Antenna
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Textures/Sat_BaseColor.png
+map_Bump -bm 1.000000 Textures/Sat_Normal.png
+
+newmtl Shifer01
+Ns 0.516528
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Textures/Roof01_Albedo.png
+map_Bump -bm 1.000000 Textures/Roof01_Normal.png
+
+newmtl Shifer02_Mask01
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 0.350000 Textures/Concrete_Normal.png
+
+newmtl Shifer02_Mask02
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 0.150000 Textures/Concrete_Normal.png
+
+newmtl Trim02
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 1.000000 Textures/Trim02_Nrm.png
+
+newmtl Trim_Base
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Textures/Trim_Alb.png
+map_Ns Textures/Trim_Rgh.png
+map_refl Textures/Trim_Met.png
+map_Bump -bm 1.000000 Textures/Trim_Nrm.png
+
+newmtl Trim_Black
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns Textures/Trim_Rgh.png
+map_refl Textures/Trim_Met.png
+map_Bump -bm 1.000000 Textures/Trim_Nrm.png
+
+newmtl Trim_Dirty
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns Textures/Trim_Rgh.png
+map_refl Textures/Trim_Met.png
+map_Bump -bm 1.000000 Textures/Trim_Nrm.png
+
+newmtl Trim_Pale
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns Textures/Trim_Rgh.png
+map_refl Textures/Trim_Met.png
+map_Bump -bm 1.000000 Textures/Trim_Nrm.png
+
+newmtl WhiteWallTop
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ns Textures/wi5hccujw_2K_Roughness.jpg
+map_Bump -bm 1.000000 Textures/wi5hccujw_2K_Normal.jpg
+
+newmtl Windows
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Textures/Windows.png
+
+newmtl Windows_Entrance
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Windows_Glass
+Ns 893.884277
+Ka 1.000000 1.000000 1.000000
+Ks 0.804545 0.804545 0.804545
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -o 0.7 0 0 -s 2 2.3 2 Textures/Windows.png
+map_Bump -o 0.7 0 0 -s 2 2.3 2 -bm 0.700000 Textures/GlassNormal.png
+
+newmtl Windows_Glass_Emission
+Ns 893.884277
+Ka 1.000000 1.000000 1.000000
+Ks 0.804545 0.804545 0.804545
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -o 0.7 0 0 -s 2 2.3 2 Textures/Windows.png
+map_Bump -o 0.7 0 0 -s 2 2.3 2 -bm 0.700000 Textures/GlassNormal.png
