@@ -104,14 +104,20 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             lastJumpTime = Time.time;
+
+            animController.SetJump(true);
         }
 
         // === gravity ===
         if (isGrounded && velocity.y < 0)
+        {
             velocity.y = -3f;
+            animController.SetJump(false);
+        }
         else
+        {
             velocity.y += gravity * fallMultiplier * Time.deltaTime;
-
+        }
         controller.Move(velocity * Time.deltaTime);
 
         // === Camera ===

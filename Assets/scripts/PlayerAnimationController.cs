@@ -19,4 +19,8 @@ public class PlayerAnimationController : MonoBehaviour
         bool isRunning = isMoving && shiftPressed;
         anim.SetBool("isRunning", isRunning);
     }
+    public void SetJump(bool jump)
+    {
+        anim.SetBool("isJumping", jump);
+    }
 }
