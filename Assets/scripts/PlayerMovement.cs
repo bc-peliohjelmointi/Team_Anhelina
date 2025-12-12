@@ -27,6 +27,15 @@ public class PlayerMovement : MonoBehaviour
     public Image runEnergyBar;
     public GameObject runEnergyUI;
 
+    [Header("Footstep Audio")]
+    public AudioSource walkFootstepSource;   // AudioSource ưalk
+
+    public AudioSource runFootstepSource;    // AudioSource Run
+
+    public float walkPitch = 1.5f;           // 1.5x 
+    public float runPitch = 1f;            // 1.5x t
+
+
     private CharacterController controller;
 
     private Vector3 velocity;
@@ -44,6 +53,19 @@ public class PlayerMovement : MonoBehaviour
         animController = GetComponentInChildren<PlayerAnimationController>();
         Cursor.lockState = CursorLockMode.Locked;
         currentRunEnergy = maxRunEnergy;
+
+        if (walkFootstepSource != null)
+        {
+            walkFootstepSource.loop = true;
+            walkFootstepSource.pitch = walkPitch;
+        }
+
+        if (runFootstepSource != null)
+        {
+            runFootstepSource.loop = true;
+            runFootstepSource.pitch = runPitch;
+        }
+
     }
 
     void Update()
@@ -99,13 +121,38 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
+        // === Footstep Audio ===
+        if (isGrounded && isMoving)
+        {
+            if (!isOverheated && speed == runSpeed) // chạy
+            {
+                if (!runFootstepSource.isPlaying)
+                    runFootstepSource.Play();
+                if (walkFootstepSource.isPlaying)
+                    walkFootstepSource.Stop();
+            }
+            else // đi bộ
+            {
+                if (!walkFootstepSource.isPlaying)
+                    walkFootstepSource.Play();
+                if (runFootstepSource.isPlaying)
+                    runFootstepSource.Stop();
+            }
+        }
+        else
+        {
+            if (walkFootstepSource.isPlaying) walkFootstepSource.Stop();
+            if (runFootstepSource.isPlaying) runFootstepSource.Stop();
+        }
+
         // === jump ===
         if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime >= jumpCooldown)
         {
+            animController.SetJump(true);
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             lastJumpTime = Time.time;
 
-            animController.SetJump(true);
+            
         }
 
         // === gravity ===
