@@ -3,19 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public void LoadScene(string sceneName)
+    public void LoadSceneByName(string vanya)
     {
-        SceneManager.LoadScene(sceneName);
-    }
-
-    public void LoadSceneByIndex(int index)
-    {
-        SceneManager.LoadScene(index);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-        Debug.Log("Game Quit");
+        SceneManager.LoadScene(vanya);
     }
 }
