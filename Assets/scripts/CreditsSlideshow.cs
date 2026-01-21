@@ -8,7 +8,7 @@ public class CreditsSlideshow : MonoBehaviour
 
     private int currentIndex = 0;
 
-    void Start()
+    public void StartSlideshow()
     {
         StartCoroutine(ShowSlides());
     }

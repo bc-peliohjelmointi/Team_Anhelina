@@ -47,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
     private float jumpCooldown = 0.5f;
     private float lastJumpTime = -999f;
 
+    //смерть от падения
+    [Header("Death")]
+    public GameObject deathCanvas;
+    public CreditsSlideshow slideshow;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -66,6 +71,17 @@ public class PlayerMovement : MonoBehaviour
             runFootstepSource.pitch = runPitch;
         }
 
+    }
+    void Die()
+    {
+        isDead = true;
+        enabled = false;
+
+        // Включаем Canvas
+        deathCanvas.SetActive(true);
+
+        // Запускаем слайдшоу
+        slideshow.StartSlideshow();
     }
 
     void Update()
@@ -189,6 +205,28 @@ public class PlayerMovement : MonoBehaviour
 
             runEnergyBar.color = isOverheated ? new Color(1f, 0f, 0f) : new Color(0.7f, 0f, 1f);
 
+        }
+        // === Fall death check ===
+        if (isDead) return;
+
+        // начало падения
+        if (!isGrounded && !isFalling)
+        {
+            isFalling = true;
+            startFallY = transform.position.y;
+        }
+
+        // приземление
+        if (isGrounded && isFalling)
+        {
+            float fallDistance = startFallY - transform.position.y;
+
+            if (fallDistance >= deathHeight)
+            {
+                Die();
+            }
+
+            isFalling = false;
         }
     }
 }
