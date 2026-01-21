@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerAnimationController animController;
-
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
@@ -29,30 +28,29 @@ public class PlayerMovement : MonoBehaviour
     public GameObject runEnergyUI;
 
     [Header("Footstep Audio")]
-    public AudioSource walkFootstepSource;
-    public AudioSource runFootstepSource;
-    public float walkPitch = 1.5f;
-    public float runPitch = 1f;
+    public AudioSource walkFootstepSource;   // AudioSource ưalk
+
+    public AudioSource runFootstepSource;    // AudioSource Run
+
+    public float walkPitch = 1.5f;           // 1.5x 
+    public float runPitch = 1f;            // 1.5x t
+
 
     private CharacterController controller;
+
     private Vector3 velocity;
     private float xRotation = 0f;
     private bool isGrounded;
     private float currentRunEnergy;
-    private bool isOverheated = false;
+    private bool isOverheated = false; // <--- close when u used all sprint
 
     private float jumpCooldown = 0.5f;
     private float lastJumpTime = -999f;
 
-    // ===== Death / Fall =====
+    //смерть от падения
     [Header("Death")]
-    public float deathHeight = 10f;
     public GameObject deathCanvas;
     public CreditsSlideshow slideshow;
-
-    private bool isDead;
-    private bool isFalling;
-    private float startFallY;
 
     void Start()
     {
@@ -72,28 +70,45 @@ public class PlayerMovement : MonoBehaviour
             runFootstepSource.loop = true;
             runFootstepSource.pitch = runPitch;
         }
+
+    }
+    void Die()
+    {
+        isDead = true;
+        enabled = false;
+
+        // Включаем Canvas
+        deathCanvas.SetActive(true);
+
+        // Запускаем слайдшоу
+        slideshow.StartSlideshow();
     }
 
     void Update()
-    {
-        if (isDead) return;
 
-        // === Ground check ===
+    {
+        // === check when it touch ground ===
         isGrounded = controller.isGrounded ||
-                     Physics.Raycast(transform.position, Vector3.down,
-                     controller.height / 2f + 0.25f);
+                     Physics.Raycast(transform.position, Vector3.down, controller.height / 2f + 0.25f);
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+
+        bool shift = Input.GetKey(KeyCode.LeftShift);
+        animController.SetMovement(x, z, shift);
+
+
+
+
+        // Shift để chạy nhanh
         bool isMoving = Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f;
+
+
         bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
-
-        animController.SetMovement(x, z, wantsToRun);
-
         float speed = walkSpeed;
 
-        // === Run ===
+        // === run ===
         if (!isOverheated && wantsToRun && isMoving && currentRunEnergy > 0f)
         {
             speed = runSpeed;
@@ -101,38 +116,43 @@ public class PlayerMovement : MonoBehaviour
             if (currentRunEnergy <= 0f)
             {
                 currentRunEnergy = 0f;
-                isOverheated = true;
+                isOverheated = true; // close run
             }
         }
         else
         {
+            // reload energy
             if (currentRunEnergy < maxRunEnergy)
             {
                 currentRunEnergy += energyRegenRate * Time.deltaTime;
                 if (currentRunEnergy >= maxRunEnergy)
                 {
                     currentRunEnergy = maxRunEnergy;
-                    isOverheated = false;
+                    isOverheated = false; // open energy again when full
                 }
             }
         }
 
-        // === Move ===
+        // === move ===
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        // === Footsteps ===
+        // === Footstep Audio ===
         if (isGrounded && isMoving)
         {
-            if (!isOverheated && speed == runSpeed)
+            if (!isOverheated && speed == runSpeed) // chạy
             {
-                if (!runFootstepSource.isPlaying) runFootstepSource.Play();
-                if (walkFootstepSource.isPlaying) walkFootstepSource.Stop();
+                if (!runFootstepSource.isPlaying)
+                    runFootstepSource.Play();
+                if (walkFootstepSource.isPlaying)
+                    walkFootstepSource.Stop();
             }
-            else
+            else // đi bộ
             {
-                if (!walkFootstepSource.isPlaying) walkFootstepSource.Play();
-                if (runFootstepSource.isPlaying) runFootstepSource.Stop();
+                if (!walkFootstepSource.isPlaying)
+                    walkFootstepSource.Play();
+                if (runFootstepSource.isPlaying)
+                    runFootstepSource.Stop();
             }
         }
         else
@@ -141,15 +161,17 @@ public class PlayerMovement : MonoBehaviour
             if (runFootstepSource.isPlaying) runFootstepSource.Stop();
         }
 
-        // === Jump ===
+        // === jump ===
         if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime >= jumpCooldown)
         {
             animController.SetJump(true);
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             lastJumpTime = Time.time;
+
+            
         }
 
-        // === Gravity ===
+        // === gravity ===
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -3f;
@@ -159,7 +181,6 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y += gravity * fallMultiplier * Time.deltaTime;
         }
-
         controller.Move(velocity * Time.deltaTime);
 
         // === Camera ===
@@ -176,39 +197,36 @@ public class PlayerMovement : MonoBehaviour
         if (runEnergyBar != null)
         {
             runEnergyBar.fillAmount = currentRunEnergy / maxRunEnergy;
-            runEnergyUI.SetActive(currentRunEnergy < maxRunEnergy);
-            runEnergyBar.color = isOverheated ? Color.red : new Color(0.7f, 0f, 1f);
-        }
 
-        // === Fall death ===
+            if (currentRunEnergy >= maxRunEnergy)
+                runEnergyUI.SetActive(false);
+            else
+                runEnergyUI.SetActive(true);
+
+            runEnergyBar.color = isOverheated ? new Color(1f, 0f, 0f) : new Color(0.7f, 0f, 1f);
+
+        }
+        // === Fall death check ===
+        if (isDead) return;
+
+        // начало падения
         if (!isGrounded && !isFalling)
         {
             isFalling = true;
             startFallY = transform.position.y;
         }
 
+        // приземление
         if (isGrounded && isFalling)
         {
             float fallDistance = startFallY - transform.position.y;
 
             if (fallDistance >= deathHeight)
+            {
                 Die();
+            }
 
             isFalling = false;
         }
-    }
-     
-    void Die()
-    {
-        if (isDead) return;
-
-        isDead = true;
-        enabled = false;
-
-        if (deathCanvas != null)
-            deathCanvas.SetActive(true);
-
-        if (slideshow != null)
-            slideshow.StartSlideshow();
     }
 }
