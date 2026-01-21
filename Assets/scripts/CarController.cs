@@ -1,10 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
     public Transform[] waypoints;
     public float speed = 5f;
     public float rotationSpeed = 5f;
+    public float stopDistance = 0.5f;
 
     private int currentPoint = 0;
     private bool isStopped = false;
@@ -26,21 +27,28 @@ public class CarController : MonoBehaviour
     void MoveToWaypoint()
     {
         Vector3 direction = waypoints[currentPoint].position - transform.position;
-        direction.y = 0;
+        direction.y = 0f;
 
-        transform.position += direction.normalized * speed * Time.deltaTime;
+        if (direction.magnitude < stopDistance)
+        {
+            currentPoint = (currentPoint + 1) % waypoints.Length;
+            return;
+        }
 
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        // ПОВОРОТ: считаем, что "вперёд" — это -X
+        Quaternion targetRotation = Quaternion.LookRotation(
+            direction,
+            Vector3.up
+        ) * Quaternion.Euler(0f, 90f, 0f);
+
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
             targetRotation,
             rotationSpeed * Time.deltaTime
         );
 
-        if (direction.magnitude < 0.5f)
-        {
-            currentPoint = (currentPoint + 1) % waypoints.Length;
-        }
+        // ДВИЖЕНИЕ: едем вперёд по -X
+        transform.position += -transform.right * speed * Time.deltaTime;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -54,6 +62,8 @@ public class CarController : MonoBehaviour
     void StopCar()
     {
         isStopped = true;
-        animator.SetTrigger("Crash");
+
+        if (animator != null)
+            animator.SetTrigger("Crash");
     }
 }
