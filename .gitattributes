@@ -141,3 +141,4 @@ Packages/packages-lock.json linguist-generated
 *.skel.bytes            lfs
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
+Assets/grass[[:space:]]from[[:space:]]UnityStore/Realistic[[:space:]]Terrain[[:space:]]Textures[[:space:]]Lite/Scenes/TerrainDATA/Terrain.asset filter=lfs diff=lfs merge=lfs -text
