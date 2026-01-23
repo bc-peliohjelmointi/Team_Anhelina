@@ -44,5 +44,5 @@ public class MainMenuLoader : MonoBehaviour
 
             yield return null;
         }
-    }as
+    }
 }
