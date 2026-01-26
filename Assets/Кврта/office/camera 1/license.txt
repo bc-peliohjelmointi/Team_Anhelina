@@ -1,0 +1,8 @@
+Model Information:
+* title:	Zenit camera
+* source:	https://sketchfab.com/3d-models/zenit-camera-67f5661ab66b4ac8810d97226f20e98d
+* author:	Virtual Museums of Małopolska (https://sketchfab.com/WirtualneMuzeaMalopolski)
+
+Model License:
+* license type:	CC0-1.0 (http://creativecommons.org/publicdomain/zero/1.0/)
+* requirements:	Credit is not mandatory. Commercial use is allowed.
