@@ -1,0 +1,11 @@
+Model Information:
+* title:	Painted wooden kitchen cabinet
+* source:	https://sketchfab.com/3d-models/painted-wooden-kitchen-cabinet-90005a6795244053a49c3eb525d0abb4
+* author:	Peter Nox (https://sketchfab.com/Peter.Nox)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Painted wooden kitchen cabinet" (https://sketchfab.com/3d-models/painted-wooden-kitchen-cabinet-90005a6795244053a49c3eb525d0abb4) by Peter Nox (https://sketchfab.com/Peter.Nox) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
