@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
@@ -58,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         animController = GetComponentInChildren<PlayerAnimationController>();
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         currentRunEnergy = maxRunEnergy;
 
         if (walkFootstepSource != null)
@@ -76,6 +78,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        // Работает только в игровых сценах
+        if (currentScene == "MainMenu")
+            return; // курсор не трогаем на MainMenu
+        if (Time.timeScale == 0f)
+            return;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         if (isDead) return;
 
         // === Ground check ===
