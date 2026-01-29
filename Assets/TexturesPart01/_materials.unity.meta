@@ -1,16 +1,7 @@
 fileFormatVersion: 2
-guid: 92a46cdbe5860454c8be9124e3afac0f
-timeCreated: 1530956524
-licenseType: Store
+guid: 7c7ea7848868f1a48b46a0d0b558e079
 DefaultImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 122421
-  packageName: Textures Part 1
-  packageVersion: 1.0
-  assetPath: Assets/TexturesPart01/_materials.unity
-  uploadId: 257522

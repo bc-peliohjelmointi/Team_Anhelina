@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-guid: 39a733dae78eeff4180b60fa5235d9a7
+guid: b12462a840bea96418120c261532a3db
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 15600000
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 279940
-  packageName: Realistic Terrain Textures Lite
-  packageVersion: 1.0
-  assetPath: Assets/ALP_Assets/Realistic Terrain Textures Lite/Scenes/TerrainDATA/Terrain.asset
-  uploadId: 685085
