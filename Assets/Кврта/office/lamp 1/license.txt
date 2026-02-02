@@ -1,0 +1,11 @@
+Model Information:
+* title:	Retro Light - old&clean model
+* source:	https://sketchfab.com/3d-models/retro-light-oldclean-model-c41eecada6084360800c00d4d1950267
+* author:	Alexandre Orlans (https://sketchfab.com/alex_or)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Retro Light - old&clean model" (https://sketchfab.com/3d-models/retro-light-oldclean-model-c41eecada6084360800c00d4d1950267) by Alexandre Orlans (https://sketchfab.com/alex_or) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
