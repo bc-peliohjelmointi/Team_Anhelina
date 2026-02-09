@@ -1,0 +1,11 @@
+Model Information:
+* title:	Warn Notice Board
+* source:	https://sketchfab.com/3d-models/warn-notice-board-3dc81b6579e346ee8bfc73d5c287d1ec
+* author:	cjmitchell (https://sketchfab.com/cjmitchell)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Warn Notice Board" (https://sketchfab.com/3d-models/warn-notice-board-3dc81b6579e346ee8bfc73d5c287d1ec) by cjmitchell (https://sketchfab.com/cjmitchell) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

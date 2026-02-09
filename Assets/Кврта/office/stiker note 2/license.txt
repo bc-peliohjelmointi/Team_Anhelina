@@ -1,0 +1,11 @@
+Model Information:
+* title:	Post-it
+* source:	https://sketchfab.com/3d-models/post-it-80b0510ecd984a76a555061533e4c45a
+* author:	prettyugly (https://sketchfab.com/prettyugly)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Post-it" (https://sketchfab.com/3d-models/post-it-80b0510ecd984a76a555061533e4c45a) by prettyugly (https://sketchfab.com/prettyugly) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
