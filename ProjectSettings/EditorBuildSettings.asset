@@ -11,12 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/sCENE 1.unity
     guid: b6588656cc908d54fa94b460be45f558
-  - enabled: 1
-    path: Assets/Scenes/scene 2.unity
-    guid: 3eb2d9f6e59ec604caccf614fb158d9c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/vanya.unity
     guid: 30dd65446d05c194ca08fc7623ec47e4
+  - enabled: 0
+    path: Assets/Scenes/scene 2.unity
+    guid: 3eb2d9f6e59ec604caccf614fb158d9c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
