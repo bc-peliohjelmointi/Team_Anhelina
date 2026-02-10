@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
     public float walkPitch = 1.5f;
     public float runPitch = 1f;
 
+    [Header("Push Settings")]
+    public float pushPower = 3f;
+
     private CharacterController controller;
     private Vector3 velocity;
     private float xRotation = 0f;
@@ -45,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
     private float jumpCooldown = 0.5f;
     private float lastJumpTime = -999f;
 
-    // ===== Death / Fall =====
     [Header("Death")]
     public float deathHeight = 10f;
     public GameObject deathCanvas;
@@ -80,9 +82,8 @@ public class PlayerMovement : MonoBehaviour
     {
         string currentScene = SceneManager.GetActiveScene().name;
 
-        // Работает только в игровых сценах
         if (currentScene == "MainMenu")
-            return; // курсор не трогаем на MainMenu
+            return;
         if (Time.timeScale == 0f)
             return;
 
@@ -90,7 +91,6 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
         if (isDead) return;
 
-        // === Ground check ===
         isGrounded = controller.isGrounded ||
                      Physics.Raycast(transform.position, Vector3.down,
                      controller.height / 2f + 0.25f);
@@ -105,7 +105,6 @@ public class PlayerMovement : MonoBehaviour
 
         float speed = walkSpeed;
 
-        // === Run ===
         if (!isOverheated && wantsToRun && isMoving && currentRunEnergy > 0f)
         {
             speed = runSpeed;
@@ -129,11 +128,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // === Move ===
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        // === Footsteps ===
         if (isGrounded && isMoving)
         {
             if (!isOverheated && speed == runSpeed)
@@ -153,7 +150,6 @@ public class PlayerMovement : MonoBehaviour
             if (runFootstepSource.isPlaying) runFootstepSource.Stop();
         }
 
-        // === Jump ===
         if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime >= jumpCooldown)
         {
             animController.SetJump(true);
@@ -161,7 +157,6 @@ public class PlayerMovement : MonoBehaviour
             lastJumpTime = Time.time;
         }
 
-        // === Gravity ===
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -3f;
@@ -174,7 +169,6 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
-        // === Camera ===
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
@@ -184,7 +178,6 @@ public class PlayerMovement : MonoBehaviour
         playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
 
-        // === UI ===
         if (runEnergyBar != null)
         {
             runEnergyBar.fillAmount = currentRunEnergy / maxRunEnergy;
@@ -192,7 +185,6 @@ public class PlayerMovement : MonoBehaviour
             runEnergyBar.color = isOverheated ? Color.red : new Color(0.7f, 0f, 1f);
         }
 
-        // === Fall death ===
         if (!isGrounded && !isFalling)
         {
             isFalling = true;
@@ -207,6 +199,28 @@ public class PlayerMovement : MonoBehaviour
                 Die();
 
             isFalling = false;
+        }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody rb = hit.collider.attachedRigidbody;
+
+        if (rb != null && !rb.isKinematic)
+        {
+            DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
+
+            if (draggable != null && draggable.canBePushed)
+            {
+                Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+                float pushStrength = pushPower * controller.velocity.magnitude;
+                draggable.Push(pushDir.normalized, pushStrength * Time.deltaTime);
+            }
+            else if (draggable == null)
+            {
+                Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+                rb.AddForce(pushDir.normalized * pushPower * 0.5f, ForceMode.Force);
+            }
         }
     }
 

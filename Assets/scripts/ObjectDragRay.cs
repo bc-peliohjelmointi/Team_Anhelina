@@ -6,9 +6,13 @@ public class ObjectDragRay : MonoBehaviour
     public float moveForce = 50f;
     public float scrollSpeed = 2f;
     public float slotSnapDistance = 0.4f;
+    public float maxFallSpeed = 10f;
     public Transform[] slots = new Transform[15];
     public int dotSize = 4;
     public Color dotColor = Color.white;
+    public bool showCrosshair = true;
+    public KeyCode interactKey = KeyCode.E;
+
     private Texture2D dotTexture;
     private DraggableObject currentObject;
     private float objectDistance;
@@ -23,7 +27,7 @@ public class ObjectDragRay : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isDragging)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(interactKey)) && !isDragging)
         {
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
@@ -36,11 +40,11 @@ public class ObjectDragRay : MonoBehaviour
 
                     currentObject.rb.useGravity = false;
                     currentObject.rb.linearDamping = 10f;
-                    currentObject.rb.angularDamping = 5f; 
+                    currentObject.rb.angularDamping = 5f;
                     currentObject.rb.linearVelocity = Vector3.zero;
                     currentObject.rb.angularVelocity = Vector3.zero;
-
                     currentObject.rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+                    currentObject.canBePushed = false;
 
                     isDragging = true;
                 }
@@ -57,7 +61,7 @@ public class ObjectDragRay : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && isDragging && currentObject != null)
+        if ((Input.GetMouseButtonUp(0) || Input.GetKeyUp(interactKey)) && isDragging && currentObject != null)
         {
             ReleaseObject();
         }
@@ -65,7 +69,7 @@ public class ObjectDragRay : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetMouseButton(0) && isDragging && currentObject != null)
+        if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null)
         {
             Vector3 targetPosition = transform.position + transform.forward * objectDistance;
             Vector3 direction = targetPosition - currentObject.rb.position;
@@ -88,7 +92,11 @@ public class ObjectDragRay : MonoBehaviour
 
                 currentObject.rb.MovePosition(newPosition);
             }
+        }
 
+        if (!isDragging && currentObject != null)
+        {
+            LimitFallSpeed(currentObject.rb);
         }
     }
 
@@ -103,15 +111,54 @@ public class ObjectDragRay : MonoBehaviour
             currentObject.rb.linearVelocity = Vector3.zero;
             currentObject.rb.angularVelocity = Vector3.zero;
         }
+        else
+        {
+            currentObject.rb.linearVelocity = Vector3.ClampMagnitude(currentObject.rb.linearVelocity, 2f);
+        }
 
-        currentObject.rb.linearDamping = 0f;
-        currentObject.rb.angularDamping = 0.05f;
+        currentObject.rb.linearDamping = 0.5f;
+        currentObject.rb.angularDamping = 0.5f;
         currentObject.rb.useGravity = true;
+        currentObject.rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        currentObject.canBePushed = true;
 
-        currentObject.rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        StartCoroutine(MonitorFallingObject(currentObject));
 
         currentObject = null;
         isDragging = false;
+    }
+
+    System.Collections.IEnumerator MonitorFallingObject(DraggableObject obj)
+    {
+        float timer = 0f;
+        float maxMonitorTime = 5f;
+
+        while (timer < maxMonitorTime && obj != null && obj.rb != null)
+        {
+            LimitFallSpeed(obj.rb);
+
+            if (obj.rb.linearVelocity.magnitude < 0.1f)
+            {
+                obj.rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+                yield break;
+            }
+
+            timer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        if (obj != null && obj.rb != null)
+        {
+            obj.rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        }
+    }
+
+    void LimitFallSpeed(Rigidbody rb)
+    {
+        if (rb.linearVelocity.magnitude > maxFallSpeed)
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * maxFallSpeed;
+        }
     }
 
     Transform GetClosestSlot(Vector3 position)
@@ -135,8 +182,11 @@ public class ObjectDragRay : MonoBehaviour
 
     void OnGUI()
     {
-        float x = (Screen.width - dotSize) * 0.5f;
-        float y = (Screen.height - dotSize) * 0.5f;
-        GUI.DrawTexture(new Rect(x, y, dotSize, dotSize), dotTexture);
+        if (showCrosshair)
+        {
+            float x = (Screen.width - dotSize) * 0.5f;
+            float y = (Screen.height - dotSize) * 0.5f;
+            GUI.DrawTexture(new Rect(x, y, dotSize, dotSize), dotTexture);
+        }
     }
 }
