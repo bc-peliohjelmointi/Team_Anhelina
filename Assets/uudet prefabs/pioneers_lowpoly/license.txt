@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pioneers (lowpoly)
+* source:	https://sketchfab.com/3d-models/pioneers-lowpoly-bb5cc183830140d58cf3fa4e5d594eea
+* author:	bolarti (https://sketchfab.com/bolarti)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pioneers (lowpoly)" (https://sketchfab.com/3d-models/pioneers-lowpoly-bb5cc183830140d58cf3fa4e5d594eea) by bolarti (https://sketchfab.com/bolarti) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
