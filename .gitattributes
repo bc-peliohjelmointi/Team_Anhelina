@@ -24,7 +24,7 @@
 *.uxml                  text linguist-language=xml linguist-detectable
 # Unity YAML files
 *.anim                  unity-yaml
-*.asset                 unity-yaml
+*.asset filter=lfs diff=lfs merge=lfs -text
 *.brush                 unity-yaml
 *.controller            unity-yaml
 *.flare                 unity-yaml
@@ -38,7 +38,7 @@
 *.mixer                 unity-yaml
 *.overrideController    unity-yaml
 *.playable              unity-yaml
-*.prefab                unity-yaml
+*.prefab filter=lfs diff=lfs merge=lfs -text
 *.preset                unity-yaml
 *.renderTexture         unity-yaml
 *.scenetemplate         unity-yaml
@@ -142,6 +142,4 @@ Packages/packages-lock.json linguist-generated
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
 Assets/ALP_Assets/Realistic[[:space:]]Terrain[[:space:]]Textures[[:space:]]Lite/Scenes/TerrainDATA/Terrain.asset filter=lfs diff=lfs merge=lfs -text
-*.asset filter=lfs diff=lfs merge=lfs -text
-*.prefab filter=lfs diff=lfs merge=lfs -text
 *.fbx filter=lfs diff=lfs merge=lfs -text
