@@ -32,6 +32,13 @@ public class ObjectDragRay : MonoBehaviour
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
+                TVButton tvButton = hit.collider.GetComponent<TVButton>();
+                if (tvButton != null)
+                {
+                    tvButton.Press();
+                    return;
+                }
+
                 DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
                 if (draggable != null)
                 {
@@ -51,6 +58,7 @@ public class ObjectDragRay : MonoBehaviour
             }
         }
 
+
         if (isDragging && currentObject != null)
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -69,35 +77,37 @@ public class ObjectDragRay : MonoBehaviour
 
     void FixedUpdate()
     {
-        if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(interactKey)) && !isDragging)
         {
-            Vector3 targetPosition = transform.position + transform.forward * objectDistance;
-            Vector3 direction = targetPosition - currentObject.rb.position;
-
-            Vector3 newPosition = currentObject.rb.position + direction * (moveForce * Time.fixedDeltaTime * 0.1f);
-
-            Vector3 moveDirection = newPosition - currentObject.rb.position;
-            float moveDistance = moveDirection.magnitude;
-
-            if (moveDistance > 0.001f)
+            Ray ray = new Ray(transform.position, transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
-                if (Physics.Raycast(currentObject.rb.position, moveDirection.normalized,
-                    out RaycastHit hit, moveDistance + 0.1f))
+                TVButton tvButton = hit.collider.GetComponent<TVButton>();
+                if (tvButton != null)
                 {
-                    if (hit.collider.gameObject != currentObject.gameObject)
-                    {
-                        newPosition = hit.point - moveDirection.normalized * 0.1f;
-                    }
+                    tvButton.Press();
+                    return;
                 }
 
-                currentObject.rb.MovePosition(newPosition);
+                DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
+                if (draggable != null)
+                {
+                    currentObject = draggable;
+                    objectDistance = Vector3.Distance(transform.position, hit.point);
+
+                    currentObject.rb.useGravity = false;
+                    currentObject.rb.linearDamping = 10f;
+                    currentObject.rb.angularDamping = 5f;
+                    currentObject.rb.linearVelocity = Vector3.zero;
+                    currentObject.rb.angularVelocity = Vector3.zero;
+                    currentObject.rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+                    currentObject.canBePushed = false;
+
+                    isDragging = true;
+                }
             }
         }
 
-        if (!isDragging && currentObject != null)
-        {
-            LimitFallSpeed(currentObject.rb);
-        }
     }
 
     void ReleaseObject()
