@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class CreditsSlideshow : MonoBehaviour
 {
-    public GameObject[] slides; // сюда перетащи картинки в инспекторе
-    public float slideDuration = 5f; // сколько секунд показывать каждую картинку
+    public GameObject[] slides;
+    public float slideDuration = 3f;
 
     private int currentIndex = 0;
 
@@ -17,18 +18,15 @@ public class CreditsSlideshow : MonoBehaviour
     {
         while (currentIndex < slides.Length)
         {
-            // Включаем текущий слайд
             slides[currentIndex].SetActive(true);
 
-            // Ждём нужное время
-            yield return new WaitForSeconds(slideDuration);
+            yield return new WaitForSecondsRealtime(slideDuration);
 
-            // Выключаем текущий и переходим к следующему
             slides[currentIndex].SetActive(false);
             currentIndex++;
         }
 
-        // Когда все картинки показаны — можно перезапустить игру
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainGameScene");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

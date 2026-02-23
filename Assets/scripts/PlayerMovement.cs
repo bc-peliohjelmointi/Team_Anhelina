@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerAnimationController animController;
+    private CharacterController controller;
 
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
 
-    [Header("Jump & Gravity (CS Style)")]
+    [Header("Jump & Gravity")]
     public float jumpHeight = 1.4f;
     public float gravity = -35f;
     public float fallMultiplier = 2.2f;
@@ -20,22 +21,20 @@ public class PlayerMovement : MonoBehaviour
     public float mouseSensitivity = 2f;
     public Transform playerCamera;
 
-    [Header("Run (Neon-style)")]
+    [Header("Run Energy")]
     public float maxRunEnergy = 5f;
     public float energyDrainRate = 1f;
     public float energyRegenRate = 0.5f;
 
-    [Header("UI Elements")]
+    [Header("UI")]
     public Image runEnergyBar;
     public GameObject runEnergyUI;
 
-    [Header("Footstep Audio")]
+    [Header("Audio")]
     public AudioSource walkFootstepSource;
     public AudioSource runFootstepSource;
-    public float walkPitch = 1.5f;
-    public float runPitch = 1f;
 
-    [Header("Push Settings")]
+    [Header("Push")]
     public float pushPower = 3f;
 
     [Header("Death")]
@@ -43,57 +42,49 @@ public class PlayerMovement : MonoBehaviour
     public GameObject deathCanvas;
     public CreditsSlideshow slideshow;
 
-    private CharacterController controller;
     private Vector3 velocity;
     private float xRotation = 0f;
-    private bool isGrounded;
     private float currentRunEnergy;
-    private bool isOverheated = false;
-
-    private float jumpCooldown = 0.5f;
-    private float lastJumpTime = -999f;
-
-    private bool isDead = false;
+    private bool isOverheated;
+    private bool isDead;
     private bool isFalling;
     private float startFallY;
+    private float lastJumpTime;
+    private float jumpCooldown = 0.5f;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         animController = GetComponentInChildren<PlayerAnimationController>();
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
         currentRunEnergy = maxRunEnergy;
 
-        if (walkFootstepSource != null)
-        {
-            walkFootstepSource.loop = true;
-            walkFootstepSource.pitch = walkPitch;
-        }
-
-        if (runFootstepSource != null)
-        {
-            runFootstepSource.loop = true;
-            runFootstepSource.pitch = runPitch;
-        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
         if (isDead) return;
-
-        string currentScene = SceneManager.GetActiveScene().name;
-        if (currentScene == "MainMenu") return;
         if (Time.timeScale == 0f) return;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        HandleMovement();
+        HandleMouseLook();
+        UpdateEnergyUI();
+        HandleFallDeath();
+    }
 
-        isGrounded = controller.isGrounded ||
-                     Physics.Raycast(transform.position, Vector3.down,
-                     controller.height / 2f + 0.25f);
+    void HandleMovement()
+    {
+        bool isGrounded = controller.isGrounded;
+
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+
+            if (animController != null)
+                animController.SetJump(false);
+        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -119,78 +110,29 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (currentRunEnergy < maxRunEnergy)
-            {
-                currentRunEnergy += energyRegenRate * Time.deltaTime;
+            currentRunEnergy += energyRegenRate * Time.deltaTime;
 
-                if (currentRunEnergy >= maxRunEnergy)
-                {
-                    currentRunEnergy = maxRunEnergy;
-                    isOverheated = false;
-                }
+            if (currentRunEnergy >= maxRunEnergy)
+            {
+                currentRunEnergy = maxRunEnergy;
+                isOverheated = false;
             }
         }
 
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        HandleFootsteps(isGrounded, isMoving, speed);
-
-        if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime >= jumpCooldown)
+        if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime > jumpCooldown)
         {
-            if (animController != null)
-                animController.SetJump(true);
-
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             lastJumpTime = Time.time;
-        }
-
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -3f;
 
             if (animController != null)
-                animController.SetJump(false);
-        }
-        else
-        {
-            velocity.y += gravity * fallMultiplier * Time.deltaTime;
+                animController.SetJump(true);
         }
 
+        velocity.y += gravity * fallMultiplier * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-
-        HandleMouseLook();
-
-        UpdateEnergyUI();
-
-        HandleFallDeath();
-    }
-
-    void HandleFootsteps(bool grounded, bool moving, float speed)
-    {
-        if (!grounded || !moving)
-        {
-            if (walkFootstepSource != null) walkFootstepSource.Stop();
-            if (runFootstepSource != null) runFootstepSource.Stop();
-            return;
-        }
-
-        if (!isOverheated && speed == runSpeed)
-        {
-            if (runFootstepSource != null && !runFootstepSource.isPlaying)
-                runFootstepSource.Play();
-
-            if (walkFootstepSource != null)
-                walkFootstepSource.Stop();
-        }
-        else
-        {
-            if (walkFootstepSource != null && !walkFootstepSource.isPlaying)
-                walkFootstepSource.Play();
-
-            if (runFootstepSource != null)
-                runFootstepSource.Stop();
-        }
     }
 
     void HandleMouseLook()
@@ -212,19 +154,22 @@ public class PlayerMovement : MonoBehaviour
         if (runEnergyBar == null) return;
 
         runEnergyBar.fillAmount = currentRunEnergy / maxRunEnergy;
-        runEnergyUI.SetActive(currentRunEnergy < maxRunEnergy);
+
+        if (runEnergyUI != null)
+            runEnergyUI.SetActive(currentRunEnergy < maxRunEnergy);
+
         runEnergyBar.color = isOverheated ? Color.red : new Color(0.7f, 0f, 1f);
     }
 
     void HandleFallDeath()
     {
-        if (!isGrounded && !isFalling)
+        if (!controller.isGrounded && !isFalling)
         {
             isFalling = true;
             startFallY = transform.position.y;
         }
 
-        if (isGrounded && isFalling)
+        if (controller.isGrounded && isFalling)
         {
             float fallDistance = startFallY - transform.position.y;
 
@@ -239,7 +184,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDead) return;
 
-      
         if (hit.collider.CompareTag("Car"))
         {
             Die();
@@ -262,14 +206,15 @@ public class PlayerMovement : MonoBehaviour
         isDead = true;
 
         velocity = Vector3.zero;
-
-        if (walkFootstepSource != null) walkFootstepSource.Stop();
-        if (runFootstepSource != null) runFootstepSource.Stop();
-
         controller.enabled = false;
+
+        if (walkFootstepSource) walkFootstepSource.Stop();
+        if (runFootstepSource) runFootstepSource.Stop();
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        Time.timeScale = 0f;
 
         if (deathCanvas != null)
             deathCanvas.SetActive(true);

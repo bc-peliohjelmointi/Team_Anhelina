@@ -37,7 +37,18 @@ public class SlideshowManager : MonoBehaviour
             if (displayImage != null && slides[i] != null)
                 displayImage.sprite = slides[i];
 
-            yield return new WaitForSeconds(slideDuration);
+            yield return new WaitForSecondsRealtime(slideDuration);
+        }
+        Debug.Log("Slide count: " + slides.Length);
+
+        foreach (Sprite slide in slides)
+        {
+            Debug.Log("Setting slide: " + slide.name);
+
+            if (displayImage != null)
+                displayImage.sprite = slide;
+
+            yield return new WaitForSecondsRealtime(slideDuration);
         }
 
         RestartGame();
