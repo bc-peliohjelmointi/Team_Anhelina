@@ -5,12 +5,14 @@ public class TVPowerEffect : MonoBehaviour
 {
     public Renderer screenRenderer;
     public Material noiseShaderMaterial;
+    public Material onScreenMaterial;
     public Material offScreenMaterial;
     public float transitionDuration = 0.5f;
 
     public AudioSource turnOnSound;
     public AudioSource turnOffSound;
 
+    private bool isOn = false;
     private bool isTransitioning = false;
 
     void Start()
@@ -56,6 +58,7 @@ public class TVPowerEffect : MonoBehaviour
 
         yield return new WaitForSeconds(transitionDuration);
 
+        isOn = true;
         isTransitioning = false;
     }
 
@@ -75,6 +78,28 @@ public class TVPowerEffect : MonoBehaviour
 
         yield return new WaitForSeconds(transitionDuration);
 
+        isOn = false;
         isTransitioning = false;
+    }
+
+    public bool IsOn()
+    {
+        return isOn;
+    }
+
+    public void SetMaterial(Material mat)
+    {
+        if (screenRenderer != null && mat != null)
+        {
+            screenRenderer.material = mat;
+        }
+    }
+
+    public void ReturnToNoise()
+    {
+        if (isOn && noiseShaderMaterial != null && screenRenderer != null)
+        {
+            screenRenderer.material = noiseShaderMaterial;
+        }
     }
 }
