@@ -1,6 +1,5 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Device;
+using System.Collections;
 
 public class PSButton : MonoBehaviour
 {

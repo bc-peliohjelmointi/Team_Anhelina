@@ -34,12 +34,15 @@ public class PSInteraction : MonoBehaviour
 
         if (interactionPrompt != null)
         {
-            interactionPrompt.SetActive(isNearPS && !isInteracting && psButton != null && psButton.IsOn());
+            interactionPrompt.SetActive(isNearPS && !isInteracting);
         }
 
-        if (isNearPS && !isInteracting && Input.GetKeyDown(interactKey) && psButton != null && psButton.IsOn())
+        if (isNearPS && !isInteracting && Input.GetKeyDown(interactKey))
         {
-            EnterPSView();
+            if (psButton != null && psButton.IsOn())
+            {
+                EnterPSView();
+            }
         }
 
         if (isInteracting && Input.GetKeyDown(KeyCode.Escape))
