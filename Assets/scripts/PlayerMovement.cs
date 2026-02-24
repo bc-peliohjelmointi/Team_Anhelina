@@ -52,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
     private float lastJumpTime;
     private float jumpCooldown = 0.5f;
 
+    private bool isControlLocked;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -65,13 +67,36 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return;
+        if (isDead || isControlLocked)
+        {
+            if (animController != null)
+                animController.SetMovement(0f, 0f, false);
+
+            return;
+        }
         if (Time.timeScale == 0f) return;
 
         HandleMovement();
         HandleMouseLook();
         UpdateEnergyUI();
         HandleFallDeath();
+    }
+    public void LockControl()
+    {
+        isControlLocked = true;
+
+        velocity = Vector3.zero;
+
+        if (animController != null)
+        {
+            animController.SetMovement(0f, 0f, false);
+            animController.SetJump(false);
+        }
+    }
+
+    public void UnlockControl()
+    {
+        isControlLocked = false;
     }
 
     void HandleMovement()
