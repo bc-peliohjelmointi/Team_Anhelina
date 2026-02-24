@@ -9,7 +9,6 @@ public class PSInteraction : MonoBehaviour
     public KeyCode interactKey = KeyCode.E;
     public GameObject interactionPrompt;
     public PSButton psButton;
-    public PSMenuUI menuUI;
 
     private bool isNearPS = false;
     private bool isInteracting = false;
@@ -69,10 +68,6 @@ public class PSInteraction : MonoBehaviour
         playerCamera.position = psViewPosition.position;
         playerCamera.rotation = psViewPosition.rotation;
 
-        if (menuUI != null)
-        {
-            menuUI.ShowMenu();
-        }
     }
 
     public void ExitPSView()
@@ -90,10 +85,6 @@ public class PSInteraction : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (menuUI != null)
-        {
-            menuUI.HideMenu();
-        }
     }
 
     public bool IsInteracting()
