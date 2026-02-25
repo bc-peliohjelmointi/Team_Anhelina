@@ -20,6 +20,9 @@ public class PSInteraction : MonoBehaviour
     [Header("Requirements")]
     public PSButton psButton;
 
+    [Header("Menu Navigation")]
+    public PSMenuNavigation menuNavigation;
+
     private bool isNearPS = false;
     private bool isInteracting = false;
     private bool isTransitioning = false;
@@ -74,7 +77,7 @@ public class PSInteraction : MonoBehaviour
             StartCoroutine(EnterPSView());
         }
 
-        if (isInteracting && Input.GetKeyDown(KeyCode.Escape))
+        if (isInteracting && Input.GetKeyDown(interactKey))
         {
             StartCoroutine(ExitPSView());
         }
@@ -131,12 +134,22 @@ public class PSInteraction : MonoBehaviour
 
         isTransitioning = false;
         isInteracting = true;
+
+        if (menuNavigation != null)
+        {
+            menuNavigation.EnableNavigation();
+        }
     }
 
     IEnumerator ExitPSView()
     {
         isInteracting = false;
         isTransitioning = true;
+
+        if (menuNavigation != null)
+        {
+            menuNavigation.DisableNavigation();
+        }
 
         Vector3 targetPosition = player.position + player.rotation * originalCameraPosition;
         Quaternion targetRotation = player.rotation * originalCameraRotation;

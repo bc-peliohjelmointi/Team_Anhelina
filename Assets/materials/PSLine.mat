@@ -104,10 +104,10 @@ Material:
     - _EnvironmentReflections: 1
     - _FlickerIntensity: 0.101
     - _FlickerSpeed: 6.4
-    - _GlitchBlockSize: 48
-    - _GlitchFrequency: 0.027
-    - _GlitchIntensity: 0.17
-    - _GlitchSpeed: 10
+    - _GlitchBlockSize: 1
+    - _GlitchFrequency: 0
+    - _GlitchIntensity: 0
+    - _GlitchSpeed: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -121,10 +121,10 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScanlineFrequency: 71
+    - _ScanlineFrequency: 47
     - _ScanlineIntensity: 0.64
     - _ScanlineSpeed: 4.2
-    - _ScanlineType: 1.27
+    - _ScanlineType: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -135,13 +135,13 @@ Material:
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _BackgroundColor: {r: 0, g: 0.20784315, b: 0, a: 1}
-    - _BaseColor: {r: 0, g: 0.20784315, b: 0, a: 1}
-    - _BrightColor: {r: 0.09718762, g: 0.5283019, b: 0.12552327, a: 1}
+    - _BackgroundColor: {r: 0.10849059, g: 1, b: 0.10849059, a: 1}
+    - _BaseColor: {r: 0.1186104, g: 0.6037736, b: 0.11107157, a: 1}
+    - _BrightColor: {r: 0, g: 0.49056602, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GreenTint: {r: 0.004405481, g: 0.103773594, b: 0.004405481, a: 1}
-    - _MediumColor: {r: 0.0009789985, g: 0.20754719, b: 0.0009789985, a: 1}
+    - _MediumColor: {r: 0, g: 0.4901961, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
