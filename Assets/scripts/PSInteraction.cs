@@ -1,58 +1,98 @@
 using UnityEngine;
+using System.Collections;
 
 public class PSInteraction : MonoBehaviour
 {
+    [Header("Player")]
     public Transform player;
     public Transform playerCamera;
-    public Transform psViewPosition;
+
+    [Header("Camera Target")]
+    public Transform cameraTargetPosition;
+    public float cameraTransitionSpeed = 2f;
+
+    [Header("Interaction")]
     public float interactionDistance = 3f;
     public KeyCode interactKey = KeyCode.E;
-    public GameObject interactionPrompt;
+    public Canvas interactionPromptCanvas;
+    public GameObject interactionPromptObject;
+
+    [Header("Requirements")]
     public PSButton psButton;
 
     private bool isNearPS = false;
     private bool isInteracting = false;
+    private bool isTransitioning = false;
     private Vector3 originalCameraPosition;
     private Quaternion originalCameraRotation;
     private PlayerMovement playerMovement;
 
     void Start()
     {
-        if (interactionPrompt != null)
+        if (interactionPromptCanvas != null)
         {
-            interactionPrompt.SetActive(false);
+            interactionPromptCanvas.gameObject.SetActive(false);
         }
 
-        playerMovement = player.GetComponent<PlayerMovement>();
+        if (interactionPromptObject != null)
+        {
+            interactionPromptObject.SetActive(false);
+        }
+
+        if (player != null)
+        {
+            playerMovement = player.GetComponent<PlayerMovement>();
+        }
     }
 
     void Update()
     {
+        if (player == null) return;
+
         float distance = Vector3.Distance(player.position, transform.position);
         isNearPS = distance <= interactionDistance;
 
-        if (interactionPrompt != null)
+        bool canInteract = isNearPS && !isInteracting && !isTransitioning;
+
+        if (psButton != null)
         {
-            interactionPrompt.SetActive(isNearPS && !isInteracting);
+            canInteract = canInteract && psButton.IsOn();
         }
 
-        if (isNearPS && !isInteracting && Input.GetKeyDown(interactKey))
+        if (interactionPromptCanvas != null)
         {
-            if (psButton != null && psButton.IsOn())
-            {
-                EnterPSView();
-            }
+            interactionPromptCanvas.gameObject.SetActive(canInteract);
+        }
+
+        if (interactionPromptObject != null)
+        {
+            interactionPromptObject.SetActive(canInteract);
+        }
+
+        if (canInteract && Input.GetKeyDown(interactKey))
+        {
+            StartCoroutine(EnterPSView());
         }
 
         if (isInteracting && Input.GetKeyDown(KeyCode.Escape))
         {
-            ExitPSView();
+            StartCoroutine(ExitPSView());
         }
     }
 
-    void EnterPSView()
+    IEnumerator EnterPSView()
     {
-        isInteracting = true;
+        isTransitioning = true;
+
+        if (interactionPromptCanvas != null)
+        {
+            interactionPromptCanvas.gameObject.SetActive(false);
+        }
+
+        if (interactionPromptObject != null)
+        {
+            interactionPromptObject.SetActive(false);
+        }
 
         originalCameraPosition = playerCamera.localPosition;
         originalCameraRotation = playerCamera.localRotation;
@@ -65,14 +105,62 @@ public class PSInteraction : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        playerCamera.position = psViewPosition.position;
-        playerCamera.rotation = psViewPosition.rotation;
+        Vector3 targetPosition = cameraTargetPosition.position;
+        Quaternion targetRotation = cameraTargetPosition.rotation;
 
+        Vector3 startPosition = playerCamera.position;
+        Quaternion startRotation = playerCamera.rotation;
+
+        float elapsed = 0f;
+        float duration = 1f / cameraTransitionSpeed;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            playerCamera.position = Vector3.Lerp(startPosition, targetPosition, t);
+            playerCamera.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
+
+            yield return null;
+        }
+
+        playerCamera.position = targetPosition;
+        playerCamera.rotation = targetRotation;
+
+        isTransitioning = false;
+        isInteracting = true;
     }
 
-    public void ExitPSView()
+    IEnumerator ExitPSView()
     {
         isInteracting = false;
+        isTransitioning = true;
+
+        Vector3 targetPosition = player.position + player.rotation * originalCameraPosition;
+        Quaternion targetRotation = player.rotation * originalCameraRotation;
+
+        Vector3 startPosition = playerCamera.position;
+        Quaternion startRotation = playerCamera.rotation;
+
+        float elapsed = 0f;
+        float duration = 1f / cameraTransitionSpeed;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            targetPosition = player.position + player.rotation * originalCameraPosition;
+            targetRotation = player.rotation * originalCameraRotation;
+
+            playerCamera.position = Vector3.Lerp(startPosition, targetPosition, t);
+            playerCamera.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
+
+            yield return null;
+        }
 
         playerCamera.localPosition = originalCameraPosition;
         playerCamera.localRotation = originalCameraRotation;
@@ -85,10 +173,27 @@ public class PSInteraction : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        isTransitioning = false;
     }
 
     public bool IsInteracting()
     {
         return isInteracting;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, interactionDistance);
+
+        if (cameraTargetPosition != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(cameraTargetPosition.position, 0.2f);
+            Gizmos.DrawLine(transform.position, cameraTargetPosition.position);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(cameraTargetPosition.position, cameraTargetPosition.forward * 0.5f);
+        }
     }
 }
