@@ -6,38 +6,18 @@ public class PSScreen : MonoBehaviour
     public Renderer screenRenderer;
     public Material glitchMaterial;
     public Material offScreenMaterial;
+
+    [Header("Menu Timing")]
     public float glitchShowDelay = 0f;
     public float menuShowDelay = 1f;
+    public bool useTypingEffect = true;
+    public float typingSpeed = 0.05f;
 
-    [Header("Text Settings")]
-    public Color textColor = Color.green;
-    public float textScale = 0.001f;
-    public Vector3 textContainerPosition = new Vector3(0, 0, 0.05f);
-    public Vector3 textContainerRotation = new Vector3(0, 0, 0);
-    public float horizontalOffset = 0f;
-    public float verticalOffset = 0f;
-    public float textSize = 100f;
-    public float lineSpacing = 20f;
-    public float checkmarkOffsetX = 60f;
-    public float textStartY = 30f;
-
-    [Header("Highlight Settings")]
-    public float highlightWidth = 140f;
-    public float highlightHeight = 15f;
-    public Color highlightColor = new Color(0f, 1f, 0f, 0.3f);
-
-    [Header("Error Text Settings")]
-    public Color errorColor = Color.red;
-    public float errorTextSizeMultiplier = 1.5f;
-
-    private GameObject textContainer;
-    private GameObject[] menuTexts = new GameObject[3];
-    private GameObject[] checkmarks = new GameObject[3];
-    private GameObject highlightQuad;
-    private GameObject errorTextObj;
+    [Header("Menu Objects")]
+    public PSMenuObject[] menuObjects = new PSMenuObject[3];
+    public PSMenuObject[] checkmarkObjects = new PSMenuObject[3];
 
     private bool isOn = false;
-    private bool isTextVisible = false;
 
     void Start()
     {
@@ -51,102 +31,32 @@ public class PSScreen : MonoBehaviour
             screenRenderer.material = offScreenMaterial;
         }
 
-        CreateTextUI();
+        InitializeMenus();
     }
 
-    void CreateTextUI()
+    void InitializeMenus()
     {
-        textContainer = new GameObject("TextContainer");
-        textContainer.transform.SetParent(transform);
-        textContainer.transform.localPosition = textContainerPosition;
-        textContainer.transform.localRotation = Quaternion.Euler(textContainerRotation);
-        textContainer.transform.localScale = Vector3.one;
-
-        string[] options = new string[]
+        foreach (var menu in menuObjects)
         {
-            "Turn on first episode",
-            "Turn on second episode",
-            "Turn on third episode"
-        };
-
-        for (int i = 0; i < 3; i++)
-        {
-            float yPosition = textStartY - i * lineSpacing + verticalOffset;
-
-            Vector3 textPosition = new Vector3(-checkmarkOffsetX + horizontalOffset, yPosition, 1);
-            menuTexts[i] = CreateText(options[i], textPosition, TextAnchor.MiddleLeft);
-
-            Vector3 checkPosition = new Vector3(checkmarkOffsetX + horizontalOffset, yPosition, 1);
-            checkmarks[i] = CreateText("V", checkPosition, TextAnchor.MiddleCenter);
-            checkmarks[i].SetActive(false);
+            if (menu != null)
+            {
+                menu.gameObject.SetActive(false);
+            }
         }
 
-        Vector3 highlightPosition = new Vector3(0 + horizontalOffset, textStartY + verticalOffset, 0.5f);
-        highlightQuad = CreateQuad(highlightPosition, highlightWidth, highlightHeight);
-
-        Vector3 errorPosition = new Vector3(0 + horizontalOffset, 0 + verticalOffset, 1);
-        errorTextObj = CreateText("TURN ON TV", errorPosition, TextAnchor.MiddleCenter);
-        TextMesh errorTM = errorTextObj.GetComponent<TextMesh>();
-        errorTM.fontSize = (int)(textSize * errorTextSizeMultiplier);
-        errorTextObj.GetComponent<MeshRenderer>().material.color = errorColor;
-        errorTextObj.SetActive(false);
-
-        HideText();
-    }
-
-    GameObject CreateText(string text, Vector3 position, TextAnchor anchor)
-    {
-        GameObject obj = new GameObject("Text_" + text.Replace(" ", "_"));
-        obj.transform.SetParent(textContainer.transform);
-        obj.transform.localPosition = position * textScale;
-        obj.transform.localRotation = Quaternion.identity;
-        obj.transform.localScale = Vector3.one * textScale;
-
-        TextMesh tm = obj.AddComponent<TextMesh>();
-        tm.text = text;
-        tm.fontSize = (int)textSize;
-        tm.characterSize = 1f;
-        tm.anchor = anchor;
-        tm.alignment = (anchor == TextAnchor.MiddleCenter) ? TextAlignment.Center : TextAlignment.Left;
-        tm.color = textColor;
-
-        MeshRenderer mr = obj.AddComponent<MeshRenderer>();
-        Material textMaterial = new Material(Shader.Find("GUI/Text Shader"));
-        textMaterial.color = textColor;
-        mr.material = textMaterial;
-
-        obj.layer = gameObject.layer;
-
-        return obj;
-    }
-
-    GameObject CreateQuad(Vector3 position, float width, float height)
-    {
-        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        obj.name = "Highlight";
-        obj.transform.SetParent(textContainer.transform);
-        obj.transform.localPosition = position * textScale;
-        obj.transform.localRotation = Quaternion.identity;
-        obj.transform.localScale = new Vector3(width, height, 1) * textScale;
-
-        Collider collider = obj.GetComponent<Collider>();
-        if (collider != null)
+        foreach (var check in checkmarkObjects)
         {
-            Destroy(collider);
+            if (check != null)
+            {
+                check.gameObject.SetActive(false);
+            }
         }
-
-        MeshRenderer mr = obj.GetComponent<MeshRenderer>();
-        Material quadMaterial = new Material(Shader.Find("Unlit/Transparent"));
-        quadMaterial.color = highlightColor;
-        mr.material = quadMaterial;
-
-        obj.layer = gameObject.layer;
-
-        return obj;
     }
 
     public void TurnOn()
     {
+        if (isOn) return;
+
         isOn = true;
         StopAllCoroutines();
         StartCoroutine(TurnOnSequence());
@@ -154,10 +64,12 @@ public class PSScreen : MonoBehaviour
 
     public void TurnOff()
     {
+        if (!isOn) return;
+
         isOn = false;
         StopAllCoroutines();
 
-        HideText();
+        HideAllMenus();
 
         if (screenRenderer != null && offScreenMaterial != null)
         {
@@ -178,187 +90,97 @@ public class PSScreen : MonoBehaviour
 
         if (isOn)
         {
-            ShowText();
+            if (useTypingEffect)
+            {
+                StartCoroutine(TypeMenus());
+            }
+            else
+            {
+                ShowAllMenus();
+            }
         }
     }
 
-    void ShowText()
+    IEnumerator TypeMenus()
     {
-        isTextVisible = true;
-
-        foreach (var text in menuTexts)
+        for (int i = 0; i < menuObjects.Length; i++)
         {
-            if (text != null)
+            if (menuObjects[i] != null)
             {
-                text.SetActive(true);
+                menuObjects[i].gameObject.SetActive(true);
+                yield return StartCoroutine(menuObjects[i].TypeText(typingSpeed));
             }
-        }
-
-        if (highlightQuad != null)
-        {
-            highlightQuad.SetActive(true);
         }
     }
 
-    void HideText()
+    void ShowAllMenus()
     {
-        isTextVisible = false;
-
-        foreach (var text in menuTexts)
+        foreach (var menu in menuObjects)
         {
-            if (text != null)
+            if (menu != null)
             {
-                text.SetActive(false);
+                menu.gameObject.SetActive(true);
+                menu.ShowFullText();
+            }
+        }
+    }
+
+    void HideAllMenus()
+    {
+        foreach (var menu in menuObjects)
+        {
+            if (menu != null)
+            {
+                menu.gameObject.SetActive(false);
+                menu.ResetText();
             }
         }
 
-        foreach (var check in checkmarks)
+        foreach (var check in checkmarkObjects)
         {
             if (check != null)
             {
-                check.SetActive(false);
+                check.gameObject.SetActive(false);
             }
-        }
-
-        if (highlightQuad != null)
-        {
-            highlightQuad.SetActive(false);
-        }
-
-        if (errorTextObj != null)
-        {
-            errorTextObj.SetActive(false);
         }
     }
 
     public void UpdateSelection(int index)
     {
-        if (highlightQuad != null && index >= 0 && index < 3)
+        for (int i = 0; i < menuObjects.Length; i++)
         {
-            float yPosition = textStartY - index * lineSpacing + verticalOffset;
-            Vector3 newPosition = new Vector3(0 + horizontalOffset, yPosition, 0.5f);
-            highlightQuad.transform.localPosition = newPosition * textScale;
+            if (menuObjects[i] != null)
+            {
+                if (i == index)
+                {
+                    menuObjects[i].Highlight();
+                }
+                else
+                {
+                    menuObjects[i].Unhighlight();
+                }
+            }
         }
     }
 
     public void ShowCheckmark(int index)
     {
-        if (index >= 0 && index < checkmarks.Length && checkmarks[index] != null)
+        if (index >= 0 && index < checkmarkObjects.Length && checkmarkObjects[index] != null)
         {
-            checkmarks[index].SetActive(true);
+            checkmarkObjects[index].gameObject.SetActive(true);
         }
     }
 
     public void HideCheckmark(int index)
     {
-        if (index >= 0 && index < checkmarks.Length && checkmarks[index] != null)
+        if (index >= 0 && index < checkmarkObjects.Length && checkmarkObjects[index] != null)
         {
-            checkmarks[index].SetActive(false);
-        }
-    }
-
-    public void ShowError(string message)
-    {
-        if (errorTextObj != null)
-        {
-            TextMesh errorTM = errorTextObj.GetComponent<TextMesh>();
-            if (errorTM != null)
-            {
-                errorTM.text = message;
-            }
-            errorTextObj.SetActive(true);
-        }
-    }
-
-    public void HideError()
-    {
-        if (errorTextObj != null)
-        {
-            errorTextObj.SetActive(false);
+            checkmarkObjects[index].gameObject.SetActive(false);
         }
     }
 
     public bool IsOn()
     {
         return isOn;
-    }
-
-    public bool IsTextVisible()
-    {
-        return isTextVisible;
-    }
-
-    void OnValidate()
-    {
-        if (textContainer != null)
-        {
-            textContainer.transform.localPosition = textContainerPosition;
-            textContainer.transform.localRotation = Quaternion.Euler(textContainerRotation);
-
-            if (menuTexts != null && menuTexts.Length > 0)
-            {
-                for (int i = 0; i < menuTexts.Length; i++)
-                {
-                    if (menuTexts[i] != null)
-                    {
-                        float yPosition = textStartY - i * lineSpacing + verticalOffset;
-                        Vector3 textPosition = new Vector3(-checkmarkOffsetX + horizontalOffset, yPosition, 1);
-                        menuTexts[i].transform.localPosition = textPosition * textScale;
-
-                        TextMesh tm = menuTexts[i].GetComponent<TextMesh>();
-                        if (tm != null)
-                        {
-                            tm.fontSize = (int)textSize;
-                            tm.color = textColor;
-                        }
-                    }
-
-                    if (checkmarks[i] != null)
-                    {
-                        float yPosition = textStartY - i * lineSpacing + verticalOffset;
-                        Vector3 checkPosition = new Vector3(checkmarkOffsetX + horizontalOffset, yPosition, 1);
-                        checkmarks[i].transform.localPosition = checkPosition * textScale;
-
-                        TextMesh tm = checkmarks[i].GetComponent<TextMesh>();
-                        if (tm != null)
-                        {
-                            tm.fontSize = (int)textSize;
-                            tm.color = textColor;
-                        }
-                    }
-                }
-            }
-
-            if (highlightQuad != null)
-            {
-                Vector3 highlightPosition = new Vector3(0 + horizontalOffset, textStartY + verticalOffset, 0.5f);
-                highlightQuad.transform.localPosition = highlightPosition * textScale;
-                highlightQuad.transform.localScale = new Vector3(highlightWidth, highlightHeight, 1) * textScale;
-
-                MeshRenderer mr = highlightQuad.GetComponent<MeshRenderer>();
-                if (mr != null && mr.material != null)
-                {
-                    mr.material.color = highlightColor;
-                }
-            }
-
-            if (errorTextObj != null)
-            {
-                Vector3 errorPosition = new Vector3(0 + horizontalOffset, 0 + verticalOffset, 1);
-                errorTextObj.transform.localPosition = errorPosition * textScale;
-
-                TextMesh errorTM = errorTextObj.GetComponent<TextMesh>();
-                if (errorTM != null)
-                {
-                    errorTM.fontSize = (int)(textSize * errorTextSizeMultiplier);
-                }
-
-                MeshRenderer mr = errorTextObj.GetComponent<MeshRenderer>();
-                if (mr != null && mr.material != null)
-                {
-                    mr.material.color = errorColor;
-                }
-            }
-        }
     }
 }

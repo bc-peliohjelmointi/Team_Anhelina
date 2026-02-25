@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ps Text
-  m_Shader: {fileID: 4800000, guid: f7e87cbfac606b74aafe17b445a5b549, type: 3}
+  m_Name: Ps text
+  m_Shader: {fileID: 4800000, guid: c84bc80e218e7724a93d615576f76409, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -88,26 +88,50 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _ChromaticAberration: 0.005
+    - _ChromaticEnabled: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DistortionAmount: 0.01
+    - _DistortionEnabled: 0.5
+    - _DistortionSpeed: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EdgeGlowEnabled: 0
+    - _EdgeGlowStrength: 0.5
     - _EnvironmentReflections: 1
-    - _Flicker: 0.02
+    - _FlickerEnabled: 0.71
+    - _FlickerIntensity: 0.115
+    - _FlickerSpeed: 10.3
+    - _GlitchBlockSize: 5
+    - _GlitchEnabled: 1
+    - _GlitchFrequency: 0.005
+    - _GlitchIntensity: 0.1
+    - _GlitchSpeed: 2
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GlowIntensity: 1.5
+    - _GlowIntensity: 1.95
+    - _GlowSize: 0.099
+    - _MaxBrightness: 0.3
     - _Metallic: 0
+    - _MinBrightness: 0.36
+    - _NoiseEnabled: 0.33
+    - _NoiseIntensity: 0.027
+    - _NoiseSpeed: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _Pixelation: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ScanlineSpeed: 2
+    - _ScanlineEnabled: 1
+    - _ScanlineFrequency: 100
+    - _ScanlineIntensity: 0.1
+    - _ScanlineSpeed: 7.5
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -119,12 +143,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.04387683, g: 0.5471698, b: 0.12366194, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &3508828387592123674
+--- !u!114 &5173550702741016710
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
