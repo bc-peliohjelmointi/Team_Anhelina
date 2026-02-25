@@ -4,8 +4,7 @@ using System.Collections;
 public class TVPowerEffect : MonoBehaviour
 {
     public Renderer screenRenderer;
-    public Material noiseShaderMaterial;
-    public Material onScreenMaterial;
+    public Material glitchMaterial;
     public Material offScreenMaterial;
     public float transitionDuration = 0.5f;
 
@@ -51,9 +50,9 @@ public class TVPowerEffect : MonoBehaviour
             turnOnSound.Play();
         }
 
-        if (noiseShaderMaterial != null && screenRenderer != null)
+        if (glitchMaterial != null && screenRenderer != null)
         {
-            screenRenderer.material = noiseShaderMaterial;
+            screenRenderer.material = glitchMaterial;
         }
 
         yield return new WaitForSeconds(transitionDuration);
@@ -87,19 +86,11 @@ public class TVPowerEffect : MonoBehaviour
         return isOn;
     }
 
-    public void SetMaterial(Material mat)
-    {
-        if (screenRenderer != null && mat != null)
-        {
-            screenRenderer.material = mat;
-        }
-    }
-
     public void ReturnToNoise()
     {
-        if (isOn && noiseShaderMaterial != null && screenRenderer != null)
+        if (isOn && glitchMaterial != null && screenRenderer != null)
         {
-            screenRenderer.material = noiseShaderMaterial;
+            screenRenderer.material = glitchMaterial;
         }
     }
 }

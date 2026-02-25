@@ -8,10 +8,16 @@ public class PSMenuNavigation : MonoBehaviour
 
     [Header("Navigation Settings")]
     public float moveSpeed = 10f;
-    public KeyCode selectKey = KeyCode.Space;
+    public KeyCode selectKey = KeyCode.Return;
 
     [Header("References")]
     public PSScreen psScreen;
+    public TVVideoPlayer tvVideoPlayer;
+    public TVPowerEffect tvEffect;
+    public EpisodeChecker episodeChecker;
+
+    [Header("UI")]
+    public PSMenuObject errorDisplay;
 
     private int currentIndex = 0;
     private bool navigationEnabled = false;
@@ -133,6 +139,66 @@ public class PSMenuNavigation : MonoBehaviour
 
     void SelectCurrentOption()
     {
-        Debug.Log("Selected option: " + currentIndex);
+        if (tvEffect == null || !tvEffect.IsOn())
+        {
+            ShowTVOffError();
+            return;
+        }
+
+        int episodeNumber = currentIndex + 1;
+
+        bool isCorrectOrder = false;
+
+        if (episodeChecker != null)
+        {
+            if (episodeNumber == 1)
+            {
+                isCorrectOrder = episodeChecker.IsEpisode1Correct();
+            }
+            else if (episodeNumber == 2)
+            {
+                isCorrectOrder = episodeChecker.IsEpisode2Correct();
+            }
+            else if (episodeNumber == 3)
+            {
+                isCorrectOrder = episodeChecker.IsEpisode3Correct();
+            }
+        }
+
+        if (tvVideoPlayer != null)
+        {
+            tvVideoPlayer.PlayEpisode(episodeNumber, isCorrectOrder);
+        }
+
+        if (isCorrectOrder && psScreen != null)
+        {
+            psScreen.ShowCheckmark(currentIndex);
+        }
+    }
+
+    void ShowTVOffError()
+    {
+        if (errorDisplay != null)
+        {
+            StartCoroutine(BlinkError());
+        }
+    }
+
+    System.Collections.IEnumerator BlinkError()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (errorDisplay != null)
+            {
+                errorDisplay.gameObject.SetActive(true);
+            }
+            yield return new WaitForSeconds(0.3f);
+
+            if (errorDisplay != null)
+            {
+                errorDisplay.gameObject.SetActive(false);
+            }
+            yield return new WaitForSeconds(0.3f);
+        }
     }
 }
