@@ -6,10 +6,11 @@ public class TVVideoPlayer : MonoBehaviour
 {
     public TVPowerEffect tvEffect;
     public VideoPlayer videoPlayer;
+    public Renderer tvRenderer;
 
-    [Header("Countdown & Error Materials")]
-    public Material countdownMaterial;
-    public Material errorMaterial;
+    [Header("Countdown & Error")]
+    public VideoClip countdownVideo;
+    public VideoClip errorVideo;
 
     [Header("Episode Videos")]
     public VideoClip episode1Clip;
@@ -20,26 +21,31 @@ public class TVVideoPlayer : MonoBehaviour
     public AudioSource completionSound;
 
     private bool isPlaying = false;
-    private Renderer tvRenderer;
-    private Material originalMaterial;
+    private RenderTexture renderTexture;
+    private Material videoMaterial;
 
     void Start()
     {
         if (videoPlayer == null)
         {
-            videoPlayer = GetComponent<VideoPlayer>();
+            videoPlayer = gameObject.AddComponent<VideoPlayer>();
         }
 
-        if (videoPlayer != null)
+        if (tvRenderer == null)
         {
-            videoPlayer.loopPointReached += OnVideoEnd;
+            tvRenderer = GetComponent<Renderer>();
         }
 
-        tvRenderer = GetComponent<Renderer>();
-        if (tvRenderer != null && tvEffect != null)
-        {
-            originalMaterial = tvEffect.glitchMaterial;
-        }
+        renderTexture = new RenderTexture(1920, 1080, 0);
+
+        videoPlayer.playOnAwake = false;
+        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        videoPlayer.targetTexture = renderTexture;
+        videoPlayer.isLooping = false;
+        videoPlayer.loopPointReached += OnVideoEnd;
+
+        videoMaterial = new Material(Shader.Find("Unlit/Texture"));
+        videoMaterial.mainTexture = renderTexture;
     }
 
     public void PlayEpisode(int episodeNumber, bool isCorrect)
@@ -57,12 +63,27 @@ public class TVVideoPlayer : MonoBehaviour
 
         if (isCorrect)
         {
-            if (countdownMaterial != null && tvRenderer != null)
+            if (countdownVideo != null)
             {
-                tvRenderer.material = countdownMaterial;
-            }
+                videoPlayer.clip = countdownVideo;
+                tvRenderer.material = videoMaterial;
+                videoPlayer.Play();
 
-            yield return new WaitForSeconds(3f);
+                while (videoPlayer.isPlaying)
+                {
+                    if (!tvEffect.IsOn())
+                    {
+                        videoPlayer.Stop();
+                        ReturnToOriginalState();
+                        yield break;
+                    }
+                    yield return null;
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(3f);
+            }
 
             if (!tvEffect.IsOn())
             {
@@ -75,28 +96,36 @@ public class TVVideoPlayer : MonoBehaviour
             else if (episodeNumber == 2) clipToPlay = episode2Clip;
             else if (episodeNumber == 3) clipToPlay = episode3Clip;
 
-            if (clipToPlay != null && videoPlayer != null)
+            if (clipToPlay != null)
             {
                 videoPlayer.clip = clipToPlay;
-
-                RenderTexture renderTexture = new RenderTexture(1920, 1080, 0);
-                videoPlayer.targetTexture = renderTexture;
-
-                Material videoMaterial = new Material(Shader.Find("Unlit/Texture"));
-                videoMaterial.mainTexture = renderTexture;
                 tvRenderer.material = videoMaterial;
-
                 videoPlayer.Play();
             }
         }
         else
         {
-            if (errorMaterial != null && tvRenderer != null)
+            if (errorVideo != null)
             {
-                tvRenderer.material = errorMaterial;
-            }
+                videoPlayer.clip = errorVideo;
+                tvRenderer.material = videoMaterial;
+                videoPlayer.Play();
 
-            yield return new WaitForSeconds(3f);
+                while (videoPlayer.isPlaying)
+                {
+                    if (!tvEffect.IsOn())
+                    {
+                        videoPlayer.Stop();
+                        ReturnToOriginalState();
+                        yield break;
+                    }
+                    yield return null;
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(3f);
+            }
 
             ReturnToOriginalState();
         }
@@ -104,12 +133,15 @@ public class TVVideoPlayer : MonoBehaviour
 
     void OnVideoEnd(VideoPlayer vp)
     {
-        if (completionSound != null)
+        if (vp.clip == episode1Clip || vp.clip == episode2Clip || vp.clip == episode3Clip)
         {
-            completionSound.Play();
-        }
+            if (completionSound != null)
+            {
+                completionSound.Play();
+            }
 
-        StartCoroutine(ReturnToNoiseAfterDelay());
+            StartCoroutine(ReturnToNoiseAfterDelay());
+        }
     }
 
     IEnumerator ReturnToNoiseAfterDelay()
@@ -121,6 +153,8 @@ public class TVVideoPlayer : MonoBehaviour
 
     void ReturnToOriginalState()
     {
+        videoPlayer.Stop();
+
         if (tvEffect != null && tvEffect.IsOn())
         {
             tvEffect.ReturnToNoise();
@@ -134,5 +168,13 @@ public class TVVideoPlayer : MonoBehaviour
         }
 
         isPlaying = false;
+    }
+
+    void OnDestroy()
+    {
+        if (renderTexture != null)
+        {
+            renderTexture.Release();
+        }
     }
 }

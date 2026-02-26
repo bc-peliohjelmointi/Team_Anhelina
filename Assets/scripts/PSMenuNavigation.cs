@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PSMenuNavigation : MonoBehaviour
 {
@@ -9,15 +10,20 @@ public class PSMenuNavigation : MonoBehaviour
     [Header("Navigation Settings")]
     public float moveSpeed = 10f;
     public KeyCode selectKey = KeyCode.Return;
+    public KeyCode exitKey = KeyCode.E;
 
     [Header("References")]
     public PSScreen psScreen;
     public TVVideoPlayer tvVideoPlayer;
     public TVPowerEffect tvEffect;
     public EpisodeChecker episodeChecker;
+    public PSInteraction psInteraction;
 
     [Header("UI")]
     public PSMenuObject errorDisplay;
+
+    [Header("Timing")]
+    public float exitDelayAfterSelect = 0.5f;
 
     private int currentIndex = 0;
     private bool navigationEnabled = false;
@@ -35,6 +41,12 @@ public class PSMenuNavigation : MonoBehaviour
     void Update()
     {
         if (!navigationEnabled) return;
+
+        if (Input.GetKeyDown(exitKey))
+        {
+            ExitNavigation();
+            return;
+        }
 
         if (!isMoving)
         {
@@ -97,6 +109,14 @@ public class PSMenuNavigation : MonoBehaviour
         if (selectionRectangle != null)
         {
             selectionRectangle.gameObject.SetActive(false);
+        }
+    }
+
+    void ExitNavigation()
+    {
+        if (psInteraction != null)
+        {
+            StartCoroutine(psInteraction.ExitPSView());
         }
     }
 
@@ -165,9 +185,21 @@ public class PSMenuNavigation : MonoBehaviour
             }
         }
 
+        StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder));
+    }
+
+    IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder)
+    {
         if (tvVideoPlayer != null)
         {
             tvVideoPlayer.PlayEpisode(episodeNumber, isCorrectOrder);
+        }
+
+        yield return new WaitForSeconds(exitDelayAfterSelect);
+
+        if (psInteraction != null)
+        {
+            yield return StartCoroutine(psInteraction.ExitPSView());
         }
 
         if (isCorrectOrder && psScreen != null)

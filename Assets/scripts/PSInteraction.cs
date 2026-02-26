@@ -76,11 +76,6 @@ public class PSInteraction : MonoBehaviour
         {
             StartCoroutine(EnterPSView());
         }
-
-        if (isInteracting && Input.GetKeyDown(interactKey))
-        {
-            StartCoroutine(ExitPSView());
-        }
     }
 
     IEnumerator EnterPSView()
@@ -141,7 +136,7 @@ public class PSInteraction : MonoBehaviour
         }
     }
 
-    IEnumerator ExitPSView()
+    public IEnumerator ExitPSView()
     {
         isInteracting = false;
         isTransitioning = true;
