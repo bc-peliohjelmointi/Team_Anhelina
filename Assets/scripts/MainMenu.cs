@@ -26,6 +26,7 @@ public class MainMenu : MonoBehaviour
     {
         mainPanel.SetActive(false);     // Hide main menu
         playPanel.SetActive(true);      // Show new options
+        infoTextObject.SetActive(false);
     }
 
     // When pressing BACK inside PlayPanel
@@ -33,6 +34,7 @@ public class MainMenu : MonoBehaviour
     {
         playPanel.SetActive(false);
         mainPanel.SetActive(true);
+
     }
 
     // When pressing START GAME
