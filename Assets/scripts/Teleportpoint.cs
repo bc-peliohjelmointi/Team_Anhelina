@@ -7,7 +7,8 @@ public class Teleportpoint : MonoBehaviour
         if(collision.CompareTag("Player"))
         {
             // Teleport the player to the next scene
-            SceneController.instance.NextLevel();
+            //SceneController.instance.NextLevel();
+            LevelManager.Instance.LoadScene("scene 2", "CrossFade");
 
         }
     }
