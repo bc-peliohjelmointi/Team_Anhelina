@@ -8933,6 +8933,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Quit
       objectReference: {fileID: 0}
+    - target: {fileID: 656260642222789583, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907504433619005962, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
+    - target: {fileID: 1907504433619005962, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
+    - target: {fileID: 1907504433619005962, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1908002962157725428, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_SizeDelta.x
       value: 182.82
@@ -8949,6 +8965,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 11.4124
       objectReference: {fileID: 0}
+    - target: {fileID: 2506383004540446318, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2595878985256961558, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -8958,8 +8978,20 @@ PrefabInstance:
       value: CancelQuit
       objectReference: {fileID: 0}
     - target: {fileID: 2607388282623583784, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2607388282623583784, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3019266731682293184, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3019266731682293184, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3723285559273618912, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_SizeDelta.x
@@ -8972,6 +9004,10 @@ PrefabInstance:
     - target: {fileID: 3771975541475690412, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3850277098843568254, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4125958143391540153, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_Pivot.x
@@ -9061,6 +9097,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0.2448
       objectReference: {fileID: 0}
+    - target: {fileID: 4765793082806760606, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5143339197797331207, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
+    - target: {fileID: 5143339197797331207, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
+    - target: {fileID: 5143339197797331207, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5807980670203518853, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5807980670203518853, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6234928719679379791, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7493928501993860103, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_Name
       value: MenuCanvas 1
@@ -9080,6 +9144,10 @@ PrefabInstance:
     - target: {fileID: 8307966695064094904, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ConfirmQuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613632979047122801, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14891,11 +14959,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1597968751 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2714876850243262031, guid: 26dcc517cc7a2dd44a9bd54ba45885df, type: 3}
-  m_PrefabInstance: {fileID: 435421178}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1614646468
 GameObject:
   m_ObjectHideFlags: 0
@@ -19625,3 +19688,4 @@ SceneRoots:
   - {fileID: 1807569883}
   - {fileID: 2105557396}
   - {fileID: 232805508}
+  - {fileID: 435421178}
