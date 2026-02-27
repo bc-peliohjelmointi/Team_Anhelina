@@ -4,7 +4,9 @@ public class FrameSlot : MonoBehaviour
 {
     public int slotIndex;
     public int standNumber;
-    public DraggableObject currentPaper;
+    public int correctFrameNumber;
+
+    private DraggableObject currentPaper;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,17 +26,27 @@ public class FrameSlot : MonoBehaviour
         }
     }
 
-    public int GetFrameNumber()
+    public bool HasCorrectFrame()
+    {
+        if (currentPaper == null)
+        {
+            return false;
+        }
+
+        return currentPaper.frameNumber == correctFrameNumber;
+    }
+
+    public bool HasPaper()
+    {
+        return currentPaper != null;
+    }
+
+    public int GetCurrentFrameNumber()
     {
         if (currentPaper != null)
         {
             return currentPaper.frameNumber;
         }
         return -1;
-    }
-
-    public bool HasPaper()
-    {
-        return currentPaper != null;
     }
 }

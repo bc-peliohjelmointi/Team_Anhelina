@@ -11,16 +11,20 @@ public class PSMenuNavigation : MonoBehaviour
     public float moveSpeed = 10f;
     public KeyCode selectKey = KeyCode.Return;
     public KeyCode exitKey = KeyCode.E;
+    public KeyCode spaceExitKey = KeyCode.Space;
 
     [Header("References")]
     public PSScreen psScreen;
     public TVVideoPlayer tvVideoPlayer;
     public TVPowerEffect tvEffect;
+    public TVButton tvButton;
     public EpisodeChecker episodeChecker;
     public PSInteraction psInteraction;
 
     [Header("UI")]
-    public PSMenuObject errorDisplay;
+    public GameObject[] menuTextObjects;
+    public GameObject errorTextObject;
+    public float errorDisplayDuration = 5f;
 
     [Header("Timing")]
     public float exitDelayAfterSelect = 0.5f;
@@ -29,6 +33,7 @@ public class PSMenuNavigation : MonoBehaviour
     private bool navigationEnabled = false;
     private Vector3 targetPosition;
     private bool isMoving = false;
+    private bool isShowingError = false;
 
     void Start()
     {
@@ -36,13 +41,18 @@ public class PSMenuNavigation : MonoBehaviour
         {
             selectionRectangle.gameObject.SetActive(false);
         }
+
+        if (errorTextObject != null)
+        {
+            errorTextObject.SetActive(false);
+        }
     }
 
     void Update()
     {
-        if (!navigationEnabled) return;
+        if (!navigationEnabled || isShowingError) return;
 
-        if (Input.GetKeyDown(exitKey))
+        if (Input.GetKeyDown(exitKey) || Input.GetKeyDown(spaceExitKey))
         {
             ExitNavigation();
             return;
@@ -98,6 +108,7 @@ public class PSMenuNavigation : MonoBehaviour
             }
         }
 
+        ShowMenuText();
         UpdateSelection();
     }
 
@@ -159,9 +170,22 @@ public class PSMenuNavigation : MonoBehaviour
 
     void SelectCurrentOption()
     {
+        bool tvWasEverTurnedOn = false;
+
+        if (tvButton != null)
+        {
+            tvWasEverTurnedOn = tvButton.WasEverTurnedOn();
+        }
+
+        if (!tvWasEverTurnedOn)
+        {
+            StartCoroutine(ShowTVNeverUsedError());
+            return;
+        }
+
         if (tvEffect == null || !tvEffect.IsOn())
         {
-            ShowTVOffError();
+            StartCoroutine(ShowTVOffError());
             return;
         }
 
@@ -188,7 +212,73 @@ public class PSMenuNavigation : MonoBehaviour
         StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder));
     }
 
-    IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder)
+    System.Collections.IEnumerator ShowTVNeverUsedError()
+    {
+        isShowingError = true;
+
+        HideMenuText();
+
+        if (selectionRectangle != null)
+        {
+            selectionRectangle.gameObject.SetActive(false);
+        }
+
+        if (errorTextObject != null)
+        {
+            errorTextObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(errorDisplayDuration);
+
+        if (errorTextObject != null)
+        {
+            errorTextObject.SetActive(false);
+        }
+
+        if (selectionRectangle != null)
+        {
+            selectionRectangle.gameObject.SetActive(true);
+        }
+
+        ShowMenuText();
+
+        isShowingError = false;
+    }
+
+    System.Collections.IEnumerator ShowTVOffError()
+    {
+        isShowingError = true;
+
+        HideMenuText();
+
+        if (selectionRectangle != null)
+        {
+            selectionRectangle.gameObject.SetActive(false);
+        }
+
+        if (errorTextObject != null)
+        {
+            errorTextObject.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(errorDisplayDuration);
+
+        if (errorTextObject != null)
+        {
+            errorTextObject.SetActive(false);
+        }
+
+        if (selectionRectangle != null)
+        {
+            selectionRectangle.gameObject.SetActive(true);
+        }
+
+        ShowMenuText();
+
+        isShowingError = false;
+    }
+
+    System.Collections.IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder)
     {
         if (tvVideoPlayer != null)
         {
@@ -208,29 +298,31 @@ public class PSMenuNavigation : MonoBehaviour
         }
     }
 
-    void ShowTVOffError()
+    void HideMenuText()
     {
-        if (errorDisplay != null)
+        if (menuTextObjects != null)
         {
-            StartCoroutine(BlinkError());
+            foreach (GameObject textObj in menuTextObjects)
+            {
+                if (textObj != null)
+                {
+                    textObj.SetActive(false);
+                }
+            }
         }
     }
 
-    System.Collections.IEnumerator BlinkError()
+    void ShowMenuText()
     {
-        for (int i = 0; i < 6; i++)
+        if (menuTextObjects != null)
         {
-            if (errorDisplay != null)
+            foreach (GameObject textObj in menuTextObjects)
             {
-                errorDisplay.gameObject.SetActive(true);
+                if (textObj != null)
+                {
+                    textObj.SetActive(true);
+                }
             }
-            yield return new WaitForSeconds(0.3f);
-
-            if (errorDisplay != null)
-            {
-                errorDisplay.gameObject.SetActive(false);
-            }
-            yield return new WaitForSeconds(0.3f);
         }
     }
 }

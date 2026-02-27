@@ -69,7 +69,7 @@ public class PSScreen : MonoBehaviour
         isOn = false;
         StopAllCoroutines();
 
-        HideAllMenus();
+        HideText();
 
         if (screenRenderer != null && offScreenMaterial != null)
         {
@@ -125,7 +125,7 @@ public class PSScreen : MonoBehaviour
         }
     }
 
-    void HideAllMenus()
+    void HideText()
     {
         foreach (var menu in menuObjects)
         {

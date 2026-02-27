@@ -13,6 +13,7 @@ public class TVButton : MonoBehaviour
 
     private bool isOn = false;
     private bool canPress = true;
+    private bool wasEverTurnedOn = false;
 
     void Start()
     {
@@ -27,6 +28,11 @@ public class TVButton : MonoBehaviour
         if (!canPress) return;
 
         isOn = !isOn;
+
+        if (isOn)
+        {
+            wasEverTurnedOn = true;
+        }
 
         if (buttonClickSound != null)
         {
@@ -58,5 +64,15 @@ public class TVButton : MonoBehaviour
         canPress = false;
         yield return new WaitForSeconds(cooldownTime);
         canPress = true;
+    }
+
+    public bool IsOn()
+    {
+        return isOn;
+    }
+
+    public bool WasEverTurnedOn()
+    {
+        return wasEverTurnedOn;
     }
 }
