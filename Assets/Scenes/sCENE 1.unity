@@ -4835,6 +4835,8 @@ GameObject:
   m_Component:
   - component: {fileID: 459613278}
   - component: {fileID: 459613279}
+  - component: {fileID: 459613281}
+  - component: {fileID: 459613280}
   m_Layer: 0
   m_Name: Paper3 (1)
   m_TagString: Untagged
@@ -4851,7 +4853,7 @@ Transform:
   m_GameObject: {fileID: 459613277}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 22.175, y: 11.04, z: 59.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4869,9 +4871,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 3
-  standNumber: 5
-  correctFrameNumber: 2
+  slotIndex: 1
+  standNumber: 3
+  correctFrameNumber: 12
+--- !u!65 &459613280
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459613277}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.38976237, y: 0.7645945, z: 1}
+  m_Center: {x: -0.017733587, y: -0.11770279, z: 0}
+--- !u!54 &459613281
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459613277}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &487095654
 GameObject:
   m_ObjectHideFlags: 0
@@ -5910,6 +5960,8 @@ GameObject:
   m_Component:
   - component: {fileID: 613528375}
   - component: {fileID: 613528376}
+  - component: {fileID: 613528378}
+  - component: {fileID: 613528377}
   m_Layer: 0
   m_Name: Paper2
   m_TagString: Untagged
@@ -5926,7 +5978,7 @@ Transform:
   m_GameObject: {fileID: 613528374}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 14.99, y: 19.76, z: 62.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5944,9 +5996,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 1
+  slotIndex: 0
   standNumber: 2
-  correctFrameNumber: 1
+  correctFrameNumber: 6
+--- !u!65 &613528377
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613528374}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.36480492, y: 0.55493814, z: 1}
+  m_Center: {x: 0.012551976, y: -0.2635153, z: 0}
+--- !u!54 &613528378
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613528374}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &635877236
 GameObject:
   m_ObjectHideFlags: 0
@@ -7252,6 +7352,8 @@ GameObject:
   m_Component:
   - component: {fileID: 767416620}
   - component: {fileID: 767416621}
+  - component: {fileID: 767416623}
+  - component: {fileID: 767416622}
   m_Layer: 0
   m_Name: Paper3 (2)
   m_TagString: Untagged
@@ -7268,7 +7370,7 @@ Transform:
   m_GameObject: {fileID: 767416619}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 22.311, y: 1.5, z: 63.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7286,9 +7388,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 3
-  standNumber: 5
-  correctFrameNumber: 3
+  slotIndex: 2
+  standNumber: 3
+  correctFrameNumber: 13
+--- !u!54 &767416622
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767416619}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &767416623
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767416619}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.36763227, y: 1.3534597, z: 1}
+  m_Center: {x: -0.003138537, y: 0.8352858, z: 0}
 --- !u!1001 &776070569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8781,6 +8931,8 @@ GameObject:
   m_Component:
   - component: {fileID: 938449738}
   - component: {fileID: 938449739}
+  - component: {fileID: 938449741}
+  - component: {fileID: 938449740}
   m_Layer: 0
   m_Name: Paper2 (4)
   m_TagString: Untagged
@@ -8797,7 +8949,7 @@ Transform:
   m_GameObject: {fileID: 938449737}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 14.915, y: -14.75, z: 62.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8815,9 +8967,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 5
+  slotIndex: 4
   standNumber: 2
-  correctFrameNumber: 5
+  correctFrameNumber: 10
+--- !u!65 &938449740
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938449737}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.25111315, y: 1.4093635, z: 1}
+  m_Center: {x: 0.07254023, y: 0.2046819, z: 0}
+--- !u!54 &938449741
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938449737}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &939555077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9906,6 +10106,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1082371285}
   - component: {fileID: 1082371284}
+  - component: {fileID: 1082371287}
+  - component: {fileID: 1082371286}
   m_Layer: 0
   m_Name: Paper3 (4)
   m_TagString: Untagged
@@ -9925,9 +10127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 3
+  slotIndex: 4
   standNumber: 5
-  correctFrameNumber: 5
+  correctFrameNumber: 15
 --- !u!4 &1082371285
 Transform:
   m_ObjectHideFlags: 0
@@ -9937,12 +10139,60 @@ Transform:
   m_GameObject: {fileID: 1082371283}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 22.223, y: -14.2, z: 59.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1329272329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1082371286
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082371283}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1082371287
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082371283}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1097641600
 GameObject:
   m_ObjectHideFlags: 0
@@ -10505,6 +10755,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1177419013}
   - component: {fileID: 1177419014}
+  - component: {fileID: 1177419016}
+  - component: {fileID: 1177419015}
   m_Layer: 0
   m_Name: Paper2 (2)
   m_TagString: Untagged
@@ -10521,7 +10773,7 @@ Transform:
   m_GameObject: {fileID: 1177419012}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 15, y: 2.14, z: 61.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10539,9 +10791,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 3
+  slotIndex: 2
   standNumber: 2
-  correctFrameNumber: 3
+  correctFrameNumber: 8
+--- !u!65 &1177419015
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177419012}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3968232, y: 1.5110905, z: 1}
+  m_Center: {x: 0.04574991, y: 0.25554538, z: 0}
+--- !u!54 &1177419016
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177419012}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1180563158
 GameObject:
   m_ObjectHideFlags: 0
@@ -10552,6 +10852,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1180563159}
   - component: {fileID: 1180563160}
+  - component: {fileID: 1180563162}
+  - component: {fileID: 1180563161}
   m_Layer: 0
   m_Name: Paper3
   m_TagString: Untagged
@@ -10568,7 +10870,7 @@ Transform:
   m_GameObject: {fileID: 1180563158}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 22.207, y: 18.81, z: 61.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10586,9 +10888,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 3
-  standNumber: 5
-  correctFrameNumber: 1
+  slotIndex: 0
+  standNumber: 3
+  correctFrameNumber: 11
+--- !u!54 &1180563161
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180563158}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1180563162
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180563158}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.32829005, y: 1.5622827, z: 1}
+  m_Center: {x: 0.016854038, y: 0.2811415, z: 0}
 --- !u!1001 &1226828970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18742,6 +19092,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1877952594}
   - component: {fileID: 1877952595}
+  - component: {fileID: 1877952597}
+  - component: {fileID: 1877952596}
   m_Layer: 0
   m_Name: Paper2 (1)
   m_TagString: Untagged
@@ -18758,7 +19110,7 @@ Transform:
   m_GameObject: {fileID: 1877952593}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 14.51, y: 10.28, z: 64.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18776,9 +19128,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 2
+  slotIndex: 1
   standNumber: 2
-  correctFrameNumber: 2
+  correctFrameNumber: 7
+--- !u!54 &1877952596
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877952593}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1877952597
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877952593}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2624541, y: 1.3193332, z: 1}
+  m_Center: {x: 0.46769816, y: 0.44642502, z: 0}
 --- !u!1001 &1881015689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18862,6 +19262,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1886398051}
   - component: {fileID: 1886398052}
+  - component: {fileID: 1886398054}
+  - component: {fileID: 1886398053}
   m_Layer: 0
   m_Name: Paper3 (3)
   m_TagString: Untagged
@@ -18878,7 +19280,7 @@ Transform:
   m_GameObject: {fileID: 1886398050}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 22.218, y: -6.18, z: 60.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18897,8 +19299,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
   slotIndex: 3
-  standNumber: 5
-  correctFrameNumber: 4
+  standNumber: 3
+  correctFrameNumber: 14
+--- !u!65 &1886398053
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886398050}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.36786512, y: 1.1011527, z: 1}
+  m_Center: {x: -0.029019272, y: 0.1312507, z: 0}
+--- !u!54 &1886398054
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886398050}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1888320479
 GameObject:
   m_ObjectHideFlags: 0
@@ -19858,6 +20308,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1951950879}
   - component: {fileID: 1951950880}
+  - component: {fileID: 1951950882}
+  - component: {fileID: 1951950881}
   m_Layer: 0
   m_Name: Paper2 (3)
   m_TagString: Untagged
@@ -19874,7 +20326,7 @@ Transform:
   m_GameObject: {fileID: 1951950878}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 14.966, y: -5.94, z: 61.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19892,9 +20344,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 4
+  slotIndex: 3
   standNumber: 2
-  correctFrameNumber: 4
+  correctFrameNumber: 9
+--- !u!54 &1951950881
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951950878}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1951950882
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951950878}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22945242, y: 1, z: 1}
+  m_Center: {x: -0.016656188, y: 0, z: 0}
 --- !u!1001 &1960846244
 PrefabInstance:
   m_ObjectHideFlags: 0
