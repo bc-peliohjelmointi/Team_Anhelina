@@ -1,6 +1,7 @@
+using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Video;
-using System.Collections;
 
 public class TVVideoPlayer : MonoBehaviour
 {
@@ -11,17 +12,23 @@ public class TVVideoPlayer : MonoBehaviour
     public GameObject introQuad;
     public float introDisplayDuration = 3f;
 
-    [Header("Video Quads - Correct Order")]
+    [Header("Video Quads - Correct Order (Full Episodes)")]
     public GameObject[] episode1CorrectQuads;
     public GameObject[] episode2CorrectQuads;
     public GameObject[] episode3CorrectQuads;
 
-    [Header("Video Quads - Error")]
+    [Header("Video Quads - Wrong Order (Short Cartoons)")]
+    public GameObject episode1WrongCartoonQuad;
+    public GameObject episode2WrongCartoonQuad;
+    public GameObject episode3WrongCartoonQuad;
+    public float wrongCartoonDuration = 5f;
+
+    [Header("Error Quad")]
     public GameObject errorQuad;
+    public float errorDisplayDuration = 3f;
 
     [Header("Quad Settings")]
     public float quadDisplayDuration = 3f;
-    public bool returnToNoiseAfterQuad = true;
 
     [Header("Audio")]
     public AudioSource completionSound;
@@ -63,9 +70,15 @@ public class TVVideoPlayer : MonoBehaviour
             introQuad.SetActive(false);
         }
 
+        if (!tvEffect.IsOn())
+        {
+            ReturnToOriginalState();
+            yield break;
+        }
+
         if (isCorrect)
         {
-            GameObject[] quadsToPlay = GetQuadsForEpisode(episodeNumber);
+            GameObject[] quadsToPlay = GetCorrectQuadsForEpisode(episodeNumber);
 
             for (int i = 0; i < quadsToPlay.Length; i++)
             {
@@ -90,25 +103,29 @@ public class TVVideoPlayer : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
 
-            if (returnToNoiseAfterQuad)
-            {
-                ReturnToOriginalState();
-            }
-            else
-            {
-                if (tvRenderer != null)
-                {
-                    tvRenderer.enabled = true;
-                }
-                isPlaying = false;
-            }
+            ReturnToOriginalState();
         }
         else
         {
+            GameObject wrongCartoon = GetWrongCartoonForEpisode(episodeNumber);
+
+            if (wrongCartoon != null)
+            {
+                wrongCartoon.SetActive(true);
+                yield return new WaitForSeconds(wrongCartoonDuration);
+                wrongCartoon.SetActive(false);
+            }
+
+            if (!tvEffect.IsOn())
+            {
+                ReturnToOriginalState();
+                yield break;
+            }
+
             if (errorQuad != null)
             {
                 errorQuad.SetActive(true);
-                yield return new WaitForSeconds(quadDisplayDuration);
+                yield return new WaitForSeconds(errorDisplayDuration);
                 errorQuad.SetActive(false);
             }
 
@@ -116,12 +133,20 @@ public class TVVideoPlayer : MonoBehaviour
         }
     }
 
-    GameObject[] GetQuadsForEpisode(int episodeNumber)
+    GameObject[] GetCorrectQuadsForEpisode(int episodeNumber)
     {
         if (episodeNumber == 1) return episode1CorrectQuads;
         if (episodeNumber == 2) return episode2CorrectQuads;
         if (episodeNumber == 3) return episode3CorrectQuads;
         return new GameObject[0];
+    }
+
+    GameObject GetWrongCartoonForEpisode(int episodeNumber)
+    {
+        if (episodeNumber == 1) return episode1WrongCartoonQuad;
+        if (episodeNumber == 2) return episode2WrongCartoonQuad;
+        if (episodeNumber == 3) return episode3WrongCartoonQuad;
+        return null;
     }
 
     void ReturnToOriginalState()
@@ -155,6 +180,26 @@ public class TVVideoPlayer : MonoBehaviour
             introQuad.SetActive(false);
         }
 
+        if (episode1WrongCartoonQuad != null)
+        {
+            episode1WrongCartoonQuad.SetActive(false);
+        }
+
+        if (episode2WrongCartoonQuad != null)
+        {
+            episode2WrongCartoonQuad.SetActive(false);
+        }
+
+        if (episode3WrongCartoonQuad != null)
+        {
+            episode3WrongCartoonQuad.SetActive(false);
+        }
+
+        if (errorQuad != null)
+        {
+            errorQuad.SetActive(false);
+        }
+
         if (episode1CorrectQuads != null)
         {
             foreach (GameObject quad in episode1CorrectQuads)
@@ -177,11 +222,6 @@ public class TVVideoPlayer : MonoBehaviour
             {
                 if (quad != null) quad.SetActive(false);
             }
-        }
-
-        if (errorQuad != null)
-        {
-            errorQuad.SetActive(false);
         }
     }
 

@@ -185,6 +185,8 @@ public class PSMenuNavigation : MonoBehaviour
 
         bool isCorrectOrder = CheckFrameOrder(episodeNumber);
 
+        Debug.Log($"Episode {episodeNumber} selected. Correct order: {isCorrectOrder}");
+
         StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder));
     }
 
@@ -201,17 +203,17 @@ public class PSMenuNavigation : MonoBehaviour
         if (episodeNumber == 1)
         {
             isCorrect = episodeChecker.IsEpisode1Correct();
-            Debug.Log($"Episode 1 check: {isCorrect}");
+            episodeChecker.DebugCheckEpisode(1);
         }
         else if (episodeNumber == 2)
         {
             isCorrect = episodeChecker.IsEpisode2Correct();
-            Debug.Log($"Episode 2 check: {isCorrect}");
+            episodeChecker.DebugCheckEpisode(2);
         }
         else if (episodeNumber == 3)
         {
             isCorrect = episodeChecker.IsEpisode3Correct();
-            Debug.Log($"Episode 3 check: {isCorrect}");
+            episodeChecker.DebugCheckEpisode(3);
         }
 
         return isCorrect;
