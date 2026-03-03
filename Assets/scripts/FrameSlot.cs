@@ -17,6 +17,18 @@ public class FrameSlot : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (currentPaper == null)
+        {
+            DraggableObject obj = other.GetComponent<DraggableObject>();
+            if (obj != null && obj.isPaper)
+            {
+                currentPaper = obj;
+            }
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         DraggableObject obj = other.GetComponent<DraggableObject>();

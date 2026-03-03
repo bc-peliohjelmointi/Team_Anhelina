@@ -80,36 +80,4 @@ public class EpisodeChecker : MonoBehaviour
 
         return true;
     }
-
-    public void DebugCheckEpisode(int episodeNumber)
-    {
-        FrameSlot[] slots = null;
-
-        if (episodeNumber == 1) slots = stand1Slots;
-        else if (episodeNumber == 2) slots = stand2Slots;
-        else if (episodeNumber == 3) slots = stand3Slots;
-
-        if (slots == null) return;
-
-        Debug.Log($"=== Episode {episodeNumber} Check ===");
-
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i] != null)
-            {
-                int currentFrame = slots[i].GetCurrentFrameNumber();
-                int correctFrame = slots[i].correctFrameNumber;
-                bool isCorrect = slots[i].HasCorrectFrame();
-
-                Debug.Log($"Slot {i}: Current Frame = {currentFrame}, Correct Frame = {correctFrame}, Is Correct = {isCorrect}");
-            }
-            else
-            {
-                Debug.Log($"Slot {i}: NULL");
-            }
-        }
-
-        bool result = CheckStand(slots);
-        Debug.Log($"Episode {episodeNumber} Result: {result}");
-    }
 }

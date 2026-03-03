@@ -1,7 +1,6 @@
-using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Video;
+using System.Collections;
 
 public class TVVideoPlayer : MonoBehaviour
 {
@@ -12,12 +11,12 @@ public class TVVideoPlayer : MonoBehaviour
     public GameObject introQuad;
     public float introDisplayDuration = 3f;
 
-    [Header("Video Quads - Correct Order (Full Episodes)")]
+    [Header("Video Quads - Correct Order")]
     public GameObject[] episode1CorrectQuads;
     public GameObject[] episode2CorrectQuads;
     public GameObject[] episode3CorrectQuads;
 
-    [Header("Video Quads - Wrong Order (Short Cartoons)")]
+    [Header("Video Quads - Wrong Order")]
     public GameObject episode1WrongCartoonQuad;
     public GameObject episode2WrongCartoonQuad;
     public GameObject episode3WrongCartoonQuad;

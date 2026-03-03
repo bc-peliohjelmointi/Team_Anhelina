@@ -183,40 +183,25 @@ public class PSMenuNavigation : MonoBehaviour
 
         int episodeNumber = currentIndex + 1;
 
-        bool isCorrectOrder = CheckFrameOrder(episodeNumber);
+        bool isCorrectOrder = false;
 
-        Debug.Log($"Episode {episodeNumber} selected. Correct order: {isCorrectOrder}");
+        if (episodeChecker != null)
+        {
+            if (episodeNumber == 1)
+            {
+                isCorrectOrder = episodeChecker.IsEpisode1Correct();
+            }
+            else if (episodeNumber == 2)
+            {
+                isCorrectOrder = episodeChecker.IsEpisode2Correct();
+            }
+            else if (episodeNumber == 3)
+            {
+                isCorrectOrder = episodeChecker.IsEpisode3Correct();
+            }
+        }
 
         StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder));
-    }
-
-    bool CheckFrameOrder(int episodeNumber)
-    {
-        if (episodeChecker == null)
-        {
-            Debug.LogWarning("EpisodeChecker is null!");
-            return false;
-        }
-
-        bool isCorrect = false;
-
-        if (episodeNumber == 1)
-        {
-            isCorrect = episodeChecker.IsEpisode1Correct();
-            episodeChecker.DebugCheckEpisode(1);
-        }
-        else if (episodeNumber == 2)
-        {
-            isCorrect = episodeChecker.IsEpisode2Correct();
-            episodeChecker.DebugCheckEpisode(2);
-        }
-        else if (episodeNumber == 3)
-        {
-            isCorrect = episodeChecker.IsEpisode3Correct();
-            episodeChecker.DebugCheckEpisode(3);
-        }
-
-        return isCorrect;
     }
 
     System.Collections.IEnumerator ShowTVOffErrorAndExit()
