@@ -5,47 +5,33 @@ using System.Collections;
 public class TVVideoPlayer : MonoBehaviour
 {
     public TVPowerEffect tvEffect;
-    public VideoPlayer videoPlayer;
     public Renderer tvRenderer;
 
-    [Header("Countdown & Error")]
-    public VideoClip countdownVideo;
-    public VideoClip errorVideo;
+    [Header("Video Quads - Correct Order")]
+    public GameObject[] episode1CorrectQuads;
+    public GameObject[] episode2CorrectQuads;
+    public GameObject[] episode3CorrectQuads;
 
-    [Header("Episode Videos")]
-    public VideoClip episode1Clip;
-    public VideoClip episode2Clip;
-    public VideoClip episode3Clip;
+    [Header("Video Quads - Error")]
+    public GameObject errorQuad;
+
+    [Header("Quad Settings")]
+    public float quadDisplayDuration = 3f;
+    public bool returnToNoiseAfterQuad = true;
 
     [Header("Audio")]
     public AudioSource completionSound;
 
     private bool isPlaying = false;
-    private RenderTexture renderTexture;
-    private Material videoMaterial;
 
     void Start()
     {
-        if (videoPlayer == null)
-        {
-            videoPlayer = gameObject.AddComponent<VideoPlayer>();
-        }
-
         if (tvRenderer == null)
         {
             tvRenderer = GetComponent<Renderer>();
         }
 
-        renderTexture = new RenderTexture(1920, 1080, 0);
-
-        videoPlayer.playOnAwake = false;
-        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
-        videoPlayer.targetTexture = renderTexture;
-        videoPlayer.isLooping = false;
-        videoPlayer.loopPointReached += OnVideoEnd;
-
-        videoMaterial = new Material(Shader.Find("Unlit/Texture"));
-        videoMaterial.mainTexture = renderTexture;
+        HideAllQuads();
     }
 
     public void PlayEpisode(int episodeNumber, bool isCorrect)
@@ -63,97 +49,83 @@ public class TVVideoPlayer : MonoBehaviour
 
         if (isCorrect)
         {
-            if (countdownVideo != null)
-            {
-                videoPlayer.clip = countdownVideo;
-                tvRenderer.material = videoMaterial;
-                videoPlayer.Play();
+            GameObject[] quadsToPlay = GetQuadsForEpisode(episodeNumber);
 
-                while (videoPlayer.isPlaying)
+            if (tvRenderer != null)
+            {
+                tvRenderer.enabled = false;
+            }
+
+            for (int i = 0; i < quadsToPlay.Length; i++)
+            {
+                if (!tvEffect.IsOn())
                 {
-                    if (!tvEffect.IsOn())
-                    {
-                        videoPlayer.Stop();
-                        ReturnToOriginalState();
-                        yield break;
-                    }
-                    yield return null;
+                    ReturnToOriginalState();
+                    yield break;
                 }
+
+                if (quadsToPlay[i] != null)
+                {
+                    quadsToPlay[i].SetActive(true);
+                    yield return new WaitForSeconds(quadDisplayDuration);
+                    quadsToPlay[i].SetActive(false);
+                }
+            }
+
+            if (completionSound != null)
+            {
+                completionSound.Play();
+            }
+
+            yield return new WaitForSeconds(1f);
+
+            if (returnToNoiseAfterQuad)
+            {
+                ReturnToOriginalState();
             }
             else
             {
-                yield return new WaitForSeconds(3f);
-            }
-
-            if (!tvEffect.IsOn())
-            {
-                ReturnToOriginalState();
-                yield break;
-            }
-
-            VideoClip clipToPlay = null;
-            if (episodeNumber == 1) clipToPlay = episode1Clip;
-            else if (episodeNumber == 2) clipToPlay = episode2Clip;
-            else if (episodeNumber == 3) clipToPlay = episode3Clip;
-
-            if (clipToPlay != null)
-            {
-                videoPlayer.clip = clipToPlay;
-                tvRenderer.material = videoMaterial;
-                videoPlayer.Play();
+                if (tvRenderer != null)
+                {
+                    tvRenderer.enabled = true;
+                }
+                isPlaying = false;
             }
         }
         else
         {
-            if (errorVideo != null)
+            if (tvRenderer != null)
             {
-                videoPlayer.clip = errorVideo;
-                tvRenderer.material = videoMaterial;
-                videoPlayer.Play();
-
-                while (videoPlayer.isPlaying)
-                {
-                    if (!tvEffect.IsOn())
-                    {
-                        videoPlayer.Stop();
-                        ReturnToOriginalState();
-                        yield break;
-                    }
-                    yield return null;
-                }
+                tvRenderer.enabled = false;
             }
-            else
+
+            if (errorQuad != null)
             {
-                yield return new WaitForSeconds(3f);
+                errorQuad.SetActive(true);
+                yield return new WaitForSeconds(quadDisplayDuration);
+                errorQuad.SetActive(false);
             }
 
             ReturnToOriginalState();
         }
     }
 
-    void OnVideoEnd(VideoPlayer vp)
+    GameObject[] GetQuadsForEpisode(int episodeNumber)
     {
-        if (vp.clip == episode1Clip || vp.clip == episode2Clip || vp.clip == episode3Clip)
-        {
-            if (completionSound != null)
-            {
-                completionSound.Play();
-            }
-
-            StartCoroutine(ReturnToNoiseAfterDelay());
-        }
-    }
-
-    IEnumerator ReturnToNoiseAfterDelay()
-    {
-        yield return new WaitForSeconds(1f);
-
-        ReturnToOriginalState();
+        if (episodeNumber == 1) return episode1CorrectQuads;
+        if (episodeNumber == 2) return episode2CorrectQuads;
+        if (episodeNumber == 3) return episode3CorrectQuads;
+        return new GameObject[0];
     }
 
     void ReturnToOriginalState()
     {
-        videoPlayer.Stop();
+        HideAllQuads();
+
+        if (tvRenderer != null)
+        {
+            tvRenderer.enabled = true;
+        }
 
         if (tvEffect != null && tvEffect.IsOn())
         {
@@ -170,11 +142,40 @@ public class TVVideoPlayer : MonoBehaviour
         isPlaying = false;
     }
 
+    void HideAllQuads()
+    {
+        if (episode1CorrectQuads != null)
+        {
+            foreach (GameObject quad in episode1CorrectQuads)
+            {
+                if (quad != null) quad.SetActive(false);
+            }
+        }
+
+        if (episode2CorrectQuads != null)
+        {
+            foreach (GameObject quad in episode2CorrectQuads)
+            {
+                if (quad != null) quad.SetActive(false);
+            }
+        }
+
+        if (episode3CorrectQuads != null)
+        {
+            foreach (GameObject quad in episode3CorrectQuads)
+            {
+                if (quad != null) quad.SetActive(false);
+            }
+        }
+
+        if (errorQuad != null)
+        {
+            errorQuad.SetActive(false);
+        }
+    }
+
     void OnDestroy()
     {
-        if (renderTexture != null)
-        {
-            renderTexture.Release();
-        }
+        HideAllQuads();
     }
 }
