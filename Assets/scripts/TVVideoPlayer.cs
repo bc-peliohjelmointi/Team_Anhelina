@@ -7,6 +7,10 @@ public class TVVideoPlayer : MonoBehaviour
     public TVPowerEffect tvEffect;
     public Renderer tvRenderer;
 
+    [Header("Video Quads - Intro")]
+    public GameObject introQuad;
+    public float introDisplayDuration = 3f;
+
     [Header("Video Quads - Correct Order")]
     public GameObject[] episode1CorrectQuads;
     public GameObject[] episode2CorrectQuads;
@@ -47,14 +51,21 @@ public class TVVideoPlayer : MonoBehaviour
     {
         isPlaying = true;
 
+        if (tvRenderer != null)
+        {
+            tvRenderer.enabled = false;
+        }
+
+        if (introQuad != null)
+        {
+            introQuad.SetActive(true);
+            yield return new WaitForSeconds(introDisplayDuration);
+            introQuad.SetActive(false);
+        }
+
         if (isCorrect)
         {
             GameObject[] quadsToPlay = GetQuadsForEpisode(episodeNumber);
-
-            if (tvRenderer != null)
-            {
-                tvRenderer.enabled = false;
-            }
 
             for (int i = 0; i < quadsToPlay.Length; i++)
             {
@@ -94,11 +105,6 @@ public class TVVideoPlayer : MonoBehaviour
         }
         else
         {
-            if (tvRenderer != null)
-            {
-                tvRenderer.enabled = false;
-            }
-
             if (errorQuad != null)
             {
                 errorQuad.SetActive(true);
@@ -144,6 +150,11 @@ public class TVVideoPlayer : MonoBehaviour
 
     void HideAllQuads()
     {
+        if (introQuad != null)
+        {
+            introQuad.SetActive(false);
+        }
+
         if (episode1CorrectQuads != null)
         {
             foreach (GameObject quad in episode1CorrectQuads)

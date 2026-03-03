@@ -697,14 +697,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 51672839}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 8
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &51672839
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1434,6 +1432,8 @@ GameObject:
   m_Component:
   - component: {fileID: 113990032}
   - component: {fileID: 113990033}
+  - component: {fileID: 113990035}
+  - component: {fileID: 113990034}
   m_Layer: 0
   m_Name: Paper1 (1)
   m_TagString: Untagged
@@ -1450,7 +1450,7 @@ Transform:
   m_GameObject: {fileID: 113990031}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.689, y: 10.94, z: 60.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1468,9 +1468,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 2
+  slotIndex: 1
   standNumber: 1
   correctFrameNumber: 2
+--- !u!65 &113990034
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113990031}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1626771, y: 1, z: 1}
+  m_Center: {x: -0.34354228, y: 0, z: 0}
+--- !u!54 &113990035
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113990031}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &117008948
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,7 +2649,6 @@ MonoBehaviour:
   moveForce: 50
   scrollSpeed: 5
   slotSnapDistance: 1.07
-  maxFallSpeed: 10
   slots:
   - {fileID: 1533430557}
   - {fileID: 1058797270}
@@ -2620,12 +2667,14 @@ MonoBehaviour:
   - {fileID: 1289800200}
   - {fileID: 1728048059}
   - {fileID: 1508132830}
-  dotSize: 7
+  dotSize: 4
   dotColor: {r: 1, g: 1, b: 1, a: 1}
   showCrosshair: 1
   interactKey: 101
+  paperLayer:
+    serializedVersion: 2
+    m_Bits: 0
   throwForceMultiplier: 1.5
-  paperThrowMultiplier: 2.5
   velocitySamples: 5
 --- !u!4 &222779377 stripped
 Transform:
@@ -3683,6 +3732,8 @@ GameObject:
   m_Component:
   - component: {fileID: 331228963}
   - component: {fileID: 331228964}
+  - component: {fileID: 331228966}
+  - component: {fileID: 331228965}
   m_Layer: 0
   m_Name: Paper1 (4)
   m_TagString: Untagged
@@ -3699,7 +3750,7 @@ Transform:
   m_GameObject: {fileID: 331228962}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.188, y: -14.66, z: 63.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3717,9 +3768,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 5
+  slotIndex: 4
   standNumber: 1
   correctFrameNumber: 5
+--- !u!54 &331228965
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331228962}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &331228966
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331228962}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0764021, y: 1.175839, z: 1}
+  m_Center: {x: 0.46179986, y: 0.087919444, z: 0}
 --- !u!1001 &336956478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4770,7 +4869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 2
+  slotIndex: 3
   standNumber: 5
   correctFrameNumber: 2
 --- !u!1 &487095654
@@ -4973,14 +5072,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 516630116}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 6
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &516630116
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5537,14 +5634,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 580056276}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 2
+  isPaper: 1
   objectMass: 0.1
-  airResistance: 1.5
-  freezeRotation: 0
-  isPaper: 0
+  airResistance: 0
+  freezeRotation: 1
 --- !u!54 &580056276
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5896,7 +5991,7 @@ MonoBehaviour:
   psInteraction: {fileID: 1663426414}
   menuTextObjects: []
   errorTextObject: {fileID: 387535142}
-  errorDisplayDuration: 5
+  errorDisplayDuration: 2
   exitDelayAfterSelect: 0
 --- !u!4 &635877238
 Transform:
@@ -7058,10 +7153,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TVVideoPlayer
   tvEffect: {fileID: 760332615}
   tvRenderer: {fileID: 760332616}
-  episode1CorrectQuads: []
-  episode2CorrectQuads: []
-  episode3CorrectQuads: []
-  errorQuad: {fileID: 0}
+  introQuad: {fileID: 377132059}
+  introDisplayDuration: 7
+  episode1CorrectQuads:
+  - {fileID: 1608907193}
+  episode2CorrectQuads:
+  - {fileID: 61739645}
+  episode3CorrectQuads:
+  - {fileID: 716837068}
+  errorQuad: {fileID: 153222784}
   quadDisplayDuration: 3
   returnToNoiseAfterQuad: 1
   completionSound: {fileID: 0}
@@ -7515,14 +7615,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 801932755}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 7
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &801932755
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7750,6 +7848,8 @@ GameObject:
   m_Component:
   - component: {fileID: 803882824}
   - component: {fileID: 803882825}
+  - component: {fileID: 803882827}
+  - component: {fileID: 803882826}
   m_Layer: 0
   m_Name: Paper1 (2)
   m_TagString: Untagged
@@ -7766,7 +7866,7 @@ Transform:
   m_GameObject: {fileID: 803882823}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.379, y: 2.54, z: 61.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7784,9 +7884,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 3
+  slotIndex: 2
   standNumber: 1
   correctFrameNumber: 3
+--- !u!54 &803882826
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803882823}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &803882827
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803882823}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.10398098, y: 1, z: 1}
+  m_Center: {x: 0.18894112, y: 0, z: 0}
 --- !u!1 &804267585
 GameObject:
   m_ObjectHideFlags: 0
@@ -8481,14 +8629,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 882751023}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 15
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &882751023
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8935,6 +9081,8 @@ GameObject:
   m_Component:
   - component: {fileID: 986852749}
   - component: {fileID: 986852750}
+  - component: {fileID: 986852752}
+  - component: {fileID: 986852751}
   m_Layer: 0
   m_Name: Paper1 (3)
   m_TagString: Untagged
@@ -8951,7 +9099,7 @@ Transform:
   m_GameObject: {fileID: 986852748}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.525, y: -6.36, z: 59.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8969,9 +9117,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 4
+  slotIndex: 3
   standNumber: 1
   correctFrameNumber: 4
+--- !u!65 &986852751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986852748}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.15067464, y: 1.3334311, z: 1}
+  m_Center: {x: 0.1372425, y: 0.16671553, z: 0}
+--- !u!54 &986852752
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986852748}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &988303606
 GameObject:
   m_ObjectHideFlags: 0
@@ -9373,14 +9569,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1058797272}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 12
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &1058797272
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9731,7 +9925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 5
+  slotIndex: 3
   standNumber: 5
   correctFrameNumber: 5
 --- !u!4 &1082371285
@@ -10392,7 +10586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 1
+  slotIndex: 3
   standNumber: 5
   correctFrameNumber: 1
 --- !u!1001 &1226828970
@@ -10517,14 +10711,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1228405849}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 4
+  isPaper: 1
   objectMass: 0.1
-  airResistance: 1.5
-  freezeRotation: 0
-  isPaper: 0
+  airResistance: 0
+  freezeRotation: 1
 --- !u!54 &1228405849
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11529,14 +11721,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1289800202}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 5
+  isPaper: 1
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &1289800202
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12325,7 +12515,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329272327}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.5735764, z: -0, w: 0.8191521}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -36.454006, y: 13.374, z: 73.83101}
   m_LocalScale: {x: 2.6200001, y: 0.18999998, z: 0.17000008}
   m_ConstrainProportionsScale: 0
@@ -13101,14 +13291,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1369857326}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 10
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &1369857326
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14722,14 +14910,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1533430558}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 11
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!65 &1533430560
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15595,14 +15781,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1584104786}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 13
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &1584104786
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16664,6 +16848,7 @@ GameObject:
   - component: {fileID: 1680800068}
   - component: {fileID: 1680800069}
   - component: {fileID: 1680800070}
+  - component: {fileID: 1680800071}
   m_Layer: 0
   m_Name: Paper1
   m_TagString: Untagged
@@ -16679,13 +16864,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680800067}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.17227295, z: 0, w: 0.9850493}
-  m_LocalPosition: {x: 4.813, y: 19.11, z: -17.59}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.571, y: 19.11, z: 62.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1329272329}
-  m_LocalEulerAnglesHint: {x: 0, y: -19.84, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1680800069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16698,7 +16883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 1
+  slotIndex: 0
   standNumber: 1
   correctFrameNumber: 1
 --- !u!65 &1680800070
@@ -16720,8 +16905,35 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4917088, y: 1, z: 8.872627}
-  m_Center: {x: -3.7095377, y: 0, z: -10.352469}
+  m_Size: {x: 0.12914935, y: 1.5548041, z: 1.7313333}
+  m_Center: {x: -0.0025669127, y: 0.277402, z: 0.051431075}
+--- !u!54 &1680800071
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680800067}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1682725426
 GameObject:
   m_ObjectHideFlags: 0
@@ -16999,14 +17211,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1728048060}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
   frameNumber: -1
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!1 &1730234051
 GameObject:
   m_ObjectHideFlags: 0
@@ -17271,14 +17481,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1751691897}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 1
+  isPaper: 1
   objectMass: 0.1
-  airResistance: 1.5
-  freezeRotation: 0
-  isPaper: 0
+  airResistance: 0
+  freezeRotation: 1
 --- !u!54 &1751691897
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17433,14 +17641,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1765482022}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 3
+  isPaper: 1
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &1765482022
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18410,14 +18616,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 1832491334}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 14
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &1832491334
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18692,7 +18896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f06c7d39050bc444941a50c50c2d7b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameSlot
-  slotIndex: 4
+  slotIndex: 3
   standNumber: 5
   correctFrameNumber: 4
 --- !u!1 &1888320479
@@ -20965,14 +21169,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableObject
   rb: {fileID: 2118086051}
-  pushForce: 5
-  canBePushed: 1
   canBeGrabbed: 1
-  frameNumber: -1
+  frameNumber: 9
+  isPaper: 0
   objectMass: 0.1
   airResistance: 1.5
   freezeRotation: 0
-  isPaper: 0
 --- !u!54 &2118086051
 Rigidbody:
   m_ObjectHideFlags: 0

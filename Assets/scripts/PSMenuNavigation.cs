@@ -177,7 +177,7 @@ public class PSMenuNavigation : MonoBehaviour
     {
         if (tvEffect == null || !tvEffect.IsOn())
         {
-            StartCoroutine(ShowTVOffError());
+            StartCoroutine(ShowTVOffErrorAndExit());
             return;
         }
 
@@ -217,7 +217,7 @@ public class PSMenuNavigation : MonoBehaviour
         return isCorrect;
     }
 
-    System.Collections.IEnumerator ShowTVOffError()
+    System.Collections.IEnumerator ShowTVOffErrorAndExit()
     {
         isShowingError = true;
         allowExit = false;
@@ -241,48 +241,13 @@ public class PSMenuNavigation : MonoBehaviour
             errorTextObject.SetActive(false);
         }
 
-        if (tvEffect != null && tvEffect.IsOn())
-        {
-            if (selectionRectangle != null)
-            {
-                selectionRectangle.gameObject.SetActive(true);
-            }
-
-            ShowMenuText();
-            isShowingError = false;
-            allowExit = true;
-        }
-        else
-        {
-            if (errorTextObject != null)
-            {
-                errorTextObject.SetActive(true);
-            }
-
-            yield return StartCoroutine(WaitForTVTurnOn());
-        }
-    }
-
-    System.Collections.IEnumerator WaitForTVTurnOn()
-    {
-        while (tvEffect == null || !tvEffect.IsOn())
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        if (errorTextObject != null)
-        {
-            errorTextObject.SetActive(false);
-        }
-
-        if (selectionRectangle != null)
-        {
-            selectionRectangle.gameObject.SetActive(true);
-        }
-
-        ShowMenuText();
         isShowingError = false;
         allowExit = true;
+
+        if (psInteraction != null)
+        {
+            yield return StartCoroutine(psInteraction.ExitPSView());
+        }
     }
 
     System.Collections.IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder)

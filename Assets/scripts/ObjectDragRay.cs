@@ -6,16 +6,15 @@ public class ObjectDragRay : MonoBehaviour
     public float moveForce = 50f;
     public float scrollSpeed = 2f;
     public float slotSnapDistance = 0.4f;
-    public float maxFallSpeed = 10f;
     public Transform[] slots = new Transform[15];
     public int dotSize = 4;
     public Color dotColor = Color.white;
     public bool showCrosshair = true;
     public KeyCode interactKey = KeyCode.E;
+    public LayerMask paperLayer;
 
     [Header("Throw Settings")]
-    public float throwForceMultiplier = 1.5f;
-    public float paperThrowMultiplier = 2.5f;
+    public float throwForceMultiplier = 2.5f;
     public int velocitySamples = 5;
 
     private Texture2D dotTexture;
@@ -23,12 +22,12 @@ public class ObjectDragRay : MonoBehaviour
     private Rigidbody currentRb;
     private float objectDistance;
     private bool isDragging = false;
-    private Vector3 grabOffset;
+    private Vector3 localGrabPoint;
+    private Quaternion originalRotation;
 
     private Vector3[] recentVelocities;
     private int velocityIndex = 0;
-    private Vector3 lastGrabPoint;
-    private bool isPaper = false;
+    private Vector3 lastWorldPoint;
     private float originalLinearDamping;
     private float originalAngularDamping;
 
@@ -63,18 +62,10 @@ public class ObjectDragRay : MonoBehaviour
                 }
 
                 DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
-                if (draggable != null && draggable.canBeGrabbed)
+                if (draggable != null && draggable.canBeGrabbed && draggable.isPaper)
                 {
                     currentObject = draggable;
                     currentRb = draggable.rb;
-                    isPaper = draggable.isPaper;
-
-                    if (isPaper)
-                    {
-                        originalLinearDamping = draggable.airResistance;
-                        originalAngularDamping = draggable.airResistance;
-                    }
-
                     StartGrab(hit);
                 }
             }
@@ -99,19 +90,24 @@ public class ObjectDragRay : MonoBehaviour
     void StartGrab(RaycastHit hit)
     {
         objectDistance = Vector3.Distance(transform.position, hit.point);
-        grabOffset = currentRb.position - hit.point;
-        lastGrabPoint = hit.point;
+
+        localGrabPoint = currentObject.transform.InverseTransformPoint(hit.point);
+        originalRotation = currentObject.transform.rotation;
+        lastWorldPoint = hit.point;
+
+        originalLinearDamping = currentRb.linearDamping;
+        originalAngularDamping = currentRb.angularDamping;
 
         currentRb.useGravity = false;
         currentRb.linearDamping = 10f;
-        currentRb.angularDamping = 5f;
+        currentRb.angularDamping = 10f;
         currentRb.linearVelocity = Vector3.zero;
         currentRb.angularVelocity = Vector3.zero;
         currentRb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
-        if (!isPaper)
+        if (currentObject.freezeRotation)
         {
-            currentObject.canBePushed = false;
+            currentRb.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
         for (int i = 0; i < velocitySamples; i++)
@@ -127,38 +123,22 @@ public class ObjectDragRay : MonoBehaviour
     {
         if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null && currentRb != null)
         {
-            Vector3 currentGrabPoint = transform.position + transform.forward * objectDistance;
-            Vector3 targetPosition = currentGrabPoint - grabOffset;
+            Vector3 targetWorldPoint = transform.position + transform.forward * objectDistance;
+
+            Vector3 worldGrabPoint = currentObject.transform.TransformPoint(localGrabPoint);
+            Vector3 offset = worldGrabPoint - currentRb.position;
+            Vector3 targetPosition = targetWorldPoint - offset;
 
             Vector3 direction = targetPosition - currentRb.position;
-            Vector3 newPosition = currentRb.position + direction * (moveForce * Time.fixedDeltaTime * 0.1f);
+            float moveSpeed = moveForce * Time.fixedDeltaTime;
+            Vector3 newPosition = currentRb.position + direction * moveSpeed;
 
-            Vector3 moveDirection = newPosition - currentRb.position;
-            float moveDistance = moveDirection.magnitude;
+            currentRb.MovePosition(newPosition);
 
-            if (moveDistance > 0.001f)
-            {
-                if (Physics.Raycast(currentRb.position, moveDirection.normalized,
-                    out RaycastHit hit, moveDistance + 0.1f))
-                {
-                    if (hit.collider.gameObject != currentObject.gameObject)
-                    {
-                        newPosition = hit.point - moveDirection.normalized * 0.1f;
-                    }
-                }
-
-                currentRb.MovePosition(newPosition);
-            }
-
-            Vector3 grabPointVelocity = (currentGrabPoint - lastGrabPoint) / Time.fixedDeltaTime;
-            recentVelocities[velocityIndex] = grabPointVelocity;
+            Vector3 velocity = (targetWorldPoint - lastWorldPoint) / Time.fixedDeltaTime;
+            recentVelocities[velocityIndex] = velocity;
             velocityIndex = (velocityIndex + 1) % velocitySamples;
-            lastGrabPoint = currentGrabPoint;
-        }
-
-        if (!isDragging && currentRb != null && !isPaper)
-        {
-            LimitFallSpeed(currentRb);
+            lastWorldPoint = targetWorldPoint;
         }
     }
 
@@ -170,6 +150,7 @@ public class ObjectDragRay : MonoBehaviour
         if (slot != null)
         {
             currentRb.position = slot.position;
+            currentRb.rotation = originalRotation;
             currentRb.linearVelocity = Vector3.zero;
             currentRb.angularVelocity = Vector3.zero;
         }
@@ -182,10 +163,9 @@ public class ObjectDragRay : MonoBehaviour
             }
             averageVelocity /= velocitySamples;
 
-            float multiplier = isPaper ? paperThrowMultiplier : throwForceMultiplier;
-            Vector3 throwVelocity = averageVelocity * multiplier;
+            Vector3 throwVelocity = averageVelocity * throwForceMultiplier;
 
-            float maxSpeed = isPaper ? 25f : 20f;
+            float maxSpeed = 25f;
             if (throwVelocity.magnitude > maxSpeed)
             {
                 throwVelocity = throwVelocity.normalized * maxSpeed;
@@ -193,76 +173,20 @@ public class ObjectDragRay : MonoBehaviour
 
             currentRb.linearVelocity = throwVelocity;
 
-            if (!isPaper)
-            {
-                Vector3 torque = Vector3.Cross(throwVelocity, Vector3.up) * 0.1f;
-                currentRb.angularVelocity = torque;
-            }
-            else
-            {
-                Vector3 torque = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f;
-                currentRb.angularVelocity = torque;
-            }
+            Vector3 torque = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f;
+            currentRb.angularVelocity = torque;
         }
 
-        if (isPaper)
-        {
-            currentRb.linearDamping = originalLinearDamping;
-            currentRb.angularDamping = originalAngularDamping;
-        }
-        else
-        {
-            currentRb.linearDamping = 0.5f;
-            currentRb.angularDamping = 0.5f;
-            currentObject.canBePushed = true;
-        }
-
+        currentRb.linearDamping = originalLinearDamping;
+        currentRb.angularDamping = originalAngularDamping;
         currentRb.useGravity = true;
-        currentRb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-
-        if (!isPaper)
-        {
-            StartCoroutine(MonitorFallingObject(currentObject));
-        }
+        currentRb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        currentRb.constraints = RigidbodyConstraints.None;
 
         currentObject = null;
         currentRb = null;
         isDragging = false;
-        grabOffset = Vector3.zero;
-        isPaper = false;
-    }
-
-    System.Collections.IEnumerator MonitorFallingObject(DraggableObject obj)
-    {
-        float timer = 0f;
-        float maxMonitorTime = 5f;
-
-        while (timer < maxMonitorTime && obj != null && obj.rb != null)
-        {
-            LimitFallSpeed(obj.rb);
-
-            if (obj.rb.linearVelocity.magnitude < 0.1f)
-            {
-                obj.rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-                yield break;
-            }
-
-            timer += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-
-        if (obj != null && obj.rb != null)
-        {
-            obj.rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-        }
-    }
-
-    void LimitFallSpeed(Rigidbody rb)
-    {
-        if (rb.linearVelocity.magnitude > maxFallSpeed)
-        {
-            rb.linearVelocity = rb.linearVelocity.normalized * maxFallSpeed;
-        }
+        localGrabPoint = Vector3.zero;
     }
 
     Transform GetClosestSlot(Vector3 position)
