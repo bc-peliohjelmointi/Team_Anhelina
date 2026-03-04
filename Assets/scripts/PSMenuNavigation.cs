@@ -24,8 +24,11 @@ public class PSMenuNavigation : MonoBehaviour
     public GameObject errorTextObject;
     public float errorDisplayDuration = 5f;
 
+    [Header("Checkmarks")]
+    public GameObject[] checkmarkObjects;
+
     [Header("Timing")]
-    public float exitDelayAfterSelect = 0.5f;
+    public float delayBeforeCheckmark = 1f;
 
     private int currentIndex = 0;
     private bool navigationEnabled = false;
@@ -45,6 +48,8 @@ public class PSMenuNavigation : MonoBehaviour
         {
             errorTextObject.SetActive(false);
         }
+
+        HideAllCheckmarks();
     }
 
     void Update()
@@ -201,7 +206,7 @@ public class PSMenuNavigation : MonoBehaviour
             }
         }
 
-        StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder));
+        StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder, currentIndex));
     }
 
     System.Collections.IEnumerator ShowTVOffErrorAndExit()
@@ -237,28 +242,53 @@ public class PSMenuNavigation : MonoBehaviour
         }
     }
 
-    System.Collections.IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder)
+    System.Collections.IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder, int checkmarkIndex)
     {
         allowExit = false;
 
         if (tvVideoPlayer != null)
         {
-            tvVideoPlayer.PlayEpisode(episodeNumber, isCorrectOrder);
+            float videoDuration = tvVideoPlayer.PlayEpisode(episodeNumber, isCorrectOrder);
+            yield return new WaitForSeconds(videoDuration);
         }
-
-        yield return new WaitForSeconds(exitDelayAfterSelect);
 
         if (psInteraction != null)
         {
             yield return StartCoroutine(psInteraction.ExitPSView());
         }
 
-        if (isCorrectOrder && psScreen != null)
+        if (isCorrectOrder)
         {
-            psScreen.ShowCheckmark(currentIndex);
+            yield return new WaitForSeconds(delayBeforeCheckmark);
+            ShowCheckmark(checkmarkIndex);
         }
 
         allowExit = true;
+    }
+
+    void ShowCheckmark(int index)
+    {
+        if (checkmarkObjects != null && index >= 0 && index < checkmarkObjects.Length)
+        {
+            if (checkmarkObjects[index] != null)
+            {
+                checkmarkObjects[index].SetActive(true);
+            }
+        }
+    }
+
+    void HideAllCheckmarks()
+    {
+        if (checkmarkObjects != null)
+        {
+            foreach (GameObject checkmark in checkmarkObjects)
+            {
+                if (checkmark != null)
+                {
+                    checkmark.SetActive(false);
+                }
+            }
+        }
     }
 
     void HideMenuText()

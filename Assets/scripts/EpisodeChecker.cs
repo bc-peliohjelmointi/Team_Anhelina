@@ -8,11 +8,6 @@ public class EpisodeChecker : MonoBehaviour
 
     void Start()
     {
-        SetupCorrectFrameNumbers();
-    }
-
-    void SetupCorrectFrameNumbers()
-    {
         for (int i = 0; i < stand1Slots.Length; i++)
         {
             if (stand1Slots[i] != null)
@@ -55,24 +50,11 @@ public class EpisodeChecker : MonoBehaviour
 
     private bool CheckStand(FrameSlot[] slots)
     {
-        if (slots == null || slots.Length == 0)
-        {
-            return false;
-        }
+        if (slots == null) return false;
 
         foreach (FrameSlot slot in slots)
         {
-            if (slot == null)
-            {
-                return false;
-            }
-
-            if (!slot.HasPaper())
-            {
-                return false;
-            }
-
-            if (!slot.HasCorrectFrame())
+            if (slot == null || !slot.HasPaper() || !slot.HasCorrectFrame())
             {
                 return false;
             }
