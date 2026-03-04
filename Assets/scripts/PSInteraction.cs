@@ -7,7 +7,8 @@ public class PSInteraction : MonoBehaviour
     public Transform player;
     public Transform playerCamera;
 
-    [Header("Camera Target")]
+    [Header("Camera Path")]
+    public Transform[] cameraPathPoints;
     public Transform cameraTargetPosition;
     public float cameraTransitionSpeed = 2f;
 
@@ -26,9 +27,9 @@ public class PSInteraction : MonoBehaviour
     private bool isNearPS = false;
     private bool isInteracting = false;
     private bool isTransitioning = false;
-    private Vector3 originalCameraPosition;
-    private Quaternion originalCameraRotation;
     private PlayerMovement playerMovement;
+    private Vector3 startCameraWorldPos;
+    private Quaternion startCameraWorldRot;
 
     void Start()
     {
@@ -92,8 +93,8 @@ public class PSInteraction : MonoBehaviour
             interactionPromptObject.SetActive(false);
         }
 
-        originalCameraPosition = playerCamera.localPosition;
-        originalCameraRotation = playerCamera.localRotation;
+        startCameraWorldPos = playerCamera.position;
+        startCameraWorldRot = playerCamera.rotation;
 
         if (playerMovement != null)
         {
@@ -103,29 +104,59 @@ public class PSInteraction : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        Vector3 targetPosition = cameraTargetPosition.position;
-        Quaternion targetRotation = cameraTargetPosition.rotation;
-
-        Vector3 startPosition = playerCamera.position;
-        Quaternion startRotation = playerCamera.rotation;
-
-        float elapsed = 0f;
-        float duration = 1f / cameraTransitionSpeed;
-
-        while (elapsed < duration)
+        if (cameraPathPoints != null && cameraPathPoints.Length > 0)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            t = Mathf.SmoothStep(0f, 1f, t);
+            for (int i = 0; i < cameraPathPoints.Length; i++)
+            {
+                if (cameraPathPoints[i] == null) continue;
 
-            playerCamera.position = Vector3.Lerp(startPosition, targetPosition, t);
-            playerCamera.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
+                Vector3 targetPos = cameraPathPoints[i].position;
+                Quaternion targetRot = cameraPathPoints[i].rotation;
 
-            yield return null;
+                Vector3 startPos = playerCamera.position;
+                Quaternion startRot = playerCamera.rotation;
+
+                float elapsed = 0f;
+                float duration = 1f / cameraTransitionSpeed;
+
+                while (elapsed < duration)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+
+                    playerCamera.position = Vector3.Lerp(startPos, targetPos, t);
+                    playerCamera.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+                    yield return null;
+                }
+            }
         }
 
-        playerCamera.position = targetPosition;
-        playerCamera.rotation = targetRotation;
+        if (cameraTargetPosition != null)
+        {
+            Vector3 targetPos = cameraTargetPosition.position;
+            Quaternion targetRot = cameraTargetPosition.rotation;
+
+            Vector3 startPos = playerCamera.position;
+            Quaternion startRot = playerCamera.rotation;
+
+            float elapsed = 0f;
+            float duration = 1f / cameraTransitionSpeed;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+
+                playerCamera.position = Vector3.Lerp(startPos, targetPos, t);
+                playerCamera.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+                yield return null;
+            }
+
+            playerCamera.position = targetPos;
+            playerCamera.rotation = targetRot;
+        }
 
         isTransitioning = false;
         isInteracting = true;
@@ -146,32 +177,56 @@ public class PSInteraction : MonoBehaviour
             menuNavigation.DisableNavigation();
         }
 
-        Vector3 targetPosition = player.position + player.rotation * originalCameraPosition;
-        Quaternion targetRotation = player.rotation * originalCameraRotation;
-
-        Vector3 startPosition = playerCamera.position;
-        Quaternion startRotation = playerCamera.rotation;
-
-        float elapsed = 0f;
-        float duration = 1f / cameraTransitionSpeed;
-
-        while (elapsed < duration)
+        if (cameraPathPoints != null && cameraPathPoints.Length > 0)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            t = Mathf.SmoothStep(0f, 1f, t);
+            for (int i = cameraPathPoints.Length - 1; i >= 0; i--)
+            {
+                if (cameraPathPoints[i] == null) continue;
 
-            targetPosition = player.position + player.rotation * originalCameraPosition;
-            targetRotation = player.rotation * originalCameraRotation;
+                Vector3 targetPos = cameraPathPoints[i].position;
+                Quaternion targetRot = cameraPathPoints[i].rotation;
 
-            playerCamera.position = Vector3.Lerp(startPosition, targetPosition, t);
-            playerCamera.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
+                Vector3 startPos = playerCamera.position;
+                Quaternion startRot = playerCamera.rotation;
+
+                float elapsed = 0f;
+                float duration = 1f / cameraTransitionSpeed;
+
+                while (elapsed < duration)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+
+                    playerCamera.position = Vector3.Lerp(startPos, targetPos, t);
+                    playerCamera.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+                    yield return null;
+                }
+            }
+        }
+
+        Vector3 finalTargetPos = startCameraWorldPos;
+        Quaternion finalTargetRot = startCameraWorldRot;
+
+        Vector3 finalStartPos = playerCamera.position;
+        Quaternion finalStartRot = playerCamera.rotation;
+
+        float finalElapsed = 0f;
+        float finalDuration = 1f / cameraTransitionSpeed;
+
+        while (finalElapsed < finalDuration)
+        {
+            finalElapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, finalElapsed / finalDuration);
+
+            playerCamera.position = Vector3.Lerp(finalStartPos, finalTargetPos, t);
+            playerCamera.rotation = Quaternion.Slerp(finalStartRot, finalTargetRot, t);
 
             yield return null;
         }
 
-        playerCamera.localPosition = originalCameraPosition;
-        playerCamera.localRotation = originalCameraRotation;
+        playerCamera.position = startCameraWorldPos;
+        playerCamera.rotation = startCameraWorldRot;
 
         if (playerMovement != null)
         {
@@ -194,14 +249,39 @@ public class PSInteraction : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactionDistance);
 
-        if (cameraTargetPosition != null)
+        if (cameraPathPoints != null && cameraPathPoints.Length > 0)
         {
             Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(cameraTargetPosition.position, 0.2f);
-            Gizmos.DrawLine(transform.position, cameraTargetPosition.position);
 
-            Gizmos.color = Color.red;
+            for (int i = 0; i < cameraPathPoints.Length; i++)
+            {
+                if (cameraPathPoints[i] != null)
+                {
+                    Gizmos.DrawWireSphere(cameraPathPoints[i].position, 0.1f);
+
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawRay(cameraPathPoints[i].position, cameraPathPoints[i].forward * 0.3f);
+                    Gizmos.color = Color.cyan;
+
+                    if (i > 0 && cameraPathPoints[i - 1] != null)
+                    {
+                        Gizmos.DrawLine(cameraPathPoints[i - 1].position, cameraPathPoints[i].position);
+                    }
+                }
+            }
+        }
+
+        if (cameraTargetPosition != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(cameraTargetPosition.position, 0.15f);
             Gizmos.DrawRay(cameraTargetPosition.position, cameraTargetPosition.forward * 0.5f);
+
+            if (cameraPathPoints != null && cameraPathPoints.Length > 0 && cameraPathPoints[cameraPathPoints.Length - 1] != null)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(cameraPathPoints[cameraPathPoints.Length - 1].position, cameraTargetPosition.position);
+            }
         }
     }
 }
