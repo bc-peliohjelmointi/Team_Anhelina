@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 
     public GameObject mainPanel;      // Main buttons
     public GameObject playPanel;
+    public GameObject optionsPanel;
     public GameObject infoTextObject; // текст слева
     private Text uiText;
 
@@ -14,6 +15,7 @@ public class MainMenu : MonoBehaviour
     {
 
         playPanel.SetActive(false);
+        optionsPanel.SetActive(false);
 
         if (infoTextObject != null)
         {
@@ -30,6 +32,20 @@ public class MainMenu : MonoBehaviour
     }
 
     // When pressing BACK inside PlayPanel
+
+    public void OpenOptions()   
+    {
+        mainPanel.SetActive(false);
+        optionsPanel.SetActive(true);
+        infoTextObject.SetActive(false);
+    }
+
+    public void BackFromOptions()   
+    {
+        optionsPanel.SetActive(false);
+        mainPanel.SetActive(true);
+    }
+
     public void BackToMain()
     {
         playPanel.SetActive(false);
