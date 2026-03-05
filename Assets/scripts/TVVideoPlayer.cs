@@ -42,37 +42,13 @@ public class TVVideoPlayer : MonoBehaviour
         HideAllQuads();
     }
 
-    public float PlayEpisode(int episodeNumber, bool isCorrect)
+    public void PlayEpisode(int episodeNumber, bool isCorrect)
     {
         if (isPlaying || tvEffect == null || !tvEffect.IsOn())
-            return 0f;
+            return;
 
         StopAllCoroutines();
-
-        float totalDuration = CalculateTotalDuration(episodeNumber, isCorrect);
-
         StartCoroutine(PlayEpisodeSequence(episodeNumber, isCorrect));
-
-        return totalDuration;
-    }
-
-    float CalculateTotalDuration(int episodeNumber, bool isCorrect)
-    {
-        float duration = introDisplayDuration;
-
-        if (isCorrect)
-        {
-            GameObject[] quads = GetCorrectQuadsForEpisode(episodeNumber);
-            duration += quads.Length * correctQuadDuration;
-            duration += 1f;
-        }
-        else
-        {
-            duration += wrongCartoonDuration;
-            duration += errorDisplayDuration;
-        }
-
-        return duration;
     }
 
     IEnumerator PlayEpisodeSequence(int episodeNumber, bool isCorrect)

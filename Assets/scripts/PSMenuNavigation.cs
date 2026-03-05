@@ -248,9 +248,10 @@ public class PSMenuNavigation : MonoBehaviour
 
         if (tvVideoPlayer != null)
         {
-            float videoDuration = tvVideoPlayer.PlayEpisode(episodeNumber, isCorrectOrder);
-            yield return new WaitForSeconds(videoDuration);
+            tvVideoPlayer.PlayEpisode(episodeNumber, isCorrectOrder);
         }
+
+        yield return new WaitForSeconds(0.5f);
 
         if (psInteraction != null)
         {
@@ -259,11 +260,40 @@ public class PSMenuNavigation : MonoBehaviour
 
         if (isCorrectOrder)
         {
-            yield return new WaitForSeconds(delayBeforeCheckmark);
+            float videoDuration = CalculateVideoDuration(episodeNumber, isCorrectOrder);
+            yield return new WaitForSeconds(videoDuration + delayBeforeCheckmark);
             ShowCheckmark(checkmarkIndex);
         }
 
         allowExit = true;
+    }
+
+    float CalculateVideoDuration(int episodeNumber, bool isCorrect)
+    {
+        if (tvVideoPlayer == null) return 0f;
+
+        float duration = tvVideoPlayer.introDisplayDuration;
+
+        if (isCorrect)
+        {
+            int quadCount = 0;
+            if (episodeNumber == 1 && tvVideoPlayer.episode1CorrectQuads != null)
+                quadCount = tvVideoPlayer.episode1CorrectQuads.Length;
+            else if (episodeNumber == 2 && tvVideoPlayer.episode2CorrectQuads != null)
+                quadCount = tvVideoPlayer.episode2CorrectQuads.Length;
+            else if (episodeNumber == 3 && tvVideoPlayer.episode3CorrectQuads != null)
+                quadCount = tvVideoPlayer.episode3CorrectQuads.Length;
+
+            duration += quadCount * tvVideoPlayer.correctQuadDuration;
+            duration += 1f;
+        }
+        else
+        {
+            duration += tvVideoPlayer.wrongCartoonDuration;
+            duration += tvVideoPlayer.errorDisplayDuration;
+        }
+
+        return duration;
     }
 
     void ShowCheckmark(int index)
