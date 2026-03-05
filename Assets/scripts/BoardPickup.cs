@@ -11,8 +11,9 @@ public class BoardPickup : MonoBehaviour
 
     [Header("Board Settings")]
     public GameObject boardObject;
-    public Vector3 boardHoldPosition = new Vector3(0, -0.3f, 0.6f);
-    public Vector3 boardHoldRotation = new Vector3(30f, 0f, 0f);
+    public Vector3 boardFullyVisiblePosition = new Vector3(0, -0.4f, 0.6f);
+    public Vector3 boardHiddenPosition = new Vector3(0, -1.5f, 0.6f);
+    public Vector3 boardRotation = new Vector3(30f, 0f, 0f);
 
     [Header("Board Visibility")]
     public float minAngleToShow = 65f;
@@ -128,7 +129,7 @@ public class BoardPickup : MonoBehaviour
             slideValue = 1f;
         }
 
-        Vector3 targetPos = Vector3.Lerp(Vector3.zero, boardHoldPosition, slideValue);
+        Vector3 targetPos = Vector3.Lerp(boardHiddenPosition, boardFullyVisiblePosition, slideValue);
         boardObject.transform.localPosition = targetPos;
     }
 
@@ -185,8 +186,8 @@ public class BoardPickup : MonoBehaviour
         isBoardInHand = true;
 
         boardObject.transform.SetParent(playerCamera);
-        boardObject.transform.localPosition = Vector3.zero;
-        boardObject.transform.localRotation = Quaternion.Euler(boardHoldRotation);
+        boardObject.transform.localPosition = boardHiddenPosition;
+        boardObject.transform.localRotation = Quaternion.Euler(boardRotation);
     }
 
     void PutBoardAway()
