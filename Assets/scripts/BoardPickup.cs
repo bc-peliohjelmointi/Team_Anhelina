@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardPickup : MonoBehaviour
@@ -9,15 +10,24 @@ public class BoardPickup : MonoBehaviour
     [Header("References")]
     public PSMenuNavigation psMenuNavigation;
 
-    [Header("Board Settings")]
+    [Header("Board Object")]
     public GameObject boardObject;
-    public Vector3 boardFullyVisiblePosition = new Vector3(0, -0.4f, 0.6f);
-    public Vector3 boardHiddenPosition = new Vector3(0, -1.5f, 0.6f);
-    public Vector3 boardRotation = new Vector3(30f, 0f, 0f);
 
-    [Header("Board Visibility")]
-    public float minAngleToShow = 65f;
-    public float maxAngleToShow = 80f;
+    [Header("Visible State (80 degrees)")]
+    public Vector3 visiblePosition = new Vector3(0, -0.4f, 0.6f);
+    public Vector3 visibleRotation = new Vector3(30f, 0f, 0f);
+
+    [Header("Hidden State (0-65 degrees)")]
+    public Vector3 hiddenPosition = new Vector3(0, -1.5f, 0.6f);
+    public Vector3 hiddenRotation = new Vector3(30f, 0f, 0f);
+
+    [Header("Camera Angle Settings")]
+    public float startShowAngle = 65f;
+    public float fullyVisibleAngle = 80f;
+
+    [Header("Animation")]
+    public float smoothSpeed = 10f;
+    public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Interaction")]
     public float interactionDistance = 2f;
@@ -31,6 +41,8 @@ public class BoardPickup : MonoBehaviour
     private Vector3 originalBoardPosition;
     private Quaternion originalBoardRotation;
     private Transform originalBoardParent;
+    private Vector3 currentTargetPosition;
+    private Quaternion currentTargetRotation;
 
     void Start()
     {
@@ -59,6 +71,9 @@ public class BoardPickup : MonoBehaviour
                 player = playerObj.transform;
             }
         }
+
+        currentTargetPosition = hiddenPosition;
+        currentTargetRotation = Quaternion.Euler(hiddenRotation);
     }
 
     void Update()
@@ -67,7 +82,7 @@ public class BoardPickup : MonoBehaviour
         {
             if (isBoardInHand)
             {
-                UpdateBoardVisibility();
+                UpdateBoardTransform();
 
                 if (Input.GetKeyDown(pickupKey))
                 {
@@ -107,30 +122,60 @@ public class BoardPickup : MonoBehaviour
         }
     }
 
-    void UpdateBoardVisibility()
+    void UpdateBoardTransform()
     {
         if (playerCamera == null || boardObject == null) return;
 
-        float cameraXRotation = playerCamera.localEulerAngles.x;
+        float cameraXRotation = GetCameraXRotation();
+        float slideValue = CalculateSlideValue(cameraXRotation);
+        float curvedValue = slideCurve.Evaluate(slideValue);
 
-        if (cameraXRotation > 180f)
+        currentTargetPosition = Vector3.Lerp(hiddenPosition, visiblePosition, curvedValue);
+        currentTargetRotation = Quaternion.Lerp(
+            Quaternion.Euler(hiddenRotation),
+            Quaternion.Euler(visibleRotation),
+            curvedValue
+        );
+
+        boardObject.transform.localPosition = Vector3.Lerp(
+            boardObject.transform.localPosition,
+            currentTargetPosition,
+            Time.deltaTime * smoothSpeed
+        );
+
+        boardObject.transform.localRotation = Quaternion.Slerp(
+            boardObject.transform.localRotation,
+            currentTargetRotation,
+            Time.deltaTime * smoothSpeed
+        );
+    }
+
+    float GetCameraXRotation()
+    {
+        float rotation = playerCamera.localEulerAngles.x;
+
+        if (rotation > 180f)
         {
-            cameraXRotation -= 360f;
+            rotation -= 360f;
         }
 
-        float slideValue = 0f;
+        return rotation;
+    }
 
-        if (cameraXRotation >= minAngleToShow && cameraXRotation <= maxAngleToShow)
+    float CalculateSlideValue(float cameraAngle)
+    {
+        if (cameraAngle < startShowAngle)
         {
-            slideValue = Mathf.InverseLerp(minAngleToShow, maxAngleToShow, cameraXRotation);
+            return 0f;
         }
-        else if (cameraXRotation > maxAngleToShow)
+        else if (cameraAngle >= fullyVisibleAngle)
         {
-            slideValue = 1f;
+            return 1f;
         }
-
-        Vector3 targetPos = Vector3.Lerp(boardHiddenPosition, boardFullyVisiblePosition, slideValue);
-        boardObject.transform.localPosition = targetPos;
+        else
+        {
+            return Mathf.InverseLerp(startShowAngle, fullyVisibleAngle, cameraAngle);
+        }
     }
 
     bool AreAllEpisodesComplete()
@@ -158,6 +203,7 @@ public class BoardPickup : MonoBehaviour
         if (rb != null)
         {
             rb.isKinematic = true;
+            rb.useGravity = false;
         }
 
         Collider col = boardObject.GetComponent<Collider>();
@@ -186,8 +232,11 @@ public class BoardPickup : MonoBehaviour
         isBoardInHand = true;
 
         boardObject.transform.SetParent(playerCamera);
-        boardObject.transform.localPosition = boardHiddenPosition;
-        boardObject.transform.localRotation = Quaternion.Euler(boardRotation);
+        boardObject.transform.localPosition = hiddenPosition;
+        boardObject.transform.localRotation = Quaternion.Euler(hiddenRotation);
+
+        currentTargetPosition = hiddenPosition;
+        currentTargetRotation = Quaternion.Euler(hiddenRotation);
     }
 
     void PutBoardAway()
@@ -199,6 +248,19 @@ public class BoardPickup : MonoBehaviour
         boardObject.transform.SetParent(originalBoardParent);
         boardObject.transform.position = originalBoardPosition;
         boardObject.transform.rotation = originalBoardRotation;
+
+        Rigidbody rb = boardObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        }
+
+        Collider col = boardObject.GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = true;
+        }
     }
 
     public bool HasBoard()
@@ -210,5 +272,19 @@ public class BoardPickup : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, interactionDistance);
+
+        if (playerCamera != null)
+        {
+            Gizmos.color = Color.yellow;
+            Vector3 hiddenPos = playerCamera.TransformPoint(hiddenPosition);
+            Gizmos.DrawWireCube(hiddenPos, Vector3.one * 0.1f);
+
+            Gizmos.color = Color.cyan;
+            Vector3 visiblePos = playerCamera.TransformPoint(visiblePosition);
+            Gizmos.DrawWireCube(visiblePos, Vector3.one * 0.1f);
+
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(hiddenPos, visiblePos);
+        }
     }
 }
