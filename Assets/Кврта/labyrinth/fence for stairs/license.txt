@@ -1,0 +1,11 @@
+Model Information:
+* title:	Ironwork for stairs
+* source:	https://sketchfab.com/3d-models/ironwork-for-stairs-28bff07673c74313acd15713c3c7ddae
+* author:	Lalenaut (https://sketchfab.com/lale)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Ironwork for stairs" (https://sketchfab.com/3d-models/ironwork-for-stairs-28bff07673c74313acd15713c3c7ddae) by Lalenaut (https://sketchfab.com/lale) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
