@@ -11,13 +11,11 @@ public class PSMenuNavigation : MonoBehaviour
     public float moveSpeed = 10f;
     public KeyCode selectKey = KeyCode.Return;
     public KeyCode exitKey = KeyCode.E;
-    public KeyCode spaceExitKey = KeyCode.Space;
 
     [Header("References")]
     public PSScreen psScreen;
     public TVVideoPlayer tvVideoPlayer;
     public TVPowerEffect tvEffect;
-    public TVButton tvButton;
     public EpisodeChecker episodeChecker;
     public PSInteraction psInteraction;
 
@@ -26,14 +24,18 @@ public class PSMenuNavigation : MonoBehaviour
     public GameObject errorTextObject;
     public float errorDisplayDuration = 5f;
 
+    [Header("Checkmarks")]
+    public GameObject[] checkmarkObjects;
+
     [Header("Timing")]
-    public float exitDelayAfterSelect = 0.5f;
+    public float delayBeforeCheckmark = 1f;
 
     private int currentIndex = 0;
     private bool navigationEnabled = false;
     private Vector3 targetPosition;
     private bool isMoving = false;
     private bool isShowingError = false;
+    private bool allowExit = true;
 
     void Start()
     {
@@ -46,17 +48,21 @@ public class PSMenuNavigation : MonoBehaviour
         {
             errorTextObject.SetActive(false);
         }
+
+        HideAllCheckmarks();
     }
 
     void Update()
     {
-        if (!navigationEnabled || isShowingError) return;
+        if (!navigationEnabled) return;
 
-        if (Input.GetKeyDown(exitKey) || Input.GetKeyDown(spaceExitKey))
+        if (allowExit && Input.GetKeyDown(exitKey))
         {
             ExitNavigation();
             return;
         }
+
+        if (isShowingError) return;
 
         if (!isMoving)
         {
@@ -96,6 +102,7 @@ public class PSMenuNavigation : MonoBehaviour
         navigationEnabled = true;
         currentIndex = 0;
         isMoving = false;
+        allowExit = true;
 
         if (selectionRectangle != null)
         {
@@ -116,11 +123,14 @@ public class PSMenuNavigation : MonoBehaviour
     {
         navigationEnabled = false;
         isMoving = false;
+        allowExit = true;
 
         if (selectionRectangle != null)
         {
             selectionRectangle.gameObject.SetActive(false);
         }
+
+        HideMenuText();
     }
 
     void ExitNavigation()
@@ -170,22 +180,9 @@ public class PSMenuNavigation : MonoBehaviour
 
     void SelectCurrentOption()
     {
-        bool tvWasEverTurnedOn = false;
-
-        if (tvButton != null)
-        {
-            tvWasEverTurnedOn = tvButton.WasEverTurnedOn();
-        }
-
-        if (!tvWasEverTurnedOn)
-        {
-            StartCoroutine(ShowTVNeverUsedError());
-            return;
-        }
-
         if (tvEffect == null || !tvEffect.IsOn())
         {
-            StartCoroutine(ShowTVOffError());
+            StartCoroutine(ShowTVOffErrorAndExit());
             return;
         }
 
@@ -209,12 +206,13 @@ public class PSMenuNavigation : MonoBehaviour
             }
         }
 
-        StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder));
+        StartCoroutine(SelectAndExit(episodeNumber, isCorrectOrder, currentIndex));
     }
 
-    System.Collections.IEnumerator ShowTVNeverUsedError()
+    System.Collections.IEnumerator ShowTVOffErrorAndExit()
     {
         isShowingError = true;
+        allowExit = false;
 
         HideMenuText();
 
@@ -235,66 +233,91 @@ public class PSMenuNavigation : MonoBehaviour
             errorTextObject.SetActive(false);
         }
 
-        if (selectionRectangle != null)
-        {
-            selectionRectangle.gameObject.SetActive(true);
-        }
-
-        ShowMenuText();
-
         isShowingError = false;
+        allowExit = true;
+
+        if (psInteraction != null)
+        {
+            yield return StartCoroutine(psInteraction.ExitPSView());
+        }
     }
 
-    System.Collections.IEnumerator ShowTVOffError()
+    System.Collections.IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder, int checkmarkIndex)
     {
-        isShowingError = true;
+        allowExit = false;
 
-        HideMenuText();
-
-        if (selectionRectangle != null)
-        {
-            selectionRectangle.gameObject.SetActive(false);
-        }
-
-        if (errorTextObject != null)
-        {
-            errorTextObject.SetActive(true);
-        }
-
-        yield return new WaitForSeconds(errorDisplayDuration);
-
-        if (errorTextObject != null)
-        {
-            errorTextObject.SetActive(false);
-        }
-
-        if (selectionRectangle != null)
-        {
-            selectionRectangle.gameObject.SetActive(true);
-        }
-
-        ShowMenuText();
-
-        isShowingError = false;
-    }
-
-    System.Collections.IEnumerator SelectAndExit(int episodeNumber, bool isCorrectOrder)
-    {
         if (tvVideoPlayer != null)
         {
             tvVideoPlayer.PlayEpisode(episodeNumber, isCorrectOrder);
         }
 
-        yield return new WaitForSeconds(exitDelayAfterSelect);
+        yield return new WaitForSeconds(0.5f);
 
         if (psInteraction != null)
         {
             yield return StartCoroutine(psInteraction.ExitPSView());
         }
 
-        if (isCorrectOrder && psScreen != null)
+        if (isCorrectOrder)
         {
-            psScreen.ShowCheckmark(currentIndex);
+            float videoDuration = CalculateVideoDuration(episodeNumber, isCorrectOrder);
+            yield return new WaitForSeconds(videoDuration + delayBeforeCheckmark);
+            ShowCheckmark(checkmarkIndex);
+        }
+
+        allowExit = true;
+    }
+
+    float CalculateVideoDuration(int episodeNumber, bool isCorrect)
+    {
+        if (tvVideoPlayer == null) return 0f;
+
+        float duration = tvVideoPlayer.introDisplayDuration;
+
+        if (isCorrect)
+        {
+            int quadCount = 0;
+            if (episodeNumber == 1 && tvVideoPlayer.episode1CorrectQuads != null)
+                quadCount = tvVideoPlayer.episode1CorrectQuads.Length;
+            else if (episodeNumber == 2 && tvVideoPlayer.episode2CorrectQuads != null)
+                quadCount = tvVideoPlayer.episode2CorrectQuads.Length;
+            else if (episodeNumber == 3 && tvVideoPlayer.episode3CorrectQuads != null)
+                quadCount = tvVideoPlayer.episode3CorrectQuads.Length;
+
+            duration += quadCount * tvVideoPlayer.correctQuadDuration;
+            duration += 1f;
+        }
+        else
+        {
+            duration += tvVideoPlayer.wrongCartoonDuration;
+            duration += tvVideoPlayer.errorDisplayDuration;
+        }
+
+        return duration;
+    }
+
+    void ShowCheckmark(int index)
+    {
+        if (checkmarkObjects != null && index >= 0 && index < checkmarkObjects.Length)
+        {
+            if (checkmarkObjects[index] != null)
+            {
+                checkmarkObjects[index].SetActive(true);
+            }
+        }
+    }
+
+    void HideAllCheckmarks()
+    {
+        if (checkmarkObjects != null)
+        {
+            foreach (GameObject checkmark in checkmarkObjects)
+            {
+                if (checkmark != null)
+                {
+                    checkmark.SetActive(false);
+                }
+            }
         }
     }
 

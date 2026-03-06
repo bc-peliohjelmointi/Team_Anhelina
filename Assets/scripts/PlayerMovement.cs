@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -20,6 +22,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Camera")]
     public float mouseSensitivity = 2f;
     public Transform playerCamera;
+
+    [Header("Stair Climbing")]
+    public bool enableStairClimbing = true;
+    public float maxStepHeight = 0.4f;
+    public float stepCheckDistance = 0.5f;
+    public float stepSmoothness = 0.1f;
+
+    [Header("Camera Smoothing")]
+    public float cameraVerticalSmooth = 8f;
 
     [Header("Run Energy")]
     public float maxRunEnergy = 5f;
@@ -51,8 +62,9 @@ public class PlayerMovement : MonoBehaviour
     private float startFallY;
     private float lastJumpTime;
     private float jumpCooldown = 0.5f;
-
     private bool isControlLocked;
+    private float targetCameraHeight;
+    private float currentCameraHeight;
 
     void Start()
     {
@@ -63,6 +75,12 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (playerCamera != null)
+        {
+            currentCameraHeight = playerCamera.localPosition.y;
+            targetCameraHeight = currentCameraHeight;
+        }
     }
 
     void Update()
@@ -80,7 +98,9 @@ public class PlayerMovement : MonoBehaviour
         HandleMouseLook();
         UpdateEnergyUI();
         HandleFallDeath();
+        SmoothCameraHeight();
     }
+
     public void LockControl()
     {
         isControlLocked = true;
@@ -145,6 +165,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 move = transform.right * x + transform.forward * z;
+
+        if (enableStairClimbing && isMoving)
+        {
+            float stepUp = ClimbStairs(move.normalized);
+            if (stepUp > 0f)
+            {
+                targetCameraHeight += stepUp;
+            }
+        }
+
         controller.Move(move * speed * Time.deltaTime);
 
         if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime > jumpCooldown)
@@ -160,6 +190,46 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
+    float ClimbStairs(Vector3 moveDirection)
+    {
+        if (moveDirection.magnitude < 0.1f) return 0f;
+
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
+        RaycastHit hitLower;
+
+        if (Physics.Raycast(rayOrigin, moveDirection, out hitLower, controller.radius + stepCheckDistance))
+        {
+            float stepHeight = hitLower.point.y - transform.position.y;
+
+            if (stepHeight > 0.05f && stepHeight <= maxStepHeight)
+            {
+                Vector3 rayOriginUpper = rayOrigin + Vector3.up * (stepHeight + 0.1f);
+                RaycastHit hitUpper;
+
+                if (!Physics.Raycast(rayOriginUpper, moveDirection, out hitUpper, controller.radius + stepCheckDistance))
+                {
+                    controller.Move(Vector3.up * stepHeight * stepSmoothness);
+                    return stepHeight * stepSmoothness;
+                }
+            }
+        }
+
+        return 0f;
+    }
+
+    void SmoothCameraHeight()
+    {
+        if (playerCamera == null) return;
+
+        currentCameraHeight = Mathf.Lerp(currentCameraHeight, targetCameraHeight, Time.deltaTime * cameraVerticalSmooth);
+
+        Vector3 cameraPos = playerCamera.localPosition;
+        cameraPos.y = currentCameraHeight;
+        playerCamera.localPosition = cameraPos;
+
+        targetCameraHeight = playerCamera.localPosition.y;
+    }
+
     void HandleMouseLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -169,7 +239,10 @@ public class PlayerMovement : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);
 
         if (playerCamera != null)
-            playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        {
+            Quaternion targetRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerCamera.localRotation = targetRotation;
+        }
 
         transform.Rotate(Vector3.up * mouseX);
     }

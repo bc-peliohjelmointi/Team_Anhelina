@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class Teleportpoint : MonoBehaviour
 {
+    public BoardPickup boardPickup;
+
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
-            // Teleport the player to the next scene
-            //SceneController.instance.NextLevel();
-            LevelManager.Instance.LoadScene("scene 2", "CrossFade");
+            if (boardPickup != null && !boardPickup.HasBoard())
+            {
+                return;
+            }
 
+            LevelManager.Instance.LoadScene("scene 2", "CrossFade");
         }
     }
 }

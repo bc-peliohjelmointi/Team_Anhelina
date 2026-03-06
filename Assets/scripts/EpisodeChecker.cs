@@ -8,11 +8,6 @@ public class EpisodeChecker : MonoBehaviour
 
     void Start()
     {
-        SetupCorrectFrameNumbers();
-    }
-
-    void SetupCorrectFrameNumbers()
-    {
         for (int i = 0; i < stand1Slots.Length; i++)
         {
             if (stand1Slots[i] != null)
@@ -55,61 +50,16 @@ public class EpisodeChecker : MonoBehaviour
 
     private bool CheckStand(FrameSlot[] slots)
     {
-        if (slots == null || slots.Length == 0)
-        {
-            return false;
-        }
+        if (slots == null) return false;
 
         foreach (FrameSlot slot in slots)
         {
-            if (slot == null)
-            {
-                return false;
-            }
-
-            if (!slot.HasPaper())
-            {
-                return false;
-            }
-
-            if (!slot.HasCorrectFrame())
+            if (slot == null || !slot.HasPaper() || !slot.HasCorrectFrame())
             {
                 return false;
             }
         }
 
         return true;
-    }
-
-    public void DebugCheckEpisode(int episodeNumber)
-    {
-        FrameSlot[] slots = null;
-
-        if (episodeNumber == 1) slots = stand1Slots;
-        else if (episodeNumber == 2) slots = stand2Slots;
-        else if (episodeNumber == 3) slots = stand3Slots;
-
-        if (slots == null) return;
-
-        Debug.Log($"=== Episode {episodeNumber} Check ===");
-
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i] != null)
-            {
-                int currentFrame = slots[i].GetCurrentFrameNumber();
-                int correctFrame = slots[i].correctFrameNumber;
-                bool isCorrect = slots[i].HasCorrectFrame();
-
-                Debug.Log($"Slot {i}: Current Frame = {currentFrame}, Correct Frame = {correctFrame}, Is Correct = {isCorrect}");
-            }
-            else
-            {
-                Debug.Log($"Slot {i}: NULL");
-            }
-        }
-
-        bool result = CheckStand(slots);
-        Debug.Log($"Episode {episodeNumber} Result: {result}");
     }
 }
