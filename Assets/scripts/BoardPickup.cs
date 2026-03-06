@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardPickup : MonoBehaviour
@@ -17,7 +16,7 @@ public class BoardPickup : MonoBehaviour
     public Vector3 visiblePosition = new Vector3(0, -0.4f, 0.6f);
     public Vector3 visibleRotation = new Vector3(30f, 0f, 0f);
 
-    [Header("Hidden State (0-65 degrees)")]
+    [Header("Hidden State (below 65 degrees)")]
     public Vector3 hiddenPosition = new Vector3(0, -1.5f, 0.6f);
     public Vector3 hiddenRotation = new Vector3(30f, 0f, 0f);
 
@@ -41,8 +40,6 @@ public class BoardPickup : MonoBehaviour
     private Vector3 originalBoardPosition;
     private Quaternion originalBoardRotation;
     private Transform originalBoardParent;
-    private Vector3 currentTargetPosition;
-    private Quaternion currentTargetRotation;
 
     void Start()
     {
@@ -71,9 +68,6 @@ public class BoardPickup : MonoBehaviour
                 player = playerObj.transform;
             }
         }
-
-        currentTargetPosition = hiddenPosition;
-        currentTargetRotation = Quaternion.Euler(hiddenRotation);
     }
 
     void Update()
@@ -130,8 +124,8 @@ public class BoardPickup : MonoBehaviour
         float slideValue = CalculateSlideValue(cameraXRotation);
         float curvedValue = slideCurve.Evaluate(slideValue);
 
-        currentTargetPosition = Vector3.Lerp(hiddenPosition, visiblePosition, curvedValue);
-        currentTargetRotation = Quaternion.Lerp(
+        Vector3 targetPosition = Vector3.Lerp(hiddenPosition, visiblePosition, curvedValue);
+        Quaternion targetRotation = Quaternion.Lerp(
             Quaternion.Euler(hiddenRotation),
             Quaternion.Euler(visibleRotation),
             curvedValue
@@ -139,13 +133,13 @@ public class BoardPickup : MonoBehaviour
 
         boardObject.transform.localPosition = Vector3.Lerp(
             boardObject.transform.localPosition,
-            currentTargetPosition,
+            targetPosition,
             Time.deltaTime * smoothSpeed
         );
 
         boardObject.transform.localRotation = Quaternion.Slerp(
             boardObject.transform.localRotation,
-            currentTargetRotation,
+            targetRotation,
             Time.deltaTime * smoothSpeed
         );
     }
@@ -159,7 +153,7 @@ public class BoardPickup : MonoBehaviour
             rotation -= 360f;
         }
 
-        return rotation;
+        return Mathf.Clamp(rotation, -90f, 90f);
     }
 
     float CalculateSlideValue(float cameraAngle)
@@ -174,7 +168,7 @@ public class BoardPickup : MonoBehaviour
         }
         else
         {
-            return Mathf.InverseLerp(startShowAngle, fullyVisibleAngle, cameraAngle);
+            return (cameraAngle - startShowAngle) / (fullyVisibleAngle - startShowAngle);
         }
     }
 
@@ -234,9 +228,6 @@ public class BoardPickup : MonoBehaviour
         boardObject.transform.SetParent(playerCamera);
         boardObject.transform.localPosition = hiddenPosition;
         boardObject.transform.localRotation = Quaternion.Euler(hiddenRotation);
-
-        currentTargetPosition = hiddenPosition;
-        currentTargetRotation = Quaternion.Euler(hiddenRotation);
     }
 
     void PutBoardAway()

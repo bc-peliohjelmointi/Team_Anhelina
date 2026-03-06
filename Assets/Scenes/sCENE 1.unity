@@ -4935,10 +4935,37 @@ MonoBehaviour:
   playerCamera: {fileID: 222779377}
   psMenuNavigation: {fileID: 635877237}
   boardObject: {fileID: 1122919628}
-  boardHoldPosition: {x: -2.71, y: -1.97, z: 0}
-  boardHoldRotation: {x: -90, y: 90, z: 0}
-  minAngleToShow: 65
-  maxAngleToShow: 80
+  visiblePosition: {x: 0, y: 72, z: 50}
+  visibleRotation: {x: 0, y: 0, z: 0}
+  hiddenPosition: {x: 0, y: -0.7, z: -0.1}
+  hiddenRotation: {x: 255, y: 0, z: 0}
+  startShowAngle: 65
+  fullyVisibleAngle: 80
+  smoothSpeed: 10
+  slideCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0118103
+      value: 0.010715485
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   interactionDistance: 15
   pickupKey: 101
   interactionPromptCanvas: {fileID: 2030099722}
