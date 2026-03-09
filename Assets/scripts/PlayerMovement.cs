@@ -32,9 +32,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Stair Climbing")]
     public bool enableStairClimbing = true;
     public GameObject[] stairObjects;
-    public float maxStepHeight = 0.4f;
-    public float forwardCheckDistance = 0.5f;
-    public float stepUpForce = 0.3f;
+    public float maxStepHeight = 0.5f;
+    public float stepCheckDistance = 0.4f;
 
     [Header("Run Energy")]
     public float maxRunEnergy = 5f;
@@ -68,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpCooldown = 0.5f;
     private bool isControlLocked;
     private bool isCrouching = false;
+    private bool hasInitializedCamera = false;
 
     void Start()
     {
@@ -78,12 +78,6 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        if (playerCamera != null)
-        {
-            xRotation = playerCamera.localEulerAngles.x;
-            if (xRotation > 180f) xRotation -= 360f;
-        }
 
         controller.height = normalHeight;
         controller.center = new Vector3(0, normalHeight / 2f, 0);
@@ -202,9 +196,9 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (enableStairClimbing && isMoving && isGrounded && !isCrouching)
+        if (enableStairClimbing && isMoving && !isCrouching)
         {
-            ClimbStairs(move.normalized);
+            bool climbedStair = TryClimbStair(move.normalized);
         }
 
         controller.Move(move * speed * Time.deltaTime);
@@ -222,33 +216,38 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-    void ClimbStairs(Vector3 moveDirection)
+    bool TryClimbStair(Vector3 direction)
     {
-        Vector3 rayStart = transform.position + Vector3.up * 0.1f;
+        Vector3 lowerOrigin = transform.position + Vector3.up * 0.05f;
 
-        RaycastHit hit;
-        if (Physics.Raycast(rayStart, moveDirection, out hit, forwardCheckDistance))
+        RaycastHit lowerHit;
+        bool hitLower = Physics.Raycast(lowerOrigin, direction, out lowerHit, stepCheckDistance);
+
+        if (hitLower && IsStairObject(lowerHit.collider.gameObject))
         {
-            if (IsStairObject(hit.collider.gameObject))
+            float stepHeight = lowerHit.point.y - transform.position.y;
+
+            if (stepHeight > controller.stepOffset && stepHeight <= maxStepHeight)
             {
-                float heightDiff = hit.point.y - transform.position.y;
+                Vector3 upperOrigin = lowerOrigin + Vector3.up * (stepHeight + 0.1f);
 
-                if (heightDiff > 0.05f && heightDiff <= maxStepHeight)
+                bool hitUpper = Physics.Raycast(upperOrigin, direction, stepCheckDistance);
+
+                if (!hitUpper)
                 {
-                    Vector3 upperCheck = rayStart + Vector3.up * maxStepHeight;
-
-                    if (!Physics.Raycast(upperCheck, moveDirection, forwardCheckDistance))
-                    {
-                        controller.Move(Vector3.up * stepUpForce);
-                    }
+                    Vector3 stepUp = Vector3.up * stepHeight;
+                    controller.Move(stepUp);
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     bool IsStairObject(GameObject obj)
     {
-        if (stairObjects == null || stairObjects.Length == 0) return false;
+        if (stairObjects == null || stairObjects.Length == 0) return true;
 
         foreach (GameObject stair in stairObjects)
         {
@@ -265,6 +264,13 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMouseLook()
     {
+        if (!hasInitializedCamera && playerCamera != null)
+        {
+            xRotation = playerCamera.localEulerAngles.x;
+            if (xRotation > 180f) xRotation -= 360f;
+            hasInitializedCamera = true;
+        }
+
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
