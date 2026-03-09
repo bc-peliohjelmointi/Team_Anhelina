@@ -1,8 +1,6 @@
-﻿using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -14,6 +12,12 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
 
+    [Header("Crouch")]
+    public float normalHeight = 1.7f;
+    public float crouchHeight = 1.0f;
+    public float crouchSpeed = 8f;
+    public KeyCode crouchKey = KeyCode.LeftControl;
+
     [Header("Jump & Gravity")]
     public float jumpHeight = 1.4f;
     public float gravity = -35f;
@@ -22,15 +26,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Camera")]
     public float mouseSensitivity = 2f;
     public Transform playerCamera;
+    public float normalCameraHeight = 0.6f;
+    public float crouchCameraHeight = 0.2f;
 
     [Header("Stair Climbing")]
     public bool enableStairClimbing = true;
+    public GameObject[] stairObjects;
     public float maxStepHeight = 0.4f;
-    public float stepCheckDistance = 0.5f;
-    public float stepSmoothness = 0.1f;
-
-    [Header("Camera Smoothing")]
-    public float cameraVerticalSmooth = 8f;
+    public float forwardCheckDistance = 0.5f;
+    public float stepUpForce = 0.3f;
 
     [Header("Run Energy")]
     public float maxRunEnergy = 5f;
@@ -63,8 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastJumpTime;
     private float jumpCooldown = 0.5f;
     private bool isControlLocked;
-    private float targetCameraHeight;
-    private float currentCameraHeight;
+    private bool isCrouching = false;
 
     void Start()
     {
@@ -78,9 +81,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerCamera != null)
         {
-            currentCameraHeight = playerCamera.localPosition.y;
-            targetCameraHeight = currentCameraHeight;
+            xRotation = playerCamera.localEulerAngles.x;
+            if (xRotation > 180f) xRotation -= 360f;
         }
+
+        controller.height = normalHeight;
+        controller.center = new Vector3(0, normalHeight / 2f, 0);
     }
 
     void Update()
@@ -89,22 +95,20 @@ public class PlayerMovement : MonoBehaviour
         {
             if (animController != null)
                 animController.SetMovement(0f, 0f, false);
-
             return;
         }
         if (Time.timeScale == 0f) return;
 
+        HandleCrouch();
         HandleMovement();
         HandleMouseLook();
         UpdateEnergyUI();
         HandleFallDeath();
-        SmoothCameraHeight();
     }
 
     public void LockControl()
     {
         isControlLocked = true;
-
         velocity = Vector3.zero;
 
         if (animController != null)
@@ -117,6 +121,37 @@ public class PlayerMovement : MonoBehaviour
     public void UnlockControl()
     {
         isControlLocked = false;
+    }
+
+    void HandleCrouch()
+    {
+        if (Input.GetKey(crouchKey))
+        {
+            isCrouching = true;
+        }
+        else if (Input.GetKeyUp(crouchKey))
+        {
+            Vector3 checkStart = transform.position + Vector3.up * crouchHeight;
+            float checkHeight = normalHeight - crouchHeight + 0.2f;
+
+            if (!Physics.Raycast(checkStart, Vector3.up, checkHeight))
+            {
+                isCrouching = false;
+            }
+        }
+
+        float targetHeight = isCrouching ? crouchHeight : normalHeight;
+        float targetCameraY = isCrouching ? crouchCameraHeight : normalCameraHeight;
+
+        controller.height = Mathf.Lerp(controller.height, targetHeight, Time.deltaTime * crouchSpeed);
+        controller.center = new Vector3(0, controller.height / 2f, 0);
+
+        if (playerCamera != null)
+        {
+            Vector3 camPos = playerCamera.localPosition;
+            camPos.y = Mathf.Lerp(camPos.y, targetCameraY, Time.deltaTime * crouchSpeed);
+            playerCamera.localPosition = camPos;
+        }
     }
 
     void HandleMovement()
@@ -135,12 +170,13 @@ public class PlayerMovement : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         bool isMoving = Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f;
-        bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
+        bool wantsToRun = Input.GetKey(KeyCode.LeftShift) && !isCrouching;
 
         if (animController != null)
             animController.SetMovement(x, z, wantsToRun);
 
         float speed = walkSpeed;
+        if (isCrouching) speed = walkSpeed * 0.5f;
 
         if (!isOverheated && wantsToRun && isMoving && currentRunEnergy > 0f)
         {
@@ -166,18 +202,14 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        if (enableStairClimbing && isMoving)
+        if (enableStairClimbing && isMoving && isGrounded && !isCrouching)
         {
-            float stepUp = ClimbStairs(move.normalized);
-            if (stepUp > 0f)
-            {
-                targetCameraHeight += stepUp;
-            }
+            ClimbStairs(move.normalized);
         }
 
         controller.Move(move * speed * Time.deltaTime);
 
-        if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime > jumpCooldown)
+        if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime > jumpCooldown && !isCrouching)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             lastJumpTime = Time.time;
@@ -190,44 +222,45 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-    float ClimbStairs(Vector3 moveDirection)
+    void ClimbStairs(Vector3 moveDirection)
     {
-        if (moveDirection.magnitude < 0.1f) return 0f;
+        Vector3 rayStart = transform.position + Vector3.up * 0.1f;
 
-        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
-        RaycastHit hitLower;
-
-        if (Physics.Raycast(rayOrigin, moveDirection, out hitLower, controller.radius + stepCheckDistance))
+        RaycastHit hit;
+        if (Physics.Raycast(rayStart, moveDirection, out hit, forwardCheckDistance))
         {
-            float stepHeight = hitLower.point.y - transform.position.y;
-
-            if (stepHeight > 0.05f && stepHeight <= maxStepHeight)
+            if (IsStairObject(hit.collider.gameObject))
             {
-                Vector3 rayOriginUpper = rayOrigin + Vector3.up * (stepHeight + 0.1f);
-                RaycastHit hitUpper;
+                float heightDiff = hit.point.y - transform.position.y;
 
-                if (!Physics.Raycast(rayOriginUpper, moveDirection, out hitUpper, controller.radius + stepCheckDistance))
+                if (heightDiff > 0.05f && heightDiff <= maxStepHeight)
                 {
-                    controller.Move(Vector3.up * stepHeight * stepSmoothness);
-                    return stepHeight * stepSmoothness;
+                    Vector3 upperCheck = rayStart + Vector3.up * maxStepHeight;
+
+                    if (!Physics.Raycast(upperCheck, moveDirection, forwardCheckDistance))
+                    {
+                        controller.Move(Vector3.up * stepUpForce);
+                    }
                 }
             }
         }
-
-        return 0f;
     }
 
-    void SmoothCameraHeight()
+    bool IsStairObject(GameObject obj)
     {
-        if (playerCamera == null) return;
+        if (stairObjects == null || stairObjects.Length == 0) return false;
 
-        currentCameraHeight = Mathf.Lerp(currentCameraHeight, targetCameraHeight, Time.deltaTime * cameraVerticalSmooth);
+        foreach (GameObject stair in stairObjects)
+        {
+            if (stair == null) continue;
 
-        Vector3 cameraPos = playerCamera.localPosition;
-        cameraPos.y = currentCameraHeight;
-        playerCamera.localPosition = cameraPos;
+            if (obj == stair || obj.transform.IsChildOf(stair.transform))
+            {
+                return true;
+            }
+        }
 
-        targetCameraHeight = playerCamera.localPosition.y;
+        return false;
     }
 
     void HandleMouseLook()
@@ -239,10 +272,7 @@ public class PlayerMovement : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);
 
         if (playerCamera != null)
-        {
-            Quaternion targetRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            playerCamera.localRotation = targetRotation;
-        }
+            playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
         transform.Rotate(Vector3.up * mouseX);
     }
@@ -302,7 +332,6 @@ public class PlayerMovement : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-
         velocity = Vector3.zero;
         controller.enabled = false;
 
