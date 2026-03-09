@@ -1,0 +1,24 @@
+# Blender 3.3.1 MTL File: 'streetlight_05.blend'
+# www.blender.org
+
+newmtl streetlight_05
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/1_FJORD/WORK/2_DAILY/29_STOCKS/1_MODELS FOR SALE/Lamp_Post_Pack_01/01_ARCHIVE/STRL_05/textures/Streetlight_05_Diffuse.png
+map_Ns D:/1_FJORD/WORK/2_DAILY/29_STOCKS/1_MODELS FOR SALE/Lamp_Post_Pack_01/01_ARCHIVE/STRL_05/textures/Streetlight_05_Roughness.png
+map_refl D:/1_FJORD/WORK/2_DAILY/29_STOCKS/1_MODELS FOR SALE/Lamp_Post_Pack_01/01_ARCHIVE/STRL_05/textures/Streetlight_05_Metallic.png
+
+newmtl streetlight_05_lamp
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/1_FJORD/WORK/2_DAILY/29_STOCKS/1_MODELS FOR SALE/Lamp_Post_Pack_01/01_ARCHIVE/STRL_05/textures/Lamp/streetlight_05_lamp_BaseColor.png
+map_Ns D:/1_FJORD/WORK/2_DAILY/29_STOCKS/1_MODELS FOR SALE/Lamp_Post_Pack_01/01_ARCHIVE/STRL_05/textures/Lamp/streetlight_05_lamp_Roughness.png
+map_refl D:/1_FJORD/WORK/2_DAILY/29_STOCKS/1_MODELS FOR SALE/Lamp_Post_Pack_01/01_ARCHIVE/STRL_05/textures/Lamp/streetlight_05_lamp_Metallic.png
