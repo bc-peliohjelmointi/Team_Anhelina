@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Camera Settings")]
     public Transform playerCamera;
     public float mouseSensitivity = 2f;
-    public Vector3 cameraOffset = new Vector3(0, 0.6f, 0);
     public float cameraNearClip = 0.01f;
 
     [Header("Head Bob")]
@@ -65,10 +64,9 @@ public class PlayerMovement : MonoBehaviour
 
     private float bobTimer = 0f;
     private Vector3 baseCameraPosition;
+    private Vector3 initialCameraLocalPosition;
     private float lastJumpTime = 0f;
     private float jumpCooldown = 0.5f;
-
-    private bool initializedRotation = false;
 
     void Start()
     {
@@ -85,10 +83,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerCamera != null)
         {
-            playerCamera.localPosition = cameraOffset;
-            playerCamera.localRotation = Quaternion.identity;
-            baseCameraPosition = cameraOffset;
-            verticalRotation = 0f;
+            initialCameraLocalPosition = playerCamera.localPosition;
+            baseCameraPosition = initialCameraLocalPosition;
+
+            verticalRotation = playerCamera.localEulerAngles.x;
+            if (verticalRotation > 180f)
+                verticalRotation -= 360f;
 
             Camera cam = playerCamera.GetComponent<Camera>();
             if (cam != null)
@@ -100,21 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (!initializedRotation)
-        {
-            Vector3 currentRotation = transform.eulerAngles;
-            transform.rotation = Quaternion.Euler(0f, currentRotation.y, 0f);
-
-            if (playerCamera != null)
-            {
-                playerCamera.localRotation = Quaternion.identity;
-                verticalRotation = 0f;
-            }
-
-            initializedRotation = true;
-        }
-
-        if (isControlLocked || Time.timeScale == 0f)
+        if (isControlLocked || Time.timeScale == 90f)
         {
             if (animController != null)
                 animController.SetMovement(0f, 0f, false);
@@ -147,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
         controller.height = Mathf.Lerp(controller.height, targetHeight, Time.deltaTime * crouchSpeed);
         controller.center = new Vector3(0, controller.height / 2f, 0);
 
-        float targetCameraY = isCrouching ? cameraOffset.y - 0.4f : cameraOffset.y;
+        float targetCameraY = isCrouching ? initialCameraLocalPosition.y - 0.4f : initialCameraLocalPosition.y;
         baseCameraPosition.y = Mathf.Lerp(baseCameraPosition.y, targetCameraY, Time.deltaTime * crouchSpeed);
     }
 
