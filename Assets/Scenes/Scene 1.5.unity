@@ -3221,8 +3221,16 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
+      propertyPath: cameraOffset.x
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: cameraOffset.y
-      value: 2.2
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
+      propertyPath: cameraOffset.z
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: fallMultiplier
@@ -3250,7 +3258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: stairCheckDistance
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: enableStairClimbing

@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Camera Settings")]
     public Transform playerCamera;
     public float mouseSensitivity = 2f;
+    public Vector3 cameraOffset = new Vector3(0, 0.6f, 0);
     public float cameraNearClip = 0.01f;
 
     [Header("Head Bob")]
@@ -64,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
 
     private float bobTimer = 0f;
     private Vector3 baseCameraPosition;
-    private Vector3 initialCameraLocalPosition;
     private float lastJumpTime = 0f;
     private float jumpCooldown = 0.5f;
 
@@ -83,8 +83,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerCamera != null)
         {
-            initialCameraLocalPosition = playerCamera.localPosition;
-            baseCameraPosition = initialCameraLocalPosition;
+            playerCamera.localPosition = cameraOffset;
+            baseCameraPosition = cameraOffset;
 
             verticalRotation = playerCamera.localEulerAngles.x;
             if (verticalRotation > 180f)
@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isControlLocked || Time.timeScale == 90f)
+        if (isControlLocked || Time.timeScale == 0f)
         {
             if (animController != null)
                 animController.SetMovement(0f, 0f, false);
@@ -133,8 +133,9 @@ public class PlayerMovement : MonoBehaviour
         controller.height = Mathf.Lerp(controller.height, targetHeight, Time.deltaTime * crouchSpeed);
         controller.center = new Vector3(0, controller.height / 2f, 0);
 
-        float targetCameraY = isCrouching ? initialCameraLocalPosition.y - 0.4f : initialCameraLocalPosition.y;
-        baseCameraPosition.y = Mathf.Lerp(baseCameraPosition.y, targetCameraY, Time.deltaTime * crouchSpeed);
+        float targetCameraY = isCrouching ? cameraOffset.y - 0.4f : cameraOffset.y;
+        float newY = Mathf.Lerp(baseCameraPosition.y, targetCameraY, Time.deltaTime * crouchSpeed);
+        baseCameraPosition = new Vector3(cameraOffset.x, newY, cameraOffset.z);
     }
 
     void HandleMovement()
@@ -297,8 +298,7 @@ public class PlayerMovement : MonoBehaviour
             bobTimer += Time.deltaTime * bobSpeed * speedMultiplier;
             float bobOffsetY = Mathf.Sin(bobTimer) * bobAmount;
 
-            Vector3 targetPosition = baseCameraPosition;
-            targetPosition.y += bobOffsetY;
+            Vector3 targetPosition = new Vector3(baseCameraPosition.x, baseCameraPosition.y + bobOffsetY, baseCameraPosition.z);
             playerCamera.localPosition = targetPosition;
         }
         else
