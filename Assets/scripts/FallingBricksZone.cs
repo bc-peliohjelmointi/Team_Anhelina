@@ -2,10 +2,10 @@
 
 public class FallingBricksZone : MonoBehaviour
 {
-    public GameObject brickPrefab;   // Префаб кирпича
-    public float spawnInterval = 0.5f; // Интервал падения кирпичей
-    public int brickCount = 10;      // Количество кирпичей для спавна
-    public float spawnHeight = 10f;  // Высота, с которой падают кирпичи
+    public GameObject brickPrefab;   
+    public float spawnInterval = 0.5f;
+    public int brickCount = 10;     
+    public float spawnHeight = 10f;  
 
     private bool playerInside = false;
     private Collider zoneCollider;
@@ -36,7 +36,7 @@ public class FallingBricksZone : MonoBehaviour
     {
         Vector3 point = new Vector3(
             Random.Range(zoneCollider.bounds.min.x, zoneCollider.bounds.max.x),
-            zoneCollider.bounds.max.y + spawnHeight, // падение сверху
+            zoneCollider.bounds.max.y + spawnHeight,
             Random.Range(zoneCollider.bounds.min.z, zoneCollider.bounds.max.z)
         );
         return point;
