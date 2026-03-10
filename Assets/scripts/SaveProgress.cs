@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class SaveProgress : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public int chapterNumber;
+
     void Start()
     {
-        
-    }
+        int progress = PlayerPrefs.GetInt("StoryProgress", 1);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (chapterNumber > progress)
+        {
+            PlayerPrefs.SetInt("StoryProgress", chapterNumber);
+            PlayerPrefs.Save();
+        }
     }
 }

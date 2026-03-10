@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
     private Text uiText;
 
     private string sceneToLoad;
+    private string continueSceneToLoad;
 
     void Start()
     {
@@ -36,6 +37,12 @@ public class MainMenu : MonoBehaviour
         mainPanel.SetActive(false);     // Hide main menu
         playPanel.SetActive(true);      // Show new options
         infoTextObject.SetActive(false);
+
+        // Kiểm tra PlayerPrefs xem đã có save chưa
+        if (PlayerPrefs.HasKey("CurrentScene"))
+            continueSceneToLoad = PlayerPrefs.GetString("CurrentScene"); // load scene đã save
+        else
+            continueSceneToLoad = "sCENE 1"; ;   // chưa save → load scene hiện tại từ đầu
     }
 
     // When pressing BACK inside PlayPanel
@@ -63,7 +70,19 @@ public class MainMenu : MonoBehaviour
     // When pressing START GAME
     public void StartNewGame()
     {
-        LevelManager.Instance.LoadScene("sCENE 1", "CrossFade");
+        playPanel.SetActive(false);
+        storyPanel.SetActive(false);
+        mainPanel.SetActive(false);
+
+        if (!string.IsNullOrEmpty(continueSceneToLoad))
+        {
+            LevelManager.Instance.LoadScene(continueSceneToLoad, "CrossFade");
+            continueSceneToLoad = null; // reset sau khi load
+        }
+        else
+        {
+            LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade"); // nút Chapter buttons
+        }
     }
 
 
@@ -142,4 +161,6 @@ public class MainMenu : MonoBehaviour
         confirmPanel.SetActive(false);
         storyPanel.SetActive(true);
     }
+
+    
 }
