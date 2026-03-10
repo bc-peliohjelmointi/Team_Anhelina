@@ -3181,8 +3181,16 @@ PrefabInstance:
       value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
+      propertyPath: bobSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: runSpeed
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
+      propertyPath: bobAmount
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: walkSpeed
@@ -3235,6 +3243,10 @@ PrefabInstance:
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: fallMultiplier
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
+      propertyPath: bobRunMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 899503757681953958, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: stairCheckRadius
