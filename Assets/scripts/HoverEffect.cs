@@ -2,13 +2,12 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class HoverEffect: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    Outline outline;
+    public Outline outline;
 
     void Start()
     {
-        outline = GetComponent<Outline>();
         outline.enabled = false;
     }
 
