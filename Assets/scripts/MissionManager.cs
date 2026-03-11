@@ -1,46 +1,56 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class MissionManager : MonoBehaviour
 {
-    public List<string> missions = new List<string>();
+    public string[] missions;
     public int currentMission = 0;
-
     public TextMeshProUGUI missionText;
+
+    [System.Serializable]
+    public class MissionLights
+    {
+        public string missionName;
+        public Light[] streetLights;
+    }
+
+    public MissionLights[] missionLights; 
 
     void Start()
     {
-        missions.Add("Сходить к бабушке");
-        missions.Add("Сходить к гопникам");
-        missions.Add("Прийти на автобусную остановку");
-
+        UpdateLights();
         UpdateUI();
     }
 
     public void CompleteMission()
     {
-        if (currentMission < missions.Count)
+        currentMission++;
+        if (currentMission >= missions.Length)
+            currentMission = missions.Length - 1;
+
+        UpdateLights();
+        UpdateUI();
+    }
+
+    void UpdateLights()
+    {
+        for (int i = 0; i < missionLights.Length; i++)
         {
-            currentMission++;
-            UpdateUI();
+            bool isActive = (i == currentMission);
+            foreach (Light light in missionLights[i].streetLights)
+            {
+                if (light != null)
+                    light.enabled = isActive;
+            }
         }
     }
 
     void UpdateUI()
     {
         missionText.text = "";
-
-        for (int i = 0; i < missions.Count; i++)
-        {
-            if (i < currentMission)
-            {
-                missionText.text += "• <s>" + missions[i] + "</s>\n";
-            }
-            else
-            {
-                missionText.text += "• " + missions[i] + "\n";
-            }
-        }
+        for (int i = 0; i < missions.Length; i++)
+            missionText.text += (i < currentMission
+                ? "• <s>" + missions[i] + "</s>\n"
+                : "• " + missions[i] + "\n");
     }
 }
