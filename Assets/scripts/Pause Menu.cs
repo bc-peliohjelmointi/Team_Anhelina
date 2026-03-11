@@ -99,7 +99,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Chapter1Button()
     {
-        confirmPanel.SetActive(true);
+        confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);
 
         sceneToLoad = "sCENE 1";
@@ -107,7 +107,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Chapter2Button()
     {
-        confirmPanel.SetActive(true);
+        confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);
 
         sceneToLoad = "Scene 1.5";
@@ -115,7 +115,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Chapter3Button()
     {
-        confirmPanel.SetActive(true);
+        confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);
 
         sceneToLoad = "scene 2";
@@ -125,7 +125,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        confirmPanel.SetActive(false);
+        confirmChapterPanel.SetActive(false);
         pauseMenu.SetActive(false);
 
         LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade");
@@ -133,7 +133,7 @@ public class PauseMenu : MonoBehaviour
 
     public void CancelLoadScene()
     {
-        confirmPanel.SetActive(false);
+        confirmChapterPanel.SetActive(false);
         storyPanel.SetActive(true);
     }
 }
