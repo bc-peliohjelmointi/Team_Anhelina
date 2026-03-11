@@ -1,0 +1,11 @@
+Model Information:
+* title:	Electrical Switchboard
+* source:	https://sketchfab.com/3d-models/electrical-switchboard-211586a07e2547c699f4853c9a397f7d
+* author:	Marcin.Kwiatkowski (https://sketchfab.com/Marcin.Kwiatkowski)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Electrical Switchboard" (https://sketchfab.com/3d-models/electrical-switchboard-211586a07e2547c699f4853c9a397f7d) by Marcin.Kwiatkowski (https://sketchfab.com/Marcin.Kwiatkowski) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
