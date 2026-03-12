@@ -5,7 +5,6 @@ public class BoardController : MonoBehaviour
     [Header("References")]
     public Transform playerCamera;
     public GameObject boardObject;
-    public RectTransform boardCanvas;
 
     [Header("Visible State (80 degrees)")]
     public Vector3 visiblePosition = new Vector3(0, -0.4f, 0.6f);
@@ -28,30 +27,19 @@ public class BoardController : MonoBehaviour
         if (boardObject != null && playerCamera != null)
         {
             boardObject.transform.SetParent(playerCamera);
+            boardObject.transform.localPosition = hiddenPosition;
+            boardObject.transform.localRotation = Quaternion.Euler(hiddenRotation);
 
-            if (boardCanvas != null)
+            Rigidbody rb = boardObject.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                boardCanvas.SetParent(boardObject.transform);
-
-                boardCanvas.localPosition = new Vector3(0f, 0f, 0.01f);
-                boardCanvas.localRotation = Quaternion.identity;
-
-                boardCanvas.localScale = new Vector3(0.002f, 0.002f, 0.002f);
-                boardCanvas.sizeDelta = new Vector2(1000, 1000);
+                Destroy(rb);
             }
 
-            Renderer boardRenderer = boardObject.GetComponent<Renderer>();
-
-            if (boardRenderer != null && boardCanvas != null)
+            Collider col = boardObject.GetComponent<Collider>();
+            if (col != null)
             {
-                Bounds bounds = boardRenderer.bounds;
-
-                float width = bounds.size.x;
-                float height = bounds.size.y;
-
-                boardCanvas.localPosition = new Vector3(0, 0, 0.01f);
-
-                boardCanvas.sizeDelta = new Vector2(width * 1000f, height * 1000f);
+                col.enabled = false;
             }
         }
     }

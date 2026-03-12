@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MonsterSpawnTrigger : MonoBehaviour
@@ -7,9 +7,6 @@ public class MonsterSpawnTrigger : MonoBehaviour
     public GameObject monsterPrefab;
     public Transform spawnPoint;
     public float visibleTime = 3f;
-
-    [Header("Sound")]
-    public AudioSource sound; 
 
     [Header("Behaviour")]
     public bool destroyAfterUse = true;
@@ -38,13 +35,7 @@ public class MonsterSpawnTrigger : MonoBehaviour
             spawnPoint.rotation
         );
 
-        if (sound != null)
-            sound.Play();
-
         yield return new WaitForSeconds(visibleTime);
-
-        if (sound != null)
-            sound.Stop();
 
         if (monster != null)
             Destroy(monster);
