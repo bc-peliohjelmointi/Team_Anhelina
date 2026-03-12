@@ -5,6 +5,12 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject confirmPanel;
+    [SerializeField] GameObject confirmChapterPanel;
+
+    [SerializeField] GameObject storyPanel;
+
+    private string sceneToLoad;
+
     private bool isPaused = false;
 
 
@@ -12,6 +18,12 @@ public class PauseMenu : MonoBehaviour
     {
         // Сразу скрываем confirmPanel
         confirmPanel.SetActive(false);
+        confirmChapterPanel.SetActive(false);
+
+        if (storyPanel != null)
+            storyPanel.SetActive(false);
+
+
     }
 
     void Update()
@@ -42,6 +54,8 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
+
+
     public void Home()
     {
         Time.timeScale = 1f;
@@ -69,5 +83,57 @@ public class PauseMenu : MonoBehaviour
     {
         confirmPanel.SetActive(false);
         pauseMenu.SetActive(true);
+    }
+
+    public void OpenStory()
+    {
+        pauseMenu.SetActive(false);
+        storyPanel.SetActive(true);
+    }
+
+    public void BackFromStory()
+    {
+        storyPanel.SetActive(false);
+        pauseMenu.SetActive(true);
+    }
+
+    public void Chapter1Button()
+    {
+        confirmChapterPanel.SetActive(true);
+        storyPanel.SetActive(false);
+
+        sceneToLoad = "sCENE 1";
+    }
+
+    public void Chapter2Button()
+    {
+        confirmChapterPanel.SetActive(true);
+        storyPanel.SetActive(false);
+
+        sceneToLoad = "Scene 1.5";
+    }
+
+    public void Chapter3Button()
+    {
+        confirmChapterPanel.SetActive(true);
+        storyPanel.SetActive(false);
+
+        sceneToLoad = "scene 2";
+    }
+
+    public void ConfirmLoadScene()
+    {
+        Time.timeScale = 1f;
+
+        confirmChapterPanel.SetActive(false);
+        pauseMenu.SetActive(false);
+
+        LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade");
+    }
+
+    public void CancelLoadScene()
+    {
+        confirmChapterPanel.SetActive(false);
+        storyPanel.SetActive(true);
     }
 }

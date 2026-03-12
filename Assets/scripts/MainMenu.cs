@@ -8,14 +8,22 @@ public class MainMenu : MonoBehaviour
     public GameObject mainPanel;      // Main buttons
     public GameObject playPanel;
     public GameObject optionsPanel;
-    public GameObject infoTextObject; // текст слева
+    public GameObject storyPanel;       
+    public GameObject confirmPanel;     
+    public Text confirmText;
+    public GameObject infoTextObject; 
     private Text uiText;
+
+    private string sceneToLoad;
+    private string continueSceneToLoad;
 
     void Start()
     {
 
         playPanel.SetActive(false);
         optionsPanel.SetActive(false);
+        storyPanel.SetActive(false);
+        mainPanel.SetActive(true);
 
         if (infoTextObject != null)
         {
@@ -29,6 +37,12 @@ public class MainMenu : MonoBehaviour
         mainPanel.SetActive(false);     // Hide main menu
         playPanel.SetActive(true);      // Show new options
         infoTextObject.SetActive(false);
+
+        // Kiểm tra PlayerPrefs xem đã có save chưa
+        if (PlayerPrefs.HasKey("CurrentScene"))
+            continueSceneToLoad = PlayerPrefs.GetString("CurrentScene"); // load scene đã save
+        else
+            continueSceneToLoad = "sCENE 1"; ;   // chưa save → load scene hiện tại từ đầu
     }
 
     // When pressing BACK inside PlayPanel
@@ -56,7 +70,19 @@ public class MainMenu : MonoBehaviour
     // When pressing START GAME
     public void StartNewGame()
     {
-        LevelManager.Instance.LoadScene("sCENE 1", "CrossFade");
+        playPanel.SetActive(false);
+        storyPanel.SetActive(false);
+        mainPanel.SetActive(false);
+
+        if (!string.IsNullOrEmpty(continueSceneToLoad))
+        {
+            LevelManager.Instance.LoadScene(continueSceneToLoad, "CrossFade");
+            continueSceneToLoad = null; // reset sau khi load
+        }
+        else
+        {
+            LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade"); // nút Chapter buttons
+        }
     }
 
 
@@ -82,4 +108,59 @@ public class MainMenu : MonoBehaviour
             infoTextObject.SetActive(false);
         }
     }
+
+    public void OpenStory()
+    {
+        mainPanel.SetActive(false);
+        storyPanel.SetActive(true);
+    }
+
+    public void BackFromStory()
+    {
+        storyPanel.SetActive(false);
+        mainPanel.SetActive(true);
+    }
+
+
+    public void Chapter1Button()
+    {
+        confirmPanel.SetActive(true);
+        storyPanel.SetActive(false);
+        sceneToLoad = "sCENE 1";         
+    }
+
+    public void Chapter2Button()
+    {
+        confirmPanel.SetActive(true);
+        storyPanel.SetActive(false);
+        sceneToLoad = "Scene 1.5";
+    }
+
+    // Khi nhấn Chapter 3 button
+    public void Chapter3Button()
+    {
+        confirmPanel.SetActive(true);
+        storyPanel.SetActive(false);
+        sceneToLoad = "scene 2";
+    }
+
+    // YES CONFIRL
+
+    public void ConfirmLoadScene()
+    {
+        confirmPanel.SetActive(false);
+        storyPanel.SetActive(false);
+        mainPanel.SetActive(false);
+        LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade");
+    }
+
+    // NO confirm
+
+    public void CancelLoadScene()
+    {
+        confirmPanel.SetActive(false);
+        storyPanel.SetActive(true);
+    }
+
+    
 }
