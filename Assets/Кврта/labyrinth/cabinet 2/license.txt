@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cabinets
+* source:	https://sketchfab.com/3d-models/cabinets-0510bb5872b54e53a4204d1728e1db07
+* author:	lagesnpiet (https://sketchfab.com/lagesnpiet)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cabinets" (https://sketchfab.com/3d-models/cabinets-0510bb5872b54e53a4204d1728e1db07) by lagesnpiet (https://sketchfab.com/lagesnpiet) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
