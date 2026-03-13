@@ -7,8 +7,6 @@ public class CameraScareTrigger : MonoBehaviour
     public Camera scareCamera;
     public float scareDuration = 3f;
 
-    public AudioSource breathingSound; 
-
     private bool triggered = false;
 
     private void OnTriggerEnter(Collider other)
@@ -26,18 +24,16 @@ public class CameraScareTrigger : MonoBehaviour
     {
         PlayerMovement movement = player.GetComponent<PlayerMovement>();
 
+        // Блокируем управление
         movement.LockControl();
+
+        // Переключаем камеры
         playerCamera.gameObject.SetActive(false);
         scareCamera.gameObject.SetActive(true);
 
-        if (breathingSound != null)
-            breathingSound.Play();
-
         yield return new WaitForSeconds(scareDuration);
 
-        if (breathingSound != null)
-            breathingSound.Stop();
-
+        // Возвращаем всё обратно
         scareCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
 

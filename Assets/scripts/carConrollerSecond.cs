@@ -35,6 +35,7 @@ public class carControllerSecond : MonoBehaviour
             return;
         }
 
+        // Поворот: просто направляем машину в сторону цели
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
@@ -45,6 +46,7 @@ public class carControllerSecond : MonoBehaviour
             );
         }
 
+        // Движение вперёд по локальной оси Z
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
