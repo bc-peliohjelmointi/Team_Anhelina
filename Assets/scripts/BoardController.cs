@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BoardController : MonoBehaviour
 {
@@ -66,6 +66,12 @@ public class BoardController : MonoBehaviour
     void UpdateBoardTransform()
     {
         float cameraXRotation = GetCameraXRotation();
+
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            cameraXRotation = fullyVisibleAngle;
+        }
+
         float slideValue = CalculateSlideValue(cameraXRotation);
         float curvedValue = slideCurve.Evaluate(slideValue);
 
