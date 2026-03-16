@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gate
+* source:	https://sketchfab.com/3d-models/gate-088926b6415f470f8fa555ac70d5fbe6
+* author:	Theodolite (https://sketchfab.com/SilverWings18)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gate" (https://sketchfab.com/3d-models/gate-088926b6415f470f8fa555ac70d5fbe6) by Theodolite (https://sketchfab.com/SilverWings18) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

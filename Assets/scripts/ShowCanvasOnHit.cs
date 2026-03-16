@@ -3,13 +3,13 @@
 public class ShowCanvasOnHit : MonoBehaviour
 {
     [Header("References")]
-    public GameObject uiCanvas;          
-    public string enemyTag = "Enemy";     
+    public GameObject uiCanvas;           // Drag GameOverCanvas сюда в инспекторе
+    public string enemyTag = "Enemy";     // Tag для врага
 
     [Header("Options")]
-    public bool useTrigger = true;     
-    public bool pauseOnShow = true;      
-    public bool disablePlayerControls = true;
+    public bool useTrigger = true;        // true -> OnTriggerEnter, false -> OnCollisionEnter
+    public bool pauseOnShow = true;       // ставить игру на паузу (Time.timeScale = 0)
+    public bool disablePlayerControls = true; // попытка отключить скрипты управления
 
     bool alreadyShown = false;
 
@@ -44,17 +44,17 @@ public class ShowCanvasOnHit : MonoBehaviour
 
         if (disablePlayerControls)
         {
-            
+            // попытаться найти скрипты управления на этом объекте и отключить их
             var comps = GetComponents<MonoBehaviour>();
             foreach (var c in comps)
             {
-             
+                // не отключаем этот скрипт
                 if (c != this) c.enabled = false;
             }
         }
     }
 
-   
+    // Вызов для восстановления (если нужно)
     public void HideCanvasAndResume()
     {
         if (uiCanvas != null)
