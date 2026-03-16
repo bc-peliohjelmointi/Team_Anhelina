@@ -35,7 +35,6 @@ public class CarController : MonoBehaviour
             return;
         }
 
-        // ПОВОРОТ: считаем, что "вперёд" — это -X
         Quaternion targetRotation = Quaternion.LookRotation(
             direction,
             Vector3.up
@@ -47,7 +46,6 @@ public class CarController : MonoBehaviour
             rotationSpeed * Time.deltaTime
         );
 
-        // ДВИЖЕНИЕ: едем вперёд по -X
         transform.position += -transform.right * speed * Time.deltaTime;
     }
 

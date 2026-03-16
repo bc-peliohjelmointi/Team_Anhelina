@@ -1,44 +1,36 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController controller;
     private PlayerAnimationController animController;
+    private CharacterController controller;
 
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
-
-    [Header("Crouch")]
-    public float normalHeight = 1.7f;
-    public float crouchHeight = 1.0f;
-    public float crouchSpeed = 8f;
-    public KeyCode crouchKey = KeyCode.LeftControl;
 
     [Header("Jump & Gravity")]
     public float jumpHeight = 1.4f;
     public float gravity = -35f;
     public float fallMultiplier = 2.2f;
 
-    [Header("Camera Settings")]
-    public Transform playerCamera;
+    [Header("Camera")]
     public float mouseSensitivity = 2f;
-    public Vector3 cameraOffset = new Vector3(0, 0.6f, 0);
-    public float cameraNearClip = 0.01f;
-
-    [Header("Head Bob")]
-    public bool enableHeadBob = true;
-    public float bobSpeed = 14f;
-    public float bobAmount = 0.05f;
-    public float bobRunMultiplier = 1.5f;
+    public Transform playerCamera;
 
     [Header("Stair Climbing")]
     public bool enableStairClimbing = true;
-    public float stairClimbSpeed = 4f;
-    public float stairCheckRadius = 0.5f;
-    public float stairCheckDistance = 1f;
+    public float maxStepHeight = 0.4f;
+    public float stepCheckDistance = 0.5f;
+    public float stepSmoothness = 0.1f;
+
+    [Header("Camera Smoothing")]
+    public float cameraVerticalSmooth = 8f;
 
     [Header("Run Energy")]
     public float maxRunEnergy = 5f;
@@ -56,17 +48,23 @@ public class PlayerMovement : MonoBehaviour
     [Header("Push")]
     public float pushPower = 3f;
 
-    private Vector3 velocity = Vector3.zero;
-    private float verticalRotation = 0f;
-    private float currentRunEnergy;
-    private bool isOverheated = false;
-    private bool isCrouching = false;
-    private bool isControlLocked = false;
+    [Header("Death")]
+    public float deathHeight = 10f;
+    public GameObject deathCanvas;
+    public CreditsSlideshow slideshow;
 
-    private float bobTimer = 0f;
-    private Vector3 baseCameraPosition;
-    private float lastJumpTime = 0f;
+    private Vector3 velocity;
+    private float xRotation = 0f;
+    private float currentRunEnergy;
+    private bool isOverheated;
+    private bool isDead;
+    private bool isFalling;
+    private float startFallY;
+    private float lastJumpTime;
     private float jumpCooldown = 0.5f;
+    private bool isControlLocked;
+    private float targetCameraHeight;
+    private float currentCameraHeight;
 
     void Start()
     {
@@ -78,88 +76,71 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        controller.height = normalHeight;
-        controller.center = new Vector3(0, normalHeight / 2f, 0);
-
         if (playerCamera != null)
         {
-            playerCamera.localPosition = cameraOffset;
-            baseCameraPosition = cameraOffset;
-
-            verticalRotation = playerCamera.localEulerAngles.x;
-            if (verticalRotation > 180f)
-                verticalRotation -= 360f;
-
-            Camera cam = playerCamera.GetComponent<Camera>();
-            if (cam != null)
-            {
-                cam.nearClipPlane = cameraNearClip;
-            }
+            currentCameraHeight = playerCamera.localPosition.y;
+            targetCameraHeight = currentCameraHeight;
         }
     }
 
     void Update()
     {
-        if (isControlLocked || Time.timeScale == 0f)
+        if (isDead || isControlLocked)
         {
             if (animController != null)
                 animController.SetMovement(0f, 0f, false);
+
             return;
         }
+        if (Time.timeScale == 0f) return;
 
-        HandleCrouch();
         HandleMovement();
         HandleMouseLook();
-        HandleHeadBob();
         UpdateEnergyUI();
+        HandleFallDeath();
+        SmoothCameraHeight();
     }
 
-    void HandleCrouch()
+    public void LockControl()
     {
-        if (Input.GetKey(crouchKey))
-        {
-            isCrouching = true;
-        }
-        else if (Input.GetKeyUp(crouchKey))
-        {
-            Vector3 checkPos = transform.position + Vector3.up * crouchHeight;
-            if (!Physics.Raycast(checkPos, Vector3.up, normalHeight - crouchHeight + 0.2f))
-            {
-                isCrouching = false;
-            }
-        }
+        isControlLocked = true;
 
-        float targetHeight = isCrouching ? crouchHeight : normalHeight;
-        controller.height = Mathf.Lerp(controller.height, targetHeight, Time.deltaTime * crouchSpeed);
-        controller.center = new Vector3(0, controller.height / 2f, 0);
+        velocity = Vector3.zero;
 
-        float targetCameraY = isCrouching ? cameraOffset.y - 0.4f : cameraOffset.y;
-        float newY = Mathf.Lerp(baseCameraPosition.y, targetCameraY, Time.deltaTime * crouchSpeed);
-        baseCameraPosition = new Vector3(cameraOffset.x, newY, cameraOffset.z);
+        if (animController != null)
+        {
+            animController.SetMovement(0f, 0f, false);
+            animController.SetJump(false);
+        }
+    }
+
+    public void UnlockControl()
+    {
+        isControlLocked = false;
     }
 
     void HandleMovement()
     {
         bool isGrounded = controller.isGrounded;
-        bool isOnStairs = CheckIfOnStairs();
 
-        if (isGrounded && velocity.y < 0 && !isOnStairs)
+        if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+
             if (animController != null)
                 animController.SetJump(false);
         }
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
 
-        bool isMoving = Mathf.Abs(horizontal) > 0.1f || Mathf.Abs(vertical) > 0.1f;
-        bool wantsToRun = Input.GetKey(KeyCode.LeftShift) && !isCrouching;
+        bool isMoving = Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f;
+        bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
 
         if (animController != null)
-            animController.SetMovement(horizontal, vertical, wantsToRun);
+            animController.SetMovement(x, z, wantsToRun);
 
-        float speed = isCrouching ? walkSpeed * 0.5f : walkSpeed;
+        float speed = walkSpeed;
 
         if (!isOverheated && wantsToRun && isMoving && currentRunEnergy > 0f)
         {
@@ -175,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             currentRunEnergy += energyRegenRate * Time.deltaTime;
+
             if (currentRunEnergy >= maxRunEnergy)
             {
                 currentRunEnergy = maxRunEnergy;
@@ -182,33 +164,20 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        Vector3 moveDirection = transform.right * horizontal + transform.forward * vertical;
+        Vector3 move = transform.right * x + transform.forward * z;
 
-        if (enableStairClimbing && isOnStairs && isMoving)
+        if (enableStairClimbing && isMoving)
         {
-            float verticalMove = 0f;
-
-            if (vertical > 0.1f)
+            float stepUp = ClimbStairs(move.normalized);
+            if (stepUp > 0f)
             {
-                verticalMove = stairClimbSpeed * Time.deltaTime;
+                targetCameraHeight += stepUp;
             }
-            else if (vertical < -0.1f)
-            {
-                verticalMove = -stairClimbSpeed * Time.deltaTime;
-            }
-
-            Vector3 stairMove = moveDirection * speed * Time.deltaTime;
-            stairMove.y = verticalMove;
-            controller.Move(stairMove);
-
-            velocity.y = 0f;
-        }
-        else
-        {
-            controller.Move(moveDirection * speed * Time.deltaTime);
         }
 
-        if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime > jumpCooldown && !isCrouching && !isOnStairs)
+        controller.Move(move * speed * Time.deltaTime);
+
+        if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime > jumpCooldown)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             lastJumpTime = Time.time;
@@ -217,147 +186,138 @@ public class PlayerMovement : MonoBehaviour
                 animController.SetJump(true);
         }
 
-        if (!isOnStairs)
-        {
-            velocity.y += gravity * fallMultiplier * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
-        }
+        velocity.y += gravity * fallMultiplier * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
-    bool CheckIfOnStairs()
+    float ClimbStairs(Vector3 moveDirection)
     {
-        Vector3 checkPosition = transform.position;
+        if (moveDirection.magnitude < 0.1f) return 0f;
 
-        RaycastHit hitDown;
-        if (Physics.Raycast(checkPosition + Vector3.up * 0.1f, Vector3.down, out hitDown, 0.5f))
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
+        RaycastHit hitLower;
+
+        if (Physics.Raycast(rayOrigin, moveDirection, out hitLower, controller.radius + stepCheckDistance))
         {
-            if (hitDown.collider.CompareTag("Stairs"))
+            float stepHeight = hitLower.point.y - transform.position.y;
+
+            if (stepHeight > 0.05f && stepHeight <= maxStepHeight)
             {
-                return true;
+                Vector3 rayOriginUpper = rayOrigin + Vector3.up * (stepHeight + 0.1f);
+                RaycastHit hitUpper;
+
+                if (!Physics.Raycast(rayOriginUpper, moveDirection, out hitUpper, controller.radius + stepCheckDistance))
+                {
+                    controller.Move(Vector3.up * stepHeight * stepSmoothness);
+                    return stepHeight * stepSmoothness;
+                }
             }
         }
 
-        Vector3 forwardCheck = checkPosition + transform.forward * stairCheckRadius;
-        if (Physics.Raycast(forwardCheck + Vector3.up * 0.1f, Vector3.down, out hitDown, 0.5f))
-        {
-            if (hitDown.collider.CompareTag("Stairs"))
-            {
-                return true;
-            }
-        }
+        return 0f;
+    }
 
-        RaycastHit hitForward;
-        if (Physics.Raycast(checkPosition + Vector3.up * 0.1f, transform.forward, out hitForward, stairCheckDistance))
-        {
-            if (hitForward.collider.CompareTag("Stairs"))
-            {
-                return true;
-            }
-        }
+    void SmoothCameraHeight()
+    {
+        if (playerCamera == null) return;
 
-        Collider[] nearbyColliders = Physics.OverlapSphere(checkPosition, stairCheckRadius);
-        foreach (Collider col in nearbyColliders)
-        {
-            if (col.CompareTag("Stairs"))
-            {
-                return true;
-            }
-        }
+        currentCameraHeight = Mathf.Lerp(currentCameraHeight, targetCameraHeight, Time.deltaTime * cameraVerticalSmooth);
 
-        return false;
+        Vector3 cameraPos = playerCamera.localPosition;
+        cameraPos.y = currentCameraHeight;
+        playerCamera.localPosition = cameraPos;
+
+        targetCameraHeight = playerCamera.localPosition.y;
     }
 
     void HandleMouseLook()
     {
-        if (playerCamera == null) return;
-
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -80f, 80f);
 
-        playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        if (playerCamera != null)
+        {
+            Quaternion targetRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerCamera.localRotation = targetRotation;
+        }
+
         transform.Rotate(Vector3.up * mouseX);
-    }
-
-    void HandleHeadBob()
-    {
-        if (!enableHeadBob || playerCamera == null) return;
-
-        bool isGrounded = controller.isGrounded;
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        bool isMoving = (Mathf.Abs(horizontal) > 0.1f || Mathf.Abs(vertical) > 0.1f) && isGrounded;
-
-        if (isMoving)
-        {
-            bool isRunning = Input.GetKey(KeyCode.LeftShift) && !isCrouching;
-            float speedMultiplier = isRunning ? bobRunMultiplier : 1f;
-
-            bobTimer += Time.deltaTime * bobSpeed * speedMultiplier;
-            float bobOffsetY = Mathf.Sin(bobTimer) * bobAmount;
-
-            Vector3 targetPosition = new Vector3(baseCameraPosition.x, baseCameraPosition.y + bobOffsetY, baseCameraPosition.z);
-            playerCamera.localPosition = targetPosition;
-        }
-        else
-        {
-            bobTimer = 0f;
-            playerCamera.localPosition = Vector3.Lerp(playerCamera.localPosition, baseCameraPosition, Time.deltaTime * 10f);
-        }
     }
 
     void UpdateEnergyUI()
     {
-        if (runEnergyBar != null)
-        {
-            runEnergyBar.fillAmount = currentRunEnergy / maxRunEnergy;
-            runEnergyBar.color = isOverheated ? Color.red : new Color(0.7f, 0f, 1f);
-        }
+        if (runEnergyBar == null) return;
+
+        runEnergyBar.fillAmount = currentRunEnergy / maxRunEnergy;
 
         if (runEnergyUI != null)
             runEnergyUI.SetActive(currentRunEnergy < maxRunEnergy);
+
+        runEnergyBar.color = isOverheated ? Color.red : new Color(0.7f, 0f, 1f);
+    }
+
+    void HandleFallDeath()
+    {
+        if (!controller.isGrounded && !isFalling)
+        {
+            isFalling = true;
+            startFallY = transform.position.y;
+        }
+
+        if (controller.isGrounded && isFalling)
+        {
+            float fallDistance = startFallY - transform.position.y;
+
+            if (fallDistance >= deathHeight)
+                Die();
+
+            isFalling = false;
+        }
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (isDead) return;
+
+        if (hit.collider.CompareTag("Car"))
+        {
+            Die();
+            return;
+        }
+
         Rigidbody rb = hit.collider.attachedRigidbody;
+
         if (rb != null && !rb.isKinematic)
         {
-            Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-            rb.AddForce(pushDirection.normalized * pushPower, ForceMode.Force);
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+            rb.AddForce(pushDir.normalized * pushPower, ForceMode.Force);
         }
     }
 
-    public void LockControl()
+    void Die()
     {
-        isControlLocked = true;
+        if (isDead) return;
+
+        isDead = true;
+
         velocity = Vector3.zero;
+        controller.enabled = false;
 
-        if (animController != null)
-        {
-            animController.SetMovement(0f, 0f, false);
-            animController.SetJump(false);
-        }
-    }
+        if (walkFootstepSource) walkFootstepSource.Stop();
+        if (runFootstepSource) runFootstepSource.Stop();
 
-    public void UnlockControl()
-    {
-        isControlLocked = false;
-    }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
-    void OnDrawGizmosSelected()
-    {
-        if (!enableStairClimbing) return;
+        Time.timeScale = 0f;
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, stairCheckRadius);
+        if (deathCanvas != null)
+            deathCanvas.SetActive(true);
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position + Vector3.up * 0.1f, transform.forward * stairCheckDistance);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position + Vector3.up * 0.1f, Vector3.down * 0.5f);
+        if (slideshow != null)
+            slideshow.StartSlideshow();
     }
 }
