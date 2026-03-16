@@ -6,6 +6,9 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject confirmPanel;
     [SerializeField] GameObject confirmChapterPanel;
+    [SerializeField] GameObject chapter1Button;
+    [SerializeField] GameObject chapter2Button;
+    [SerializeField] GameObject chapter3Button;
 
     [SerializeField] GameObject storyPanel;
 
@@ -16,13 +19,18 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        // Сразу скрываем confirmPanel
+        // Сlose confirmPanel
         confirmPanel.SetActive(false);
         confirmChapterPanel.SetActive(false);
 
         if (storyPanel != null)
             storyPanel.SetActive(false);
+        int progress = PlayerPrefs.GetInt("StoryProgress", 1);
+        chapter1Button.SetActive(true); // alwasy open
 
+
+        chapter2Button.SetActive(progress >= 2);
+        chapter3Button.SetActive(progress >= 3);
 
     }
 
