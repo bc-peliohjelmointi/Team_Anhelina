@@ -17405,6 +17405,34 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1712389778}
+    - target: {fileID: 7098957639501217704, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7098957639501217704, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7098957639501217704, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1712389778}
+    - target: {fileID: 7098957639501217704, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7098957639501217704, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmQuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7098957639501217704, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7098957639501217704, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7217713820573504651, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
