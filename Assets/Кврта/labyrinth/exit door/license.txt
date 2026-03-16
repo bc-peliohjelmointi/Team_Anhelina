@@ -1,0 +1,11 @@
+Model Information:
+* title:	Mansion Door
+* source:	https://sketchfab.com/3d-models/mansion-door-79157bbb0b394284a2ff70fd058f3da2
+* author:	EZCartify (https://sketchfab.com/callsudhir8087)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Mansion Door" (https://sketchfab.com/3d-models/mansion-door-79157bbb0b394284a2ff70fd058f3da2) by EZCartify (https://sketchfab.com/callsudhir8087) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
