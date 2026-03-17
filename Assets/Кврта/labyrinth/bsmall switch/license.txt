@@ -1,0 +1,11 @@
+Model Information:
+* title:	YCB9NL-40 RCBO Electronic
+* source:	https://sketchfab.com/3d-models/ycb9nl-40-rcbo-electronic-689c7ed341444e96a9241e1ff278c814
+* author:	cncelectric (https://sketchfab.com/cncelectric)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "YCB9NL-40 RCBO Electronic" (https://sketchfab.com/3d-models/ycb9nl-40-rcbo-electronic-689c7ed341444e96a9241e1ff278c814) by cncelectric (https://sketchfab.com/cncelectric) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
