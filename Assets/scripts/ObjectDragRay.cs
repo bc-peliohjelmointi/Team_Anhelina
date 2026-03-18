@@ -17,6 +17,10 @@ public class ObjectDragRay : MonoBehaviour
     public float throwForceMultiplier = 2.5f;
     public int velocitySamples = 5;
 
+    [Header("Puzzle Panel")]
+    public float puzzlePanelDistance = 3f;
+    public GameObject puzzlePanelPrompt;
+
     private Texture2D dotTexture;
     private DraggableObject currentObject;
     private Rigidbody currentRb;
@@ -31,6 +35,8 @@ public class ObjectDragRay : MonoBehaviour
     private float originalLinearDamping;
     private float originalAngularDamping;
 
+    private PuzzlePanelInteraction currentPanel;
+
     void Awake()
     {
         dotTexture = new Texture2D(1, 1);
@@ -38,12 +44,28 @@ public class ObjectDragRay : MonoBehaviour
         dotTexture.Apply();
 
         recentVelocities = new Vector3[velocitySamples];
+
+        if (puzzlePanelPrompt != null)
+        {
+            puzzlePanelPrompt.SetActive(false);
+        }
     }
 
     void Update()
     {
+        if (!isDragging)
+        {
+            CheckForPuzzlePanel();
+        }
+
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(interactKey)) && !isDragging)
         {
+            if (currentPanel != null)
+            {
+                currentPanel.EnterPuzzleMode();
+                return;
+            }
+
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
@@ -84,6 +106,51 @@ public class ObjectDragRay : MonoBehaviour
         if ((Input.GetMouseButtonUp(0) || Input.GetKeyUp(interactKey)) && isDragging && currentObject != null)
         {
             ReleaseObject();
+        }
+    }
+
+    void CheckForPuzzlePanel()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, puzzlePanelDistance))
+        {
+            PuzzlePanelInteraction panel = hit.collider.GetComponent<PuzzlePanelInteraction>();
+
+            if (panel != null)
+            {
+                if (currentPanel != panel)
+                {
+                    currentPanel = panel;
+
+                    if (puzzlePanelPrompt != null)
+                    {
+                        puzzlePanelPrompt.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                ClearPanel();
+            }
+        }
+        else
+        {
+            ClearPanel();
+        }
+    }
+
+    void ClearPanel()
+    {
+        if (currentPanel != null)
+        {
+            currentPanel = null;
+
+            if (puzzlePanelPrompt != null)
+            {
+                puzzlePanelPrompt.SetActive(false);
+            }
         }
     }
 
@@ -216,5 +283,10 @@ public class ObjectDragRay : MonoBehaviour
             float y = (Screen.height - dotSize) * 0.5f;
             GUI.DrawTexture(new Rect(x, y, dotSize, dotSize), dotTexture);
         }
+    }
+
+    void OnDisable()
+    {
+        ClearPanel();
     }
 }
