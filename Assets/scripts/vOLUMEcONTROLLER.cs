@@ -54,7 +54,13 @@ public class VolumeController : MonoBehaviour
 
     void ApplyVolumes()
     {
-        musicSource.volume = masterVolume * musicVolume;
-        uiSource.volume = masterVolume * uiVolume;
+        // master all sounds
+        AudioListener.volume = masterVolume;
+
+        // Music only
+        musicSource.volume = musicVolume;
+
+        // UI only
+        uiSource.volume = uiVolume;
     }
 }

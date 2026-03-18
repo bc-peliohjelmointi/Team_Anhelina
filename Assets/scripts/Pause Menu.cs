@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject chapter1Button;
     [SerializeField] GameObject chapter2Button;
     [SerializeField] GameObject chapter3Button;
+    [SerializeField] GameObject optionsPanel;
 
     [SerializeField] GameObject storyPanel;
 
@@ -22,6 +23,7 @@ public class PauseMenu : MonoBehaviour
         // Сlose confirmPanel
         confirmPanel.SetActive(false);
         confirmChapterPanel.SetActive(false);
+        optionsPanel.SetActive(false);
 
         if (storyPanel != null)
             storyPanel.SetActive(false);
@@ -40,6 +42,19 @@ public class PauseMenu : MonoBehaviour
         {
             Pause();
         }
+    }
+
+    public void OpenOptions()
+    {
+        pauseMenu.SetActive(false);
+        optionsPanel.SetActive(true);
+        
+    }
+
+    public void BackFromOptions()
+    {
+        optionsPanel.SetActive(false);
+        pauseMenu.SetActive(true);
     }
 
     public void Pause()
