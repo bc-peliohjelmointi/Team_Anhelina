@@ -2,33 +2,30 @@
 using UnityEngine;
 using TMPro;
 
+[System.Serializable]
+public class SubtitleLine
+{
+    [TextArea] public string text;   // текст субтитров
+    public float startTime;           // время появления (сек)
+    public float endTime;             // время скрытия (сек)
+}
+
 public class Playermonologue : MonoBehaviour
 {
     [Header("Audio")]
     public AudioClip monologueClip;
 
-    [Header("Subtitles UI")]
+    [Header("Subtitles")]
+    public SubtitleLine[] subtitles;  // массив субтитров с таймкодами
     public TextMeshProUGUI subtitleText;
-
-    [Header("Subtitle Lines (sync with audio)")]
-    public SubtitleLine[] subtitleLines =
-    {
-        new SubtitleLine(0.0f,  3.5f,  "It's already so dark,"),
-        new SubtitleLine(3.5f,  7.5f,  "and I still have to stop by\nGrandma Tamara's place for a visit."),
-        new SubtitleLine(7.5f, 12.0f,  "It's strange how the streetlights\nare shining along the road I need to take."),
-        new SubtitleLine(12.0f,17.0f,  "Something tells me it might be better\nnot to walk in the dark…"),
-    };
+    public float fadeSpeed = 3f;
 
     [Header("Player Control")]
     public MonoBehaviour playerMovementScript;
     public MonoBehaviour playerLookScript;
 
-    [Header("Settings")]
-    public float fadeSpeed = 3f;
-
     private AudioSource audioSource;
     private bool isPlaying = false;
-    private bool triggered = false;
 
     void Awake()
     {
@@ -45,23 +42,17 @@ public class Playermonologue : MonoBehaviour
 
     public void StartMonologue()
     {
-        if (triggered || isPlaying) return;
-        triggered = true;
-        StartCoroutine(PlayMonologue());
+        if (isPlaying) return;
+        StartCoroutine(PlayRoutine());
     }
 
-    IEnumerator PlayMonologue()
+    IEnumerator PlayRoutine()
     {
-        if (subtitleText == null)
-        {
-            Debug.LogError("Subtitle Text not assigned!");
-            yield break;
-        }
-
         isPlaying = true;
-        SetPlayerControl(false);
 
-        yield return new WaitForSeconds(0.5f);
+        // Блокируем управление игроком
+        if (playerMovementScript != null) playerMovementScript.enabled = false;
+        if (playerLookScript != null) playerLookScript.enabled = false;
 
         if (monologueClip != null)
         {
@@ -71,24 +62,14 @@ public class Playermonologue : MonoBehaviour
 
         int currentLine = -1;
 
-        float duration = monologueClip != null
-            ? monologueClip.length
-            : GetLastSubtitleTime();
-
-        while (true)
+        while (audioSource.isPlaying)
         {
-            float elapsed = audioSource.isPlaying
-                ? audioSource.time
-                : Time.timeSinceLevelLoad;
-
-            if (elapsed > duration) break;
+            float elapsed = audioSource.time;
 
             int activeLine = -1;
-
-            for (int i = 0; i < subtitleLines.Length; i++)
+            for (int i = 0; i < subtitles.Length; i++)
             {
-                if (elapsed >= subtitleLines[i].startTime &&
-                    elapsed < subtitleLines[i].endTime)
+                if (elapsed >= subtitles[i].startTime && elapsed < subtitles[i].endTime)
                 {
                     activeLine = i;
                     break;
@@ -98,9 +79,8 @@ public class Playermonologue : MonoBehaviour
             if (activeLine != currentLine)
             {
                 currentLine = activeLine;
-
-                if (activeLine >= 0)
-                    StartCoroutine(FadeText(subtitleLines[activeLine].text, true));
+                if (currentLine >= 0)
+                    StartCoroutine(FadeText(subtitles[currentLine].text, true));
                 else
                     StartCoroutine(FadeText("", false));
             }
@@ -108,14 +88,20 @@ public class Playermonologue : MonoBehaviour
             yield return null;
         }
 
-        yield return FadeText("", false);
+        // После окончания аудио
+        StartCoroutine(FadeText("", false));
 
-        SetPlayerControl(true);
+        // Разблокируем игрока
+        if (playerMovementScript != null) playerMovementScript.enabled = true;
+        if (playerLookScript != null) playerLookScript.enabled = true;
+
         isPlaying = false;
     }
 
     IEnumerator FadeText(string text, bool show)
     {
+        if (subtitleText == null) yield break;
+
         Color c = subtitleText.color;
 
         // Fade OUT
@@ -138,47 +124,5 @@ public class Playermonologue : MonoBehaviour
             subtitleText.color = c;
             yield return null;
         }
-    }
-
-    void SetPlayerControl(bool enabled)
-    {
-        if (playerMovementScript != null)
-            playerMovementScript.enabled = enabled;
-
-        if (playerLookScript != null)
-            playerLookScript.enabled = enabled;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        var rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = !enabled;
-            if (!enabled) rb.linearVelocity = Vector3.zero;
-        }
-    }
-
-    float GetLastSubtitleTime()
-    {
-        float max = 0f;
-        foreach (var line in subtitleLines)
-            if (line.endTime > max) max = line.endTime;
-        return max + 0.5f;
-    }
-}
-
-[System.Serializable]
-public class SubtitleLine
-{
-    public float startTime;
-    public float endTime;
-    [TextArea] public string text;
-
-    public SubtitleLine(float start, float end, string t)
-    {
-        startTime = start;
-        endTime = end;
-        text = t;
     }
 }

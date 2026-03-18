@@ -9,6 +9,6 @@ public class MonologueTrigger : MonoBehaviour
     {
         if (!other.CompareTag(playerTag)) return;
         monologue.StartMonologue();
-        gameObject.SetActive(false); // один раз
+        gameObject.SetActive(false); 
     }
 }
