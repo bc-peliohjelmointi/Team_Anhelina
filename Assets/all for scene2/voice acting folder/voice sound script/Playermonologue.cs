@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class Playermonologue : MonoBehaviour
@@ -9,16 +8,15 @@ public class Playermonologue : MonoBehaviour
     public AudioClip monologueClip;
 
     [Header("Subtitles UI")]
-    public TextMeshProUGUI subtitleText; // перетащи TMP объект сюда
-    // CanvasGroup НЕ нужен — fade работает через цвет текста
+    public TextMeshProUGUI subtitleText;
 
-    [Header("Subtitle Lines (синхронизируй с аудио)")]
-    public SubtitleLine[] subtitleLines = new SubtitleLine[]
+    [Header("Subtitle Lines (sync with audio)")]
+    public SubtitleLine[] subtitleLines =
     {
         new SubtitleLine(0.0f,  3.5f,  "It's already so dark,"),
         new SubtitleLine(3.5f,  7.5f,  "and I still have to stop by\nGrandma Tamara's place for a visit."),
-        new SubtitleLine(7.5f,  12.0f, "It's strange how the streetlights\nare shining along the road I need to take."),
-        new SubtitleLine(12.0f, 17.0f, "Something tells me it might be better\nnot to walk in the dark…"),
+        new SubtitleLine(7.5f, 12.0f,  "It's strange how the streetlights\nare shining along the road I need to take."),
+        new SubtitleLine(12.0f,17.0f,  "Something tells me it might be better\nnot to walk in the dark…"),
     };
 
     [Header("Player Control")]
@@ -26,7 +24,6 @@ public class Playermonologue : MonoBehaviour
     public MonoBehaviour playerLookScript;
 
     [Header("Settings")]
-    public bool playOnStart = true;
     public float fadeSpeed = 3f;
 
     private AudioSource audioSource;
@@ -36,21 +33,14 @@ public class Playermonologue : MonoBehaviour
     void Awake()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.spatialBlend = 0f;
+        audioSource.spatialBlend = 0f; // 2D звук
 
-        // Скрыть текст через прозрачность
         if (subtitleText != null)
         {
             subtitleText.text = "";
             Color c = subtitleText.color;
             subtitleText.color = new Color(c.r, c.g, c.b, 0f);
         }
-    }
-
-    void Start()
-    {
-        if (playOnStart)
-            StartMonologue();
     }
 
     public void StartMonologue()
@@ -62,6 +52,12 @@ public class Playermonologue : MonoBehaviour
 
     IEnumerator PlayMonologue()
     {
+        if (subtitleText == null)
+        {
+            Debug.LogError("Subtitle Text not assigned!");
+            yield break;
+        }
+
         isPlaying = true;
         SetPlayerControl(false);
 
@@ -73,18 +69,22 @@ public class Playermonologue : MonoBehaviour
             audioSource.Play();
         }
 
-        float startTime = Time.time;
         int currentLine = -1;
 
-        float audioDuration = monologueClip != null
+        float duration = monologueClip != null
             ? monologueClip.length
             : GetLastSubtitleTime();
 
-        while (Time.time - startTime < audioDuration)
+        while (true)
         {
-            float elapsed = Time.time - startTime;
+            float elapsed = audioSource.isPlaying
+                ? audioSource.time
+                : Time.timeSinceLevelLoad;
+
+            if (elapsed > duration) break;
 
             int activeLine = -1;
+
             for (int i = 0; i < subtitleLines.Length; i++)
             {
                 if (elapsed >= subtitleLines[i].startTime &&
@@ -100,25 +100,22 @@ public class Playermonologue : MonoBehaviour
                 currentLine = activeLine;
 
                 if (activeLine >= 0)
-                    yield return StartCoroutine(FadeText(subtitleLines[activeLine].text, true));
+                    StartCoroutine(FadeText(subtitleLines[activeLine].text, true));
                 else
-                    yield return StartCoroutine(FadeText("", false));
+                    StartCoroutine(FadeText("", false));
             }
 
             yield return null;
         }
 
-        yield return StartCoroutine(FadeText("", false));
+        yield return FadeText("", false);
 
         SetPlayerControl(true);
         isPlaying = false;
     }
 
-    // Fade через alpha цвета TMP — без CanvasGroup
     IEnumerator FadeText(string text, bool show)
     {
-        if (subtitleText == null) yield break;
-
         Color c = subtitleText.color;
 
         // Fade OUT
@@ -164,7 +161,7 @@ public class Playermonologue : MonoBehaviour
 
     float GetLastSubtitleTime()
     {
-        float max = 5f;
+        float max = 0f;
         foreach (var line in subtitleLines)
             if (line.endTime > max) max = line.endTime;
         return max + 0.5f;
