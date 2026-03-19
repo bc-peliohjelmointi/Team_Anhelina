@@ -22,7 +22,6 @@ public class PuzzleLevel : MonoBehaviour
     public float soundVolume = 0.5f;
 
     private bool isSolved = false;
-    private bool checkLeverUp = false;
     private Quaternion checkTargetRotation;
 
     void Start()
@@ -55,17 +54,20 @@ public class PuzzleLevel : MonoBehaviour
         }
     }
 
-    public void CheckCombination()
+    public void PullCheckLever()
     {
-        if (isSolved) return;
+        checkTargetRotation = Quaternion.Euler(checkUpRotation);
+    }
+
+    public void ReleaseCheckLever()
+    {
+        checkTargetRotation = Quaternion.Euler(checkDownRotation);
 
         bool isCorrect = CheckIfCorrect();
 
-        if (isCorrect)
+        if (isCorrect && !isSolved)
         {
             isSolved = true;
-            checkLeverUp = true;
-            checkTargetRotation = Quaternion.Euler(checkUpRotation);
 
             if (correctSound != null && audioSource != null)
             {
@@ -74,7 +76,7 @@ public class PuzzleLevel : MonoBehaviour
 
             SetAllLightsGreen();
         }
-        else
+        else if (!isCorrect)
         {
             if (wrongSound != null && audioSource != null)
             {
@@ -121,15 +123,24 @@ public class PuzzleLevel : MonoBehaviour
     void UpdateAllLights()
     {
         int index = 0;
+        bool previousCorrect = true;
 
         for (int i = 0; i < singleLevers.Length; i++)
         {
             if (singleLevers[i] == null) continue;
 
-            bool isCorrect = index < correctCombination.Length &&
-                           singleLevers[i].isUp == correctCombination[index];
+            bool currentCorrect = index < correctCombination.Length &&
+                                singleLevers[i].isUp == correctCombination[index];
 
-            singleLevers[i].SetLightGreen(isCorrect);
+            bool shouldBeGreen = currentCorrect && previousCorrect;
+
+            singleLevers[i].SetLightGreen(shouldBeGreen);
+
+            if (!currentCorrect)
+            {
+                previousCorrect = false;
+            }
+
             index++;
         }
 
@@ -137,11 +148,19 @@ public class PuzzleLevel : MonoBehaviour
         {
             if (doubleLevers[i] == null) continue;
 
-            bool isCorrect = index < correctCombination.Length &&
-                           doubleLevers[i].isUp == correctCombination[index];
+            bool currentCorrect = index < correctCombination.Length &&
+                                doubleLevers[i].isUp == correctCombination[index];
 
-            doubleLevers[i].SetTopLightGreen(isCorrect);
-            doubleLevers[i].SetBottomLightGreen(isCorrect);
+            bool shouldBeGreen = currentCorrect && previousCorrect;
+
+            doubleLevers[i].SetTopLightGreen(shouldBeGreen);
+            doubleLevers[i].SetBottomLightGreen(shouldBeGreen);
+
+            if (!currentCorrect)
+            {
+                previousCorrect = false;
+            }
+
             index++;
         }
     }

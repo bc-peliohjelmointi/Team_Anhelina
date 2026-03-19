@@ -6497,7 +6497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
+  isUp: 1
   downRotation: {x: 45, y: 0, z: 0}
   upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
@@ -23920,7 +23920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
+  isUp: 1
   downRotation: {x: 45, y: 0, z: 0}
   upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
@@ -31496,14 +31496,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverInteraction
   puzzleLevel: {fileID: 0}
-  leverHandle: {fileID: 0}
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
-  leverSpeed: 5
-  returnDelay: 1
-  audioSource: {fileID: 0}
-  pullSound: {fileID: 0}
-  soundVolume: 0.5
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   highlightIntensity: 3
   leverRenderer: {fileID: 0}
@@ -42849,14 +42841,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverInteraction
   puzzleLevel: {fileID: 0}
-  leverHandle: {fileID: 0}
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
-  leverSpeed: 5
-  returnDelay: 1
-  audioSource: {fileID: 0}
-  pullSound: {fileID: 0}
-  soundVolume: 0.5
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   highlightIntensity: 3
   leverRenderer: {fileID: 0}
@@ -67842,7 +67826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
+  isUp: 1
   downRotation: {x: 45, y: 0, z: 0}
   upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
@@ -89025,7 +89009,7 @@ MonoBehaviour:
   interactionDistance: 15
   interactKey: 101
   interactionPrompt: {fileID: 1022058237}
-  rayDistance: 100
+  rayDistance: 1000
   leverLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -90999,7 +90983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
+  isUp: 1
   downRotation: {x: 45, y: 0, z: 0}
   upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
@@ -92689,7 +92673,7 @@ MonoBehaviour:
   - {fileID: 403090955}
   - {fileID: 1543997681}
   doubleLevers: []
-  correctCombination: 0001010100010001
+  correctCombination: 0100000001000100
   checkLever: {fileID: 942738290}
   checkDownRotation: {x: 0, y: 0, z: 0}
   checkUpRotation: {x: 25, y: 0, z: 0}
@@ -102734,18 +102718,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fa3350b0e46964498a2f54909aee1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverInteraction
-  puzzleLevel: {fileID: 0}
-  leverHandle: {fileID: 0}
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
-  leverSpeed: 5
-  returnDelay: 1
-  audioSource: {fileID: 0}
-  pullSound: {fileID: 0}
-  soundVolume: 0.5
+  puzzleLevel: {fileID: 1418857040}
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   highlightIntensity: 3
-  leverRenderer: {fileID: 0}
+  leverRenderer: {fileID: 1582197377}
+--- !u!23 &1582197377 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5533902656396769271, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
+  m_PrefabInstance: {fileID: 942738289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1583778437
 GameObject:
   m_ObjectHideFlags: 0

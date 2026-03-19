@@ -47,6 +47,7 @@ public class PuzzlePanelInteraction : MonoBehaviour
     private Texture2D cursorTexture;
     private GameObject currentHighlighted;
     private PlayerMovement playerMovement;
+    private CheckLeverInteraction currentCheckLever;
 
     void Start()
     {
@@ -105,6 +106,11 @@ public class PuzzlePanelInteraction : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             ClickLever();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            ReleaseLever();
         }
 
         if (Input.GetKeyDown(exitKey) || Input.GetKeyDown(KeyCode.Escape))
@@ -235,7 +241,17 @@ public class PuzzlePanelInteraction : MonoBehaviour
         CheckLeverInteraction checkLever = currentHighlighted.GetComponent<CheckLeverInteraction>();
         if (checkLever != null)
         {
+            currentCheckLever = checkLever;
             checkLever.Pull();
+        }
+    }
+
+    void ReleaseLever()
+    {
+        if (currentCheckLever != null)
+        {
+            currentCheckLever.Release();
+            currentCheckLever = null;
         }
     }
 
@@ -271,6 +287,12 @@ public class PuzzlePanelInteraction : MonoBehaviour
         canInteract = false;
 
         RemoveHighlight();
+
+        if (currentCheckLever != null)
+        {
+            currentCheckLever.Release();
+            currentCheckLever = null;
+        }
 
         currentVerticalAngle = 0f;
         currentHorizontalAngle = 0f;
