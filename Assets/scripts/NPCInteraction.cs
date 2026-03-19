@@ -5,9 +5,9 @@ using TMPro;
 [System.Serializable]
 public class DialogueSubtitle
 {
-    [TextArea] public string text;   // текст субтитров
-    public float startTime;           // когда показывать
-    public float endTime;             // когда скрывать
+    [TextArea] public string text;
+    public float startTime;
+    public float endTime;
 }
 
 public class NPCInteraction : MonoBehaviour
@@ -17,10 +17,13 @@ public class NPCInteraction : MonoBehaviour
     public MissionSystem missionSystem;
 
     [Header("Dialogue Settings")]
-    public AudioClip dialogueAudio;           // один аудиофайл
-    public DialogueSubtitle[] subtitles;      // массив субтитров
-    public TextMeshProUGUI subtitleText;     // TMP объект
+    public AudioClip dialogueAudio;
+    public DialogueSubtitle[] subtitles;
+    public TextMeshProUGUI subtitleText;
     public float fadeSpeed = 3f;
+
+    [Header("Trigger Mode")]
+    public bool autoPlayOnEnter = false; // включи если нужен авто-монолог без E
 
     private AudioSource audioSource;
     private bool playerNear = false;
@@ -30,7 +33,6 @@ public class NPCInteraction : MonoBehaviour
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.spatialBlend = 0f;
-
         if (subtitleText != null)
         {
             subtitleText.text = "";
@@ -41,20 +43,30 @@ public class NPCInteraction : MonoBehaviour
 
     void Update()
     {
-        if (playerNear && Input.GetKeyDown(KeyCode.E) && !isTalking)
+        if (playerNear && Input.GetKeyDown(KeyCode.E) && !isTalking && !autoPlayOnEnter)
         {
             if (missionSystem == null || missionSystem.GetCurrentMission() == missionID)
             {
                 StartCoroutine(PlayDialogue());
-
                 if (missionSystem != null)
                     missionSystem.CompleteMission(missionID);
             }
-            if (playerNear && Input.GetKeyDown(KeyCode.E))
-            {
-                Debug.Log("E нажата, playerNear = true");
-            }
         }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        playerNear = true;
+
+        if (autoPlayOnEnter && !isTalking)
+            StartCoroutine(PlayDialogue());
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            playerNear = false;
     }
 
     IEnumerator PlayDialogue()
@@ -72,8 +84,8 @@ public class NPCInteraction : MonoBehaviour
         while (audioSource.isPlaying)
         {
             float elapsed = audioSource.time;
-
             int activeLine = -1;
+
             for (int i = 0; i < subtitles.Length; i++)
             {
                 if (elapsed >= subtitles[i].startTime && elapsed < subtitles[i].endTime)
@@ -86,6 +98,7 @@ public class NPCInteraction : MonoBehaviour
             if (activeLine != currentSubtitle)
             {
                 currentSubtitle = activeLine;
+                StopCoroutine("FadeText"); // останавливаем предыдущий fade
                 if (currentSubtitle >= 0)
                     StartCoroutine(FadeText(subtitles[currentSubtitle].text, true));
                 else
@@ -124,17 +137,4 @@ public class NPCInteraction : MonoBehaviour
             yield return null;
         }
     }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            playerNear = true;
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            playerNear = false;
-    }
-
 }
