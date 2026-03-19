@@ -6,6 +6,8 @@ public class DoubleLever : MonoBehaviour
     public bool isUp = false;
     public Vector3 downRotation = new Vector3(45, 0, 0);
     public Vector3 upRotation = new Vector3(-45, 0, 0);
+    public Vector3 downPosition = Vector3.zero;
+    public Vector3 upPosition = Vector3.zero;
     public float switchSpeed = 5f;
 
     [Header("Lights")]
@@ -27,6 +29,7 @@ public class DoubleLever : MonoBehaviour
     public float highlightIntensity = 2f;
 
     private Quaternion targetRotation;
+    private Vector3 targetPosition;
     private bool topLightGreen = false;
     private bool bottomLightGreen = false;
     private Material topLampMaterial;
@@ -61,6 +64,12 @@ public class DoubleLever : MonoBehaviour
             targetRotation,
             Time.deltaTime * switchSpeed
         );
+
+        transform.localPosition = Vector3.Lerp(
+            transform.localPosition,
+            targetPosition,
+            Time.deltaTime * switchSpeed
+        );
     }
 
     public void Toggle()
@@ -89,10 +98,12 @@ public class DoubleLever : MonoBehaviour
     void UpdateLeverState(bool immediate)
     {
         targetRotation = Quaternion.Euler(isUp ? upRotation : downRotation);
+        targetPosition = isUp ? upPosition : downPosition;
 
         if (immediate)
         {
             transform.localRotation = targetRotation;
+            transform.localPosition = targetPosition;
         }
 
         UpdateLights();

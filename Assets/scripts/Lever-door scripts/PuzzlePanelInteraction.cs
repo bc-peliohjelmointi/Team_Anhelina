@@ -3,10 +3,18 @@ using System.Collections;
 
 public class PuzzlePanelInteraction : MonoBehaviour
 {
-    [Header("Camera")]
+    [Header("Player")]
+    public Transform player;
     public Transform playerCamera;
+
+    [Header("Camera")]
     public Transform cameraTargetPosition;
     public float cameraSpeed = 3f;
+
+    [Header("Interaction")]
+    public float interactionDistance = 3f;
+    public KeyCode interactKey = KeyCode.E;
+    public GameObject interactionPrompt;
 
     [Header("Raycast")]
     public float rayDistance = 10f;
@@ -16,36 +24,82 @@ public class PuzzlePanelInteraction : MonoBehaviour
     public bool showCursor = true;
     public int cursorSize = 8;
     public Color cursorColor = Color.white;
+    public float mouseSensitivity = 2f;
+    public float maxVerticalAngle = 30f;
+    public float maxHorizontalAngle = 40f;
 
-    [Header("Puzzle Level")]
-    public PuzzleLevel puzzleLevel;
+    [Header("Puzzle Levels")]
+    public PuzzleLevel puzzleLevel1;
+    public PuzzleLevel puzzleLevel2;
+    public PuzzleLevel puzzleLevel3;
 
     [Header("Input")]
     public KeyCode exitKey = KeyCode.E;
 
+    private bool isNearPanel = false;
     private bool isInPuzzleMode = false;
+    private bool canInteract = false;
     private Vector3 originalCameraPosition;
     private Quaternion originalCameraRotation;
+    private Quaternion targetCameraRotation;
+    private float currentVerticalAngle = 0f;
+    private float currentHorizontalAngle = 0f;
     private Texture2D cursorTexture;
     private GameObject currentHighlighted;
+    private PlayerMovement playerMovement;
 
     void Start()
     {
         cursorTexture = new Texture2D(1, 1);
         cursorTexture.SetPixel(0, 0, cursorColor);
         cursorTexture.Apply();
+
+        if (interactionPrompt != null)
+        {
+            interactionPrompt.SetActive(false);
+        }
+
+        if (player != null)
+        {
+            playerMovement = player.GetComponent<PlayerMovement>();
+        }
     }
 
     void Update()
     {
-        if (isInPuzzleMode)
+        if (player == null) return;
+
+        if (!isInPuzzleMode)
+        {
+            CheckDistance();
+        }
+        else
         {
             HandlePuzzleMode();
         }
     }
 
+    void CheckDistance()
+    {
+        float distance = Vector3.Distance(player.position, transform.position);
+        isNearPanel = distance <= interactionDistance;
+
+        if (interactionPrompt != null)
+        {
+            interactionPrompt.SetActive(isNearPanel);
+        }
+
+        if (isNearPanel && Input.GetKeyDown(interactKey))
+        {
+            EnterPuzzleMode();
+        }
+    }
+
     void HandlePuzzleMode()
     {
+        if (!canInteract) return;
+
+        HandleCameraRotation();
         CheckLeverHighlight();
 
         if (Input.GetMouseButtonDown(0))
@@ -57,6 +111,23 @@ public class PuzzlePanelInteraction : MonoBehaviour
         {
             ExitPuzzleMode();
         }
+    }
+
+    void HandleCameraRotation()
+    {
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        currentHorizontalAngle += mouseX;
+        currentVerticalAngle -= mouseY;
+
+        currentHorizontalAngle = Mathf.Clamp(currentHorizontalAngle, -maxHorizontalAngle, maxHorizontalAngle);
+        currentVerticalAngle = Mathf.Clamp(currentVerticalAngle, -maxVerticalAngle, maxVerticalAngle);
+
+        Quaternion verticalRotation = Quaternion.AngleAxis(currentVerticalAngle, Vector3.right);
+        Quaternion horizontalRotation = Quaternion.AngleAxis(currentHorizontalAngle, Vector3.up);
+
+        playerCamera.rotation = targetCameraRotation * horizontalRotation * verticalRotation;
     }
 
     void CheckLeverHighlight()
@@ -145,20 +216,20 @@ public class PuzzlePanelInteraction : MonoBehaviour
         if (lever != null)
         {
             lever.Toggle();
-            if (puzzleLevel != null)
-            {
-                puzzleLevel.OnLeverChanged();
-            }
+
+            if (puzzleLevel1 != null) puzzleLevel1.OnLeverChanged();
+            if (puzzleLevel2 != null) puzzleLevel2.OnLeverChanged();
+            if (puzzleLevel3 != null) puzzleLevel3.OnLeverChanged();
         }
 
         DoubleLever doubleLever = currentHighlighted.GetComponent<DoubleLever>();
         if (doubleLever != null)
         {
             doubleLever.Toggle();
-            if (puzzleLevel != null)
-            {
-                puzzleLevel.OnLeverChanged();
-            }
+
+            if (puzzleLevel1 != null) puzzleLevel1.OnLeverChanged();
+            if (puzzleLevel2 != null) puzzleLevel2.OnLeverChanged();
+            if (puzzleLevel3 != null) puzzleLevel3.OnLeverChanged();
         }
 
         CheckLeverInteraction checkLever = currentHighlighted.GetComponent<CheckLeverInteraction>();
@@ -171,6 +242,12 @@ public class PuzzlePanelInteraction : MonoBehaviour
     public void EnterPuzzleMode()
     {
         isInPuzzleMode = true;
+        canInteract = false;
+
+        if (interactionPrompt != null)
+        {
+            interactionPrompt.SetActive(false);
+        }
 
         if (playerCamera != null)
         {
@@ -179,10 +256,9 @@ public class PuzzlePanelInteraction : MonoBehaviour
             StartCoroutine(MoveCameraToTarget());
         }
 
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
         if (playerMovement != null)
         {
             playerMovement.LockControl();
@@ -192,8 +268,12 @@ public class PuzzlePanelInteraction : MonoBehaviour
     public void ExitPuzzleMode()
     {
         isInPuzzleMode = false;
+        canInteract = false;
 
         RemoveHighlight();
+
+        currentVerticalAngle = 0f;
+        currentHorizontalAngle = 0f;
 
         if (playerCamera != null)
         {
@@ -203,7 +283,6 @@ public class PuzzlePanelInteraction : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
         if (playerMovement != null)
         {
             playerMovement.UnlockControl();
@@ -233,6 +312,12 @@ public class PuzzlePanelInteraction : MonoBehaviour
 
         playerCamera.position = cameraTargetPosition.position;
         playerCamera.rotation = cameraTargetPosition.rotation;
+
+        targetCameraRotation = cameraTargetPosition.rotation;
+        currentVerticalAngle = 0f;
+        currentHorizontalAngle = 0f;
+
+        canInteract = true;
     }
 
     IEnumerator MoveCameraBack()
@@ -262,11 +347,24 @@ public class PuzzlePanelInteraction : MonoBehaviour
 
     void OnGUI()
     {
-        if (isInPuzzleMode && showCursor)
+        if (isInPuzzleMode && showCursor && canInteract)
         {
             float x = (Screen.width - cursorSize) * 0.5f;
             float y = (Screen.height - cursorSize) * 0.5f;
             GUI.DrawTexture(new Rect(x, y, cursorSize, cursorSize), cursorTexture);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, interactionDistance);
+
+        if (cameraTargetPosition != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(cameraTargetPosition.position, 0.15f);
+            Gizmos.DrawRay(cameraTargetPosition.position, cameraTargetPosition.forward * 0.5f);
         }
     }
 
