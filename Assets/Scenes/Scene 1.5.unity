@@ -5065,6 +5065,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2544241005719550206, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544241005719550206, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544241005719550206, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8526403
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544241005719550206, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5224984
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544241005719550206, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544241005719550206, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -63
+      objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
@@ -5083,7 +5107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 341.73
+      value: 341.793
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5162,10 +5186,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 0, y: -63, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: -0.5, y: 0, z: 2.5}
   switchSpeed: 5
   topLampLight: {fileID: 0}
   bottomLampLight: {fileID: 0}
@@ -6498,10 +6522,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 1033076844}
   lampRenderer: {fileID: 0}
@@ -9689,7 +9713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 340.77402
+      value: 340.837
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9765,10 +9789,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -16101,9 +16125,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
   downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 75, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -1, z: 1.15}
+  upPosition: {x: 0, y: -0.5, z: 9}
   switchSpeed: 5
   lampLight: {fileID: 2121868570}
   lampRenderer: {fileID: 0}
@@ -23921,10 +23945,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -25408,7 +25432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 340.854
+      value: 340.917
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -25487,10 +25511,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 0, y: -63, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: -0.5, y: 0, z: 2.5}
   switchSpeed: 5
   topLampLight: {fileID: 0}
   bottomLampLight: {fileID: 0}
@@ -25776,19 +25800,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354027732448794700, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.04
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8354027732448794700, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.14
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8354027732448794700, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7928219
+      value: 0.8660254
       objectReference: {fileID: 0}
     - target: {fileID: 8354027732448794700, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.60945344
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8354027732448794700, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalRotation.z
@@ -25796,7 +25820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354027732448794700, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 75.1
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8755525966283863616, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_Name
@@ -41539,7 +41563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 340.854
+      value: 340.917
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -41618,10 +41642,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 0, y: -63, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: -0.5, y: 0, z: 2.5}
   switchSpeed: 5
   topLampLight: {fileID: 0}
   bottomLampLight: {fileID: 0}
@@ -41737,10 +41761,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -42960,7 +42984,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 341.73
+      value: 341.793
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -43039,10 +43063,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 0, y: -63, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: -0.5, y: 0, z: 2.5}
   switchSpeed: 5
   topLampLight: {fileID: 0}
   bottomLampLight: {fileID: 0}
@@ -54662,10 +54686,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -67531,7 +67555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 340.77402
+      value: 340.837
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -67607,10 +67631,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -67827,10 +67851,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 1131416371}
   lampRenderer: {fileID: 0}
@@ -70097,7 +70121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 341.73
+      value: 341.793
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -70173,10 +70197,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 0, y: -63, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: -0.5, y: 0, z: 2.5}
   switchSpeed: 5
   topLampLight: {fileID: 0}
   bottomLampLight: {fileID: 0}
@@ -83887,7 +83911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 341.73
+      value: 341.793
       objectReference: {fileID: 0}
     - target: {fileID: 3261593601005739198, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83969,10 +83993,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 0, y: -63, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: -0.5, y: 0, z: 2.5}
   switchSpeed: 5
   topLampLight: {fileID: 0}
   bottomLampLight: {fileID: 0}
@@ -90984,10 +91008,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -96811,7 +96835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 340.77402
+      value: 340.837
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -96887,10 +96911,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -99857,10 +99881,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 1
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
@@ -134425,7 +134449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 340.77402
+      value: 340.837
       objectReference: {fileID: 0}
     - target: {fileID: 6904714749077080581, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -134501,10 +134525,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 45, y: 0, z: 0}
-  upRotation: {x: -45, y: 0, z: 0}
+  downRotation: {x: 0, y: 0, z: 0}
+  upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: 0, z: 0}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
