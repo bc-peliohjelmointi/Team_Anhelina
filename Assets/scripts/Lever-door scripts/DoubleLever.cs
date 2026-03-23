@@ -25,8 +25,9 @@ public class DoubleLever : MonoBehaviour
     public float soundVolume = 0.5f;
 
     [Header("Highlight")]
+    public Renderer leverRenderer;
     public Color highlightColor = Color.cyan;
-    public float highlightIntensity = 2f;
+    public float highlightIntensity = 3f;
 
     private Quaternion targetRotation;
     private Vector3 targetPosition;
@@ -34,6 +35,7 @@ public class DoubleLever : MonoBehaviour
     private bool bottomLightGreen = false;
     private Material topLampMaterial;
     private Material bottomLampMaterial;
+    private Material leverMaterial;
 
     void Start()
     {
@@ -45,6 +47,12 @@ public class DoubleLever : MonoBehaviour
         if (bottomLampRenderer != null)
         {
             bottomLampMaterial = bottomLampRenderer.material;
+        }
+
+        if (leverRenderer != null)
+        {
+            leverMaterial = new Material(leverRenderer.material);
+            leverRenderer.material = leverMaterial;
         }
 
         if (audioSource == null)
@@ -141,23 +149,17 @@ public class DoubleLever : MonoBehaviour
 
     public void Highlight(bool enable)
     {
+        if (leverMaterial == null) return;
+
         if (enable)
         {
-            if (topLampMaterial != null)
-            {
-                Color topColor = topLightGreen ? greenColor : redColor;
-                topLampMaterial.SetColor(emissionProperty, topColor * highlightIntensity);
-            }
-
-            if (bottomLampMaterial != null)
-            {
-                Color bottomColor = bottomLightGreen ? greenColor : redColor;
-                bottomLampMaterial.SetColor(emissionProperty, bottomColor * highlightIntensity);
-            }
+            leverMaterial.EnableKeyword("_EMISSION");
+            leverMaterial.SetColor("_EmissionColor", highlightColor * highlightIntensity);
         }
         else
         {
-            UpdateLights();
+            leverMaterial.DisableKeyword("_EMISSION");
+            leverMaterial.SetColor("_EmissionColor", Color.black);
         }
     }
 
@@ -170,6 +172,10 @@ public class DoubleLever : MonoBehaviour
         if (bottomLampMaterial != null)
         {
             Destroy(bottomLampMaterial);
+        }
+        if (leverMaterial != null)
+        {
+            Destroy(leverMaterial);
         }
     }
 }

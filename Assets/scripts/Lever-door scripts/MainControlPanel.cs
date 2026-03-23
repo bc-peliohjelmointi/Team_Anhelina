@@ -3,9 +3,9 @@ using UnityEngine;
 public class MainControlPanel : MonoBehaviour
 {
     [Header("Puzzle Levels")]
-    public PuzzleLevel level1;
-    public PuzzleLevel level2;
-    public PuzzleLevel level3;
+    public PuzzleLevel1 puzzleLevel1;
+    public PuzzleLevel2 puzzleLevel2;
+    public PuzzleLevel3 puzzleLevel3;
 
     [Header("Indicator Lights")]
     public Light light1;
@@ -44,9 +44,9 @@ public class MainControlPanel : MonoBehaviour
 
     void UpdateAllLights()
     {
-        bool solved1 = level1 != null && level1.IsSolved();
-        bool solved2 = level2 != null && level2.IsSolved();
-        bool solved3 = level3 != null && level3.IsSolved();
+        bool solved1 = puzzleLevel1 != null && puzzleLevel1.IsSolved();
+        bool solved2 = puzzleLevel2 != null && puzzleLevel2.IsSolved();
+        bool solved3 = puzzleLevel3 != null && puzzleLevel3.IsSolved();
 
         SetLight(light1, mat1, solved1);
         SetLight(light2, mat2, solved2);

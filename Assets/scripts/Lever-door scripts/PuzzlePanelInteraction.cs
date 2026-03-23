@@ -29,9 +29,9 @@ public class PuzzlePanelInteraction : MonoBehaviour
     public float maxHorizontalAngle = 40f;
 
     [Header("Puzzle Levels")]
-    public PuzzleLevel puzzleLevel1;
-    public PuzzleLevel puzzleLevel2;
-    public PuzzleLevel puzzleLevel3;
+    public PuzzleLevel1 puzzleLevel1;
+    public PuzzleLevel2 puzzleLevel2;
+    public PuzzleLevel3 puzzleLevel3;
 
     [Header("Input")]
     public KeyCode exitKey = KeyCode.E;
@@ -47,7 +47,9 @@ public class PuzzlePanelInteraction : MonoBehaviour
     private Texture2D cursorTexture;
     private GameObject currentHighlighted;
     private PlayerMovement playerMovement;
-    private CheckLeverInteraction currentCheckLever;
+    private PuzzleLevel1 currentCheckLevel1;
+    private PuzzleLevel2 currentCheckLevel2;
+    private PuzzleLevel3 currentCheckLevel3;
 
     void Start()
     {
@@ -151,9 +153,12 @@ public class PuzzlePanelInteraction : MonoBehaviour
 
                 Lever lever = hitObject.GetComponent<Lever>();
                 DoubleLever doubleLever = hitObject.GetComponent<DoubleLever>();
-                CheckLeverInteraction checkLever = hitObject.GetComponent<CheckLeverInteraction>();
 
-                if (lever != null || doubleLever != null || checkLever != null)
+                PuzzleLevel1 checkLevel1 = hitObject.GetComponentInParent<PuzzleLevel1>();
+                PuzzleLevel2 checkLevel2 = hitObject.GetComponentInParent<PuzzleLevel2>();
+                PuzzleLevel3 checkLevel3 = hitObject.GetComponentInParent<PuzzleLevel3>();
+
+                if (lever != null || doubleLever != null || checkLevel1 != null || checkLevel2 != null || checkLevel3 != null)
                 {
                     currentHighlighted = hitObject;
                     ApplyHighlight();
@@ -182,10 +187,22 @@ public class PuzzlePanelInteraction : MonoBehaviour
             doubleLever.Highlight(true);
         }
 
-        CheckLeverInteraction checkLever = currentHighlighted.GetComponent<CheckLeverInteraction>();
-        if (checkLever != null)
+        PuzzleLevel1 checkLevel1 = currentHighlighted.GetComponentInParent<PuzzleLevel1>();
+        if (checkLevel1 != null)
         {
-            checkLever.Highlight(true);
+            checkLevel1.HighlightCheckLever(true);
+        }
+
+        PuzzleLevel2 checkLevel2 = currentHighlighted.GetComponentInParent<PuzzleLevel2>();
+        if (checkLevel2 != null)
+        {
+            checkLevel2.HighlightCheckLever(true);
+        }
+
+        PuzzleLevel3 checkLevel3 = currentHighlighted.GetComponentInParent<PuzzleLevel3>();
+        if (checkLevel3 != null)
+        {
+            checkLevel3.HighlightCheckLever(true);
         }
     }
 
@@ -205,10 +222,22 @@ public class PuzzlePanelInteraction : MonoBehaviour
             doubleLever.Highlight(false);
         }
 
-        CheckLeverInteraction checkLever = currentHighlighted.GetComponent<CheckLeverInteraction>();
-        if (checkLever != null)
+        PuzzleLevel1 checkLevel1 = currentHighlighted.GetComponentInParent<PuzzleLevel1>();
+        if (checkLevel1 != null)
         {
-            checkLever.Highlight(false);
+            checkLevel1.HighlightCheckLever(false);
+        }
+
+        PuzzleLevel2 checkLevel2 = currentHighlighted.GetComponentInParent<PuzzleLevel2>();
+        if (checkLevel2 != null)
+        {
+            checkLevel2.HighlightCheckLever(false);
+        }
+
+        PuzzleLevel3 checkLevel3 = currentHighlighted.GetComponentInParent<PuzzleLevel3>();
+        if (checkLevel3 != null)
+        {
+            checkLevel3.HighlightCheckLever(false);
         }
 
         currentHighlighted = null;
@@ -226,6 +255,7 @@ public class PuzzlePanelInteraction : MonoBehaviour
             if (puzzleLevel1 != null) puzzleLevel1.OnLeverChanged();
             if (puzzleLevel2 != null) puzzleLevel2.OnLeverChanged();
             if (puzzleLevel3 != null) puzzleLevel3.OnLeverChanged();
+            return;
         }
 
         DoubleLever doubleLever = currentHighlighted.GetComponent<DoubleLever>();
@@ -236,22 +266,52 @@ public class PuzzlePanelInteraction : MonoBehaviour
             if (puzzleLevel1 != null) puzzleLevel1.OnLeverChanged();
             if (puzzleLevel2 != null) puzzleLevel2.OnLeverChanged();
             if (puzzleLevel3 != null) puzzleLevel3.OnLeverChanged();
+            return;
         }
 
-        CheckLeverInteraction checkLever = currentHighlighted.GetComponent<CheckLeverInteraction>();
-        if (checkLever != null)
+        PuzzleLevel1 checkLevel1 = currentHighlighted.GetComponentInParent<PuzzleLevel1>();
+        if (checkLevel1 != null)
         {
-            currentCheckLever = checkLever;
-            checkLever.Pull();
+            currentCheckLevel1 = checkLevel1;
+            checkLevel1.PullCheckLever();
+            return;
+        }
+
+        PuzzleLevel2 checkLevel2 = currentHighlighted.GetComponentInParent<PuzzleLevel2>();
+        if (checkLevel2 != null)
+        {
+            currentCheckLevel2 = checkLevel2;
+            checkLevel2.PullCheckLever();
+            return;
+        }
+
+        PuzzleLevel3 checkLevel3 = currentHighlighted.GetComponentInParent<PuzzleLevel3>();
+        if (checkLevel3 != null)
+        {
+            currentCheckLevel3 = checkLevel3;
+            checkLevel3.PullCheckLever();
+            return;
         }
     }
 
     void ReleaseLever()
     {
-        if (currentCheckLever != null)
+        if (currentCheckLevel1 != null)
         {
-            currentCheckLever.Release();
-            currentCheckLever = null;
+            currentCheckLevel1.ReleaseCheckLever();
+            currentCheckLevel1 = null;
+        }
+
+        if (currentCheckLevel2 != null)
+        {
+            currentCheckLevel2.ReleaseCheckLever();
+            currentCheckLevel2 = null;
+        }
+
+        if (currentCheckLevel3 != null)
+        {
+            currentCheckLevel3.ReleaseCheckLever();
+            currentCheckLevel3 = null;
         }
     }
 
@@ -288,10 +348,22 @@ public class PuzzlePanelInteraction : MonoBehaviour
 
         RemoveHighlight();
 
-        if (currentCheckLever != null)
+        if (currentCheckLevel1 != null)
         {
-            currentCheckLever.Release();
-            currentCheckLever = null;
+            currentCheckLevel1.ReleaseCheckLever();
+            currentCheckLevel1 = null;
+        }
+
+        if (currentCheckLevel2 != null)
+        {
+            currentCheckLevel2.ReleaseCheckLever();
+            currentCheckLevel2 = null;
+        }
+
+        if (currentCheckLevel3 != null)
+        {
+            currentCheckLevel3.ReleaseCheckLever();
+            currentCheckLevel3 = null;
         }
 
         currentVerticalAngle = 0f;

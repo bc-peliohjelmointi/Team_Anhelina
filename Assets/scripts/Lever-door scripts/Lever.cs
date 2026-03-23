@@ -23,21 +23,27 @@ public class Lever : MonoBehaviour
     public float soundVolume = 0.5f;
 
     [Header("Highlight")]
+    public Renderer leverRenderer;
     public Color highlightColor = Color.cyan;
-    public float highlightIntensity = 2f;
+    public float highlightIntensity = 3f;
 
     private Quaternion targetRotation;
     private Vector3 targetPosition;
     private bool isLightGreen = false;
     private Material lampMaterial;
-    private Material originalMaterial;
+    private Material leverMaterial;
 
     void Start()
     {
         if (lampRenderer != null)
         {
             lampMaterial = lampRenderer.material;
-            originalMaterial = new Material(lampMaterial);
+        }
+
+        if (leverRenderer != null)
+        {
+            leverMaterial = new Material(leverRenderer.material);
+            leverRenderer.material = leverMaterial;
         }
 
         if (audioSource == null)
@@ -115,25 +121,29 @@ public class Lever : MonoBehaviour
 
     public void Highlight(bool enable)
     {
-        if (lampMaterial == null) return;
+        if (leverMaterial == null) return;
 
         if (enable)
         {
-            lampMaterial.EnableKeyword("_EMISSION");
-            Color currentColor = isLightGreen ? greenColor : redColor;
-            lampMaterial.SetColor(emissionProperty, currentColor * highlightIntensity);
+            leverMaterial.EnableKeyword("_EMISSION");
+            leverMaterial.SetColor("_EmissionColor", highlightColor * highlightIntensity);
         }
         else
         {
-            UpdateLight();
+            leverMaterial.DisableKeyword("_EMISSION");
+            leverMaterial.SetColor("_EmissionColor", Color.black);
         }
     }
 
     void OnDestroy()
     {
-        if (lampMaterial != null && lampMaterial != originalMaterial)
+        if (lampMaterial != null)
         {
             Destroy(lampMaterial);
+        }
+        if (leverMaterial != null)
+        {
+            Destroy(leverMaterial);
         }
     }
 }
