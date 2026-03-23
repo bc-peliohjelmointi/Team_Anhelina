@@ -34,6 +34,7 @@ public class PauseMenu : MonoBehaviour
         chapter2Button.SetActive(progress >= 2);
         chapter3Button.SetActive(progress >= 3);
 
+
     }
 
     void Update()
@@ -122,6 +123,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Chapter1Button()
     {
+        PlayerPrefs.SetInt("NewGame", 1);
+
         confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);
 
@@ -130,6 +133,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Chapter2Button()
     {
+
         confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);
 
@@ -150,6 +154,20 @@ public class PauseMenu : MonoBehaviour
 
         confirmChapterPanel.SetActive(false);
         pauseMenu.SetActive(false);
+
+        int isNewGame = PlayerPrefs.GetInt("NewGame", 0);
+
+        if (isNewGame == 1)
+        {
+            Debug.Log("RESET SAVE FOR NEW GAME");
+
+            PlayerPrefs.DeleteKey("PlayerX");
+            PlayerPrefs.DeleteKey("PlayerY");
+            PlayerPrefs.DeleteKey("PlayerZ");
+            PlayerPrefs.DeleteKey("CurrentScene");
+
+            PlayerPrefs.Save();
+        }
 
         LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade");
     }

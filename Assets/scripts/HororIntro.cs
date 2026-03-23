@@ -11,97 +11,156 @@ public class HorrorIntro : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource ambientAudio;
-    public AudioSource voice1;
-    public AudioSource voice2;
 
-    [Header("Camera")]
+    [Header("Camera Shake")]
     public CameraShake camShake;
+
+    bool isPlaying = false;
 
     void Start()
     {
-        StartCoroutine(PlayIntro());
+        Debug.Log("HORROR INTRO START");
+
+        StartCoroutine(InitAndPlay());
+    }
+
+    IEnumerator InitAndPlay()
+    {
+        yield return null; // đợi scene load xong
+
+        int isNewGame = PlayerPrefs.GetInt("NewGame", 0);
+        Debug.Log("NewGame = " + isNewGame);
+
+        if (isNewGame == 1)
+        {
+            PlayerPrefs.SetInt("NewGame", 0);
+            PlayerPrefs.Save();
+
+            yield return StartCoroutine(PlayIntro());
+        }
+        else
+        {
+            Debug.Log("SKIP INTRO");
+
+            SkipIntro();
+        }
+    }
+
+    void SkipIntro()
+    {
+        if (ambientAudio)
+        {
+            ambientAudio.Stop();
+        }
+
+        if (blackScreen)
+        {
+            blackScreen.gameObject.SetActive(true);
+            blackScreen.color = new Color(0, 0, 0, 0); // KHÔNG ĐỂ ĐEN MÀN HÌNH
+        }
+
+        if (whiteFlash)
+        {
+            whiteFlash.gameObject.SetActive(false);
+        }
+
+        if (blurScreen)
+        {
+            blurScreen.gameObject.SetActive(false);
+        }
     }
 
     IEnumerator PlayIntro()
     {
-        // 🖤 init UI
+        if (isPlaying) yield break;
+        isPlaying = true;
+
+        if (ambientAudio == null || ambientAudio.clip == null)
+        {
+            Debug.LogError("Missing Audio");
+            yield break;
+        }
+
+        // INIT UI
         blackScreen.gameObject.SetActive(true);
-        blackScreen.color = new Color(0, 0, 0, 1);
+        blackScreen.color = Color.black;
 
         whiteFlash.gameObject.SetActive(true);
         whiteFlash.color = new Color(1, 1, 1, 0);
 
-        if (blurScreen != null)
+        if (blurScreen)
         {
             blurScreen.gameObject.SetActive(true);
             blurScreen.color = new Color(0, 0, 0, 0);
         }
 
-        // 🔊 ambient start
+        // AUDIO RESET
+        ambientAudio.Stop();
+        ambientAudio.time = 0f;
         ambientAudio.Play();
 
-        // ⏳ wait đến đoạn voice
-        float waitTime = ambientAudio.clip.length - voice1.clip.length;
-        if (waitTime < 0) waitTime = 0;
+        bool flashDone = false;
+        bool jumpDone = false;
 
-        yield return new WaitForSeconds(waitTime);
-
-        // 🎤 voice1 start
-        voice1.Play();
-
-        bool triggered = false;
-
-        while (voice1.isPlaying)
+        while (ambientAudio != null && ambientAudio.isPlaying)
         {
-            float remaining = voice1.clip.length - voice1.time;
+            float remaining = ambientAudio.clip.length - ambientAudio.time;
 
-            // 💀 khi còn 1.5s → voice2 + flash cùng lúc
-            if (!triggered && remaining <= 1.2f)
+            // FLASH 2s trước end
+            if (!flashDone && remaining <= 2f)
             {
-                triggered = true;
-
-                // 🎤 voice2
-                voice2.Play();
-
-                // 💥 flash
+                flashDone = true;
                 StartCoroutine(FlashEffect());
+            }
 
-                // 📳 shake nhẹ
-                if (camShake != null)
-                    StartCoroutine(camShake.Shake(0.25f, 0.15f));
+            // JUMPSCARE 1s trước end
+            if (!jumpDone && remaining <= 1f)
+            {
+                jumpDone = true;
+                StartCoroutine(JumpscareEffect());
+
+                if (camShake)
+                    StartCoroutine(camShake.Shake(0.3f, 0.2f));
             }
 
             yield return null;
         }
 
-        // 🖤 fade out black screen
-        blackScreen.CrossFadeAlpha(0f, 1f, false);
+        if (blackScreen)
+            blackScreen.CrossFadeAlpha(0f, 1f, false);
+
+        isPlaying = false;
     }
 
     IEnumerator FlashEffect()
     {
-        // 💥 WHITE FLASH (nổ)
         whiteFlash.color = new Color(1, 1, 1, 0.7f);
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
 
-        // 🌫 AFTER GLOW (màu nâu/ám vàng)
-        if (blurScreen != null)
-        {
+        if (blurScreen)
             blurScreen.color = new Color(0.6f, 0.45f, 0.25f, 0.5f);
-        }
 
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
-        // 💥 fade white
+        whiteFlash.color = new Color(1, 1, 1, 0);
+    }
+
+    IEnumerator JumpscareEffect()
+    {
+        whiteFlash.color = Color.white;
+
+        yield return new WaitForSecondsRealtime(0.1f);
+
         whiteFlash.color = new Color(1, 1, 1, 0);
 
-        yield return new WaitForSeconds(0.2f);
+        if (blurScreen)
+            blurScreen.color = new Color(0, 0, 0, 0.4f);
+    }
 
-        // 🖤 fade warm tint
-        if (blurScreen != null)
-        {
-            blurScreen.color = new Color(0, 0, 0, 0);
-        }
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        isPlaying = false;
     }
 }
