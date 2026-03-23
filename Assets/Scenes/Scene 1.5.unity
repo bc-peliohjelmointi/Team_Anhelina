@@ -5201,8 +5201,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1001 &62153678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6535,8 +6536,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  leverMeshFilter: {fileID: 81949347}
+  highlightColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0.02
+--- !u!33 &81949347 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 1421920329}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &84385242
 GameObject:
   m_ObjectHideFlags: 0
@@ -9802,8 +9809,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1 &141928761
 GameObject:
   m_ObjectHideFlags: 0
@@ -16127,7 +16135,7 @@ MonoBehaviour:
   downRotation: {x: 0, y: 0, z: 0}
   upRotation: {x: 60, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 9}
+  upPosition: {x: 0, y: -0.5, z: 0.9}
   switchSpeed: 5
   lampLight: {fileID: 2121868570}
   lampRenderer: {fileID: 0}
@@ -16137,8 +16145,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  leverMeshFilter: {fileID: 252645174}
+  highlightColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0.02
+--- !u!33 &252645174 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 427597591}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &253152065
 GameObject:
   m_ObjectHideFlags: 0
@@ -23958,8 +23972,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 403090957}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
+--- !u!33 &403090957 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 403090952}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &403371147
 GameObject:
   m_ObjectHideFlags: 0
@@ -25526,8 +25546,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1 &426370114
 GameObject:
   m_ObjectHideFlags: 0
@@ -31520,9 +31541,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverInteraction
   puzzleLevel: {fileID: 0}
-  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightIntensity: 3
   leverRenderer: {fileID: 0}
+  highlightColor:
+    r: 1
+    g: 0.92156863
+    b: 0.015686275
+    a: 1
+  highlightIntensity: 3
+  leverMaterial: {fileID: 0}
 --- !u!1001 &507232274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41657,8 +41683,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1001 &667163232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41774,8 +41801,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 667163237}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
+--- !u!33 &667163237 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 667163232}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &668489676
 GameObject:
   m_ObjectHideFlags: 0
@@ -42865,9 +42898,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverInteraction
   puzzleLevel: {fileID: 0}
-  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightIntensity: 3
   leverRenderer: {fileID: 0}
+  highlightColor:
+    r: 1
+    g: 0.92156863
+    b: 0.015686275
+    a: 1
+  highlightIntensity: 3
+  leverMaterial: {fileID: 0}
 --- !u!1 &689526777
 GameObject:
   m_ObjectHideFlags: 0
@@ -43078,8 +43116,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1001 &693005940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54699,8 +54738,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 835150437}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
+--- !u!33 &835150437 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 835150432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &835494704
 GameObject:
   m_ObjectHideFlags: 0
@@ -60987,9 +61032,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7377719309352122999, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1582197375}
-    - targetCorrespondingSourceObject: {fileID: 7377719309352122999, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1582197376}
   m_SourcePrefab: {fileID: 100100000, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
 --- !u!4 &942738290 stripped
 Transform:
@@ -67644,8 +67686,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1 &1048113634
 GameObject:
   m_ObjectHideFlags: 0
@@ -67864,8 +67907,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 1048503544}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
+--- !u!33 &1048503544 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 1579050376}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1049294935
 GameObject:
   m_ObjectHideFlags: 0
@@ -70212,8 +70261,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1001 &1089400252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84008,8 +84058,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1 &1286105193
 GameObject:
   m_ObjectHideFlags: 0
@@ -89043,7 +89094,7 @@ MonoBehaviour:
   mouseSensitivity: 2
   maxVerticalAngle: 70
   maxHorizontalAngle: 70
-  puzzleLevel1: {fileID: 1418857040}
+  puzzleLevel1: {fileID: 0}
   puzzleLevel2: {fileID: 0}
   puzzleLevel3: {fileID: 0}
   exitKey: 101
@@ -91021,8 +91072,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 1397809072}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
+--- !u!33 &1397809072 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 1397809067}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1397906202
 GameObject:
   m_ObjectHideFlags: 0
@@ -92684,24 +92741,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1418857038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5ff988e5d7f72d4e9c4e2dc998343f1, type: 3}
+  m_Script: {fileID: 11500000, guid: c74c5969bbbdbff40b58829483589eab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PuzzleLevel
-  singleLevers:
-  - {fileID: 252645171}
-  - {fileID: 81949344}
-  - {fileID: 1048503541}
-  - {fileID: 667163235}
-  - {fileID: 1397809070}
-  - {fileID: 835150435}
-  - {fileID: 403090955}
-  - {fileID: 1543997681}
-  doubleLevers: []
-  correctCombination: 0100000001000100
+  m_EditorClassIdentifier: Assembly-CSharp::PuzzleLevel1
+  lever1: {fileID: 252645171}
+  lever2: {fileID: 81949344}
+  lever3: {fileID: 1048503541}
+  lever4: {fileID: 667163235}
+  lever5: {fileID: 1397809070}
+  lever6: {fileID: 835150435}
+  lever7: {fileID: 403090955}
+  lever8: {fileID: 1543997681}
   checkLever: {fileID: 942738290}
-  checkDownRotation: {x: 0, y: 0, z: 0}
-  checkUpRotation: {x: 25, y: 0, z: 0}
+  checkLeverMeshFilter: {fileID: 1582197378}
+  checkDownRotation: {x: 45, y: 0, z: 0}
+  checkUpRotation: {x: -45, y: 0, z: 0}
   checkLeverSpeed: 5
+  validationHoldTime: 5
+  checkHighlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  checkOutlineWidth: 0.02
   audioSource: {fileID: 0}
   correctSound: {fileID: 0}
   wrongSound: {fileID: 0}
@@ -96196,9 +96254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f382581d0a9a2548a025eb7fabc3ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainControlPanel
-  level1: {fileID: 1418857040}
-  level2: {fileID: 0}
-  level3: {fileID: 0}
+  puzzleLevel1: {fileID: 0}
+  puzzleLevel2: {fileID: 0}
+  puzzleLevel3: {fileID: 0}
   light1: {fileID: 1113642533}
   light2: {fileID: 281660425}
   light3: {fileID: 1809105174}
@@ -96924,8 +96982,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1001 &1496048445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99894,8 +99953,14 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  leverMeshFilter: {fileID: 1543997683}
+  highlightColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0.02
+--- !u!33 &1543997683 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6495055885764396932, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
+  m_PrefabInstance: {fileID: 1543997678}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1544021392
 GameObject:
   m_ObjectHideFlags: 0
@@ -102730,25 +102795,9 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19220997, y: 0.7993885, z: 0.4569525}
   m_Center: {x: 0.013735972, y: 0.16600122, z: -0.5593253}
---- !u!114 &1582197376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1582197371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6fa3350b0e46964498a2f54909aee1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CheckLeverInteraction
-  puzzleLevel: {fileID: 1418857040}
-  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  highlightIntensity: 3
-  leverRenderer: {fileID: 1582197377}
---- !u!23 &1582197377 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5533902656396769271, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
+--- !u!33 &1582197378 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 3619748128055804684, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
   m_PrefabInstance: {fileID: 942738289}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1583778437
@@ -134538,8 +134587,9 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
+  leverMeshFilter: {fileID: 0}
   highlightColor: {r: 0, g: 1, b: 1, a: 1}
-  highlightIntensity: 2
+  outlineWidth: 0.02
 --- !u!1 &2096216976
 GameObject:
   m_ObjectHideFlags: 0

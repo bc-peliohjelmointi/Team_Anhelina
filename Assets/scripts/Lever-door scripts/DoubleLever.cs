@@ -24,10 +24,10 @@ public class DoubleLever : MonoBehaviour
     public AudioClip switchSound;
     public float soundVolume = 0.5f;
 
-    [Header("Highlight")]
-    public Renderer leverRenderer;
+    [Header("Outline Highlight")]
+    public MeshFilter leverMeshFilter;
     public Color highlightColor = Color.cyan;
-    public float highlightIntensity = 3f;
+    public float outlineWidth = 0.02f;
 
     private Quaternion targetRotation;
     private Vector3 targetPosition;
@@ -35,7 +35,7 @@ public class DoubleLever : MonoBehaviour
     private bool bottomLightGreen = false;
     private Material topLampMaterial;
     private Material bottomLampMaterial;
-    private Material leverMaterial;
+    private GameObject outlineObject;
 
     void Start()
     {
@@ -47,12 +47,6 @@ public class DoubleLever : MonoBehaviour
         if (bottomLampRenderer != null)
         {
             bottomLampMaterial = bottomLampRenderer.material;
-        }
-
-        if (leverRenderer != null)
-        {
-            leverMaterial = new Material(leverRenderer.material);
-            leverRenderer.material = leverMaterial;
         }
 
         if (audioSource == null)
@@ -149,17 +143,46 @@ public class DoubleLever : MonoBehaviour
 
     public void Highlight(bool enable)
     {
-        if (leverMaterial == null) return;
-
         if (enable)
         {
-            leverMaterial.EnableKeyword("_EMISSION");
-            leverMaterial.SetColor("_EmissionColor", highlightColor * highlightIntensity);
+            CreateOutline();
         }
         else
         {
-            leverMaterial.DisableKeyword("_EMISSION");
-            leverMaterial.SetColor("_EmissionColor", Color.black);
+            RemoveOutline();
+        }
+    }
+
+    void CreateOutline()
+    {
+        if (outlineObject != null || leverMeshFilter == null) return;
+
+        outlineObject = new GameObject("LeverOutline");
+        outlineObject.transform.SetParent(transform);
+        outlineObject.transform.localPosition = Vector3.zero;
+        outlineObject.transform.localRotation = Quaternion.identity;
+        outlineObject.transform.localScale = Vector3.one * (1f + outlineWidth);
+
+        MeshFilter outlineMeshFilter = outlineObject.AddComponent<MeshFilter>();
+        outlineMeshFilter.mesh = leverMeshFilter.mesh;
+
+        MeshRenderer outlineRenderer = outlineObject.AddComponent<MeshRenderer>();
+        Material outlineMaterial = new Material(Shader.Find("Standard"));
+        outlineMaterial.color = highlightColor;
+        outlineMaterial.SetFloat("_Metallic", 0f);
+        outlineMaterial.SetFloat("_Glossiness", 0.8f);
+        outlineRenderer.material = outlineMaterial;
+        outlineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+        outlineObject.layer = gameObject.layer;
+    }
+
+    void RemoveOutline()
+    {
+        if (outlineObject != null)
+        {
+            Destroy(outlineObject);
+            outlineObject = null;
         }
     }
 
@@ -173,9 +196,6 @@ public class DoubleLever : MonoBehaviour
         {
             Destroy(bottomLampMaterial);
         }
-        if (leverMaterial != null)
-        {
-            Destroy(leverMaterial);
-        }
+        RemoveOutline();
     }
 }
