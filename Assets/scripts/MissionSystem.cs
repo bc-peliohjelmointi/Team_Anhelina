@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using System;
 
 public class MissionSystem : MonoBehaviour
 {
@@ -11,9 +12,11 @@ public class MissionSystem : MonoBehaviour
         public Light[] streetLights;
     }
 
-    public MissionLights[] missionLights; 
+    public MissionLights[] missionLights;
+    public event Action<int> OnMissionChanged;
 
     int currentMission = 0;
+
     string[] missions =
     {
         "1.Visit Grandma;",
@@ -32,11 +35,17 @@ public class MissionSystem : MonoBehaviour
         return currentMission;
     }
 
+    public bool IsLastMission()
+    {
+        return currentMission == missions.Length - 1;
+    }
+
     public void CompleteMission(int id)
     {
         if (id == currentMission)
         {
             currentMission++;
+            OnMissionChanged?.Invoke(currentMission);
             UpdateUI();
             UpdateLights();
         }
@@ -63,7 +72,7 @@ public class MissionSystem : MonoBehaviour
             if (i < currentMission)
                 text += $"<s>{missions[i]}</s>\n";
             else if (i == currentMission)
-                text += $"<color=#4B0000>{missions[i]}</color>\n"; 
+                text += $"<color=#4B0000>{missions[i]}</color>\n";
             else
                 text += missions[i] + "\n";
         }

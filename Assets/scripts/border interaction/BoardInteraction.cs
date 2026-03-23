@@ -38,44 +38,44 @@ public class BoardInteraction : MonoBehaviour
 
     void Update()
     {
-        // Вход в режим просмотра
-        if (playerNear && Input.GetKeyDown(KeyCode.E) && !isViewing)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            EnterView();
-        }
-        // Выход по E
-        else if (isViewing && Input.GetKeyDown(KeyCode.E))
-        {
-            ExitView();
+            if (!isViewing)
+            {
+                // Открыть карту — можно всегда, даже не в триггере
+                EnterView();
+            }
+            else
+            {
+                // Закрыть карту
+                if (dialogue != null)
+                    dialogue.Stop();
+
+                ExitView();
+            }
         }
     }
+
     IEnumerator FadeTexture(Texture newTexture)
     {
         Material mat = mapRenderer.material;
-
         float t = 0f;
 
-        // затемняем
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
             float alpha = 1f - (t / fadeDuration);
-
             mat.color = new Color(1, 1, 1, alpha);
             yield return null;
         }
 
-        // меняем текстуру
         mat.mainTexture = newTexture;
-
         t = 0f;
 
-        // осветляем обратно
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
             float alpha = t / fadeDuration;
-
             mat.color = new Color(1, 1, 1, alpha);
             yield return null;
         }
@@ -85,30 +85,23 @@ public class BoardInteraction : MonoBehaviour
     {
         isViewing = true;
 
-        // скрываем подсказку
         if (interactHint != null)
             interactHint.SetActive(false);
 
-        // сохраняем камеру
         oldCamPos = playerCamera.transform.position;
         oldCamRot = playerCamera.transform.rotation;
 
-        // выключаем управление
         if (playerController != null)
             playerController.enabled = false;
 
-        // ставим камеру на точку
         playerCamera.transform.position = cameraPoint.position;
         playerCamera.transform.rotation = cameraPoint.rotation;
 
-        // меняем карту
         UpdateMapTexture();
 
-        // запускаем диалог
         if (dialogue != null)
             dialogue.Play();
 
-        // запускаем таймер (1 минута)
         StartCoroutine(ViewTimer());
     }
 
@@ -118,7 +111,6 @@ public class BoardInteraction : MonoBehaviour
 
         while (timer < viewTime)
         {
-            // если диалог закончился — можно выйти раньше (опционально)
             if (dialogue != null && !dialogue.IsPlaying())
                 break;
 
@@ -135,15 +127,12 @@ public class BoardInteraction : MonoBehaviour
 
         isViewing = false;
 
-        // возвращаем управление
         if (playerController != null)
             playerController.enabled = true;
 
-        // возвращаем камеру
         playerCamera.transform.position = oldCamPos;
         playerCamera.transform.rotation = oldCamRot;
 
-        // показываем подсказку если игрок рядом
         if (playerNear && interactHint != null)
             interactHint.SetActive(true);
     }
@@ -155,9 +144,7 @@ public class BoardInteraction : MonoBehaviour
         int mission = missionSystem.GetCurrentMission();
 
         if (mission >= 0 && mission < missionTextures.Length)
-        {
             StartCoroutine(FadeTexture(missionTextures[mission]));
-        }
     }
 
     void OnTriggerEnter(Collider other)

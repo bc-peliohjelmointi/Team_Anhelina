@@ -110,4 +110,19 @@ public class DialoguePlayer : MonoBehaviour
     {
         return isPlaying;
     }
+    public void Stop()
+    {
+        if (!isPlaying) return;
+
+        StopAllCoroutines();
+        audioSource.Stop();
+        isPlaying = false;
+
+        if (subtitleText != null)
+        {
+            subtitleText.text = "";
+            var c = subtitleText.color;
+            subtitleText.color = new Color(c.r, c.g, c.b, 0f);
+        }
+    }
 }

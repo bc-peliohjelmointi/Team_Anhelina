@@ -23,7 +23,7 @@ public class NPCInteraction : MonoBehaviour
     public float fadeSpeed = 3f;
 
     [Header("Trigger Mode")]
-    public bool autoPlayOnEnter = false; // включи если нужен авто-монолог без E
+    public bool autoPlayOnEnter = false;
 
     private AudioSource audioSource;
     private bool playerNear = false;
@@ -33,6 +33,7 @@ public class NPCInteraction : MonoBehaviour
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.spatialBlend = 0f;
+
         if (subtitleText != null)
         {
             subtitleText.text = "";
@@ -57,6 +58,7 @@ public class NPCInteraction : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+
         playerNear = true;
 
         if (autoPlayOnEnter && !isTalking)
@@ -65,8 +67,26 @@ public class NPCInteraction : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-            playerNear = false;
+        if (!other.CompareTag("Player")) return;
+
+        playerNear = false;
+        StopDialogue();
+    }
+
+    void StopDialogue()
+    {
+        if (!isTalking) return;
+
+        StopAllCoroutines();
+        audioSource.Stop();
+        isTalking = false;
+
+        if (subtitleText != null)
+        {
+            subtitleText.text = "";
+            Color c = subtitleText.color;
+            subtitleText.color = new Color(c.r, c.g, c.b, 0f);
+        }
     }
 
     IEnumerator PlayDialogue()
@@ -98,7 +118,8 @@ public class NPCInteraction : MonoBehaviour
             if (activeLine != currentSubtitle)
             {
                 currentSubtitle = activeLine;
-                StopCoroutine("FadeText"); // останавливаем предыдущий fade
+                StopCoroutine("FadeText");
+
                 if (currentSubtitle >= 0)
                     StartCoroutine(FadeText(subtitles[currentSubtitle].text, true));
                 else
