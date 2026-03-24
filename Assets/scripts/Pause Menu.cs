@@ -124,6 +124,7 @@ public class PauseMenu : MonoBehaviour
     public void Chapter1Button()
     {
         PlayerPrefs.SetInt("NewGame", 1);
+        PlayerPrefs.Save();
 
         confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);

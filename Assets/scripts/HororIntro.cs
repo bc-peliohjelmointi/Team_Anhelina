@@ -33,8 +33,7 @@ public class HorrorIntro : MonoBehaviour
 
         if (isNewGame == 1)
         {
-            PlayerPrefs.SetInt("NewGame", 0);
-            PlayerPrefs.Save();
+
 
             yield return StartCoroutine(PlayIntro());
         }
@@ -130,6 +129,8 @@ public class HorrorIntro : MonoBehaviour
             blackScreen.CrossFadeAlpha(0f, 1f, false);
 
         isPlaying = false;
+
+        FindObjectOfType<PlayerSave>().allowSave = true;
     }
 
     IEnumerator FlashEffect()

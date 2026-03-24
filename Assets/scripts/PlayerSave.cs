@@ -5,34 +5,33 @@ public class PlayerSave : MonoBehaviour
 {
     public Transform player;
     public float autoSaveTime = 10f;
-
+    public bool allowSave = true;
     float timer;
     bool isNewGame = false;
 
     void Start()
     {
-        // Nếu quên kéo player trong Inspector thì tự lấy
         if (player == null)
             player = transform;
 
-        // 🔥 CHECK NEW GAME
-        isNewGame = PlayerPrefs.GetInt("NewGame", 0) == 1;
+        bool isNewGame = PlayerPrefs.GetInt("NewGame", 0) == 1;
 
         if (isNewGame)
         {
             Debug.Log("NEW GAME → KHÔNG LOAD SAVE");
 
-            // reset flag để lần sau continue bình thường
-            PlayerPrefs.SetInt("NewGame", 0);
+            allowSave = false;
+            return; // ❗ chỉ skip load thôi, KHÔNG đụng flag
         }
-        else
-        {
-            LoadGame(); // chỉ load khi Continue
-        }
+
+        LoadGame();
     }
 
     void Update()
     {
+
+        if (!allowSave) return;
+
         timer += Time.deltaTime;
 
         if (timer >= autoSaveTime)
