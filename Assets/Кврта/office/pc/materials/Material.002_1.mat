@@ -60,8 +60,12 @@ Material:
     m_Floats:
     - _GlossMapScale: 1
     - _GlossyReflections: 1
+    - _Intensity: 1
+    - _LineDensity: 500
     - _Parallax: 0.02
+    - _Scale: 500
     - _Smoothness: 1
+    - _Speed: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

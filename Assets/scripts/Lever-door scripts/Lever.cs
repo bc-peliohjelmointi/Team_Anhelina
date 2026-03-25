@@ -23,15 +23,16 @@ public class Lever : MonoBehaviour
     public float soundVolume = 0.5f;
 
     [Header("Outline Highlight")]
-    public MeshFilter leverMeshFilter;
-    public Color highlightColor = Color.cyan;
-    public float outlineWidth = 0.02f;
+    public Renderer leverRenderer;
+    public Color highlightColor = new Color(0, 1, 1, 1);
+    public float outlineWidth = 0.015f;
 
     private Quaternion targetRotation;
     private Vector3 targetPosition;
     private bool isLightGreen = false;
     private Material lampMaterial;
-    private GameObject outlineObject;
+    private Material[] originalMaterials;
+    private Material[] highlightMaterials;
 
     void Start()
     {
@@ -46,6 +47,11 @@ public class Lever : MonoBehaviour
         }
         audioSource.playOnAwake = false;
         audioSource.volume = soundVolume;
+
+        if (leverRenderer != null)
+        {
+            originalMaterials = leverRenderer.materials;
+        }
 
         UpdateLeverState(true);
     }
@@ -115,47 +121,56 @@ public class Lever : MonoBehaviour
 
     public void Highlight(bool enable)
     {
+        if (leverRenderer == null || originalMaterials == null) return;
+
         if (enable)
         {
-            CreateOutline();
+            CreateHighlightMaterials();
         }
         else
         {
-            RemoveOutline();
+            RemoveHighlightMaterials();
         }
     }
 
-    void CreateOutline()
+    void CreateHighlightMaterials()
     {
-        if (outlineObject != null || leverMeshFilter == null) return;
+        if (highlightMaterials != null) return;
 
-        outlineObject = new GameObject("LeverOutline");
-        outlineObject.transform.SetParent(transform);
-        outlineObject.transform.localPosition = Vector3.zero;
-        outlineObject.transform.localRotation = Quaternion.identity;
-        outlineObject.transform.localScale = Vector3.one * (1f + outlineWidth);
-
-        MeshFilter outlineMeshFilter = outlineObject.AddComponent<MeshFilter>();
-        outlineMeshFilter.mesh = leverMeshFilter.mesh;
-
-        MeshRenderer outlineRenderer = outlineObject.AddComponent<MeshRenderer>();
-        Material outlineMaterial = new Material(Shader.Find("Standard"));
-        outlineMaterial.color = highlightColor;
-        outlineMaterial.SetFloat("_Metallic", 0f);
-        outlineMaterial.SetFloat("_Glossiness", 0.8f);
-        outlineRenderer.material = outlineMaterial;
-        outlineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-
-        outlineObject.layer = gameObject.layer;
-    }
-
-    void RemoveOutline()
-    {
-        if (outlineObject != null)
+        Shader outlineShader = Shader.Find("Custom/OutlineEdge");
+        if (outlineShader == null)
         {
-            Destroy(outlineObject);
-            outlineObject = null;
+            Debug.LogWarning("OutlineEdge shader not found!");
+            return;
         }
+
+        highlightMaterials = new Material[originalMaterials.Length + 1];
+
+        for (int i = 0; i < originalMaterials.Length; i++)
+        {
+            highlightMaterials[i] = originalMaterials[i];
+        }
+
+        Material outlineMat = new Material(outlineShader);
+        outlineMat.SetColor("_OutlineColor", highlightColor);
+        outlineMat.SetFloat("_OutlineWidth", outlineWidth);
+        highlightMaterials[highlightMaterials.Length - 1] = outlineMat;
+
+        leverRenderer.materials = highlightMaterials;
+    }
+
+    void RemoveHighlightMaterials()
+    {
+        if (highlightMaterials == null) return;
+
+        leverRenderer.materials = originalMaterials;
+
+        if (highlightMaterials.Length > originalMaterials.Length)
+        {
+            Destroy(highlightMaterials[highlightMaterials.Length - 1]);
+        }
+
+        highlightMaterials = null;
     }
 
     void OnDestroy()
@@ -164,6 +179,6 @@ public class Lever : MonoBehaviour
         {
             Destroy(lampMaterial);
         }
-        RemoveOutline();
+        RemoveHighlightMaterials();
     }
 }
