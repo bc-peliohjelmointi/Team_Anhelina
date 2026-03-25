@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class BoardInteraction : MonoBehaviour
 {
-    [Header("Hint")]
-    public GameObject interactHint;
-
     [Header("Player")]
     public MonoBehaviour playerController;
     public Camera playerCamera;
@@ -32,8 +29,7 @@ public class BoardInteraction : MonoBehaviour
 
     void Start()
     {
-        if (interactHint != null)
-            interactHint.SetActive(false);
+        InteractionHint.instance.Hide();
     }
 
     void Update()
@@ -41,16 +37,11 @@ public class BoardInteraction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (!isViewing)
-            {
-                // Открыть карту — можно всегда, даже не в триггере
                 EnterView();
-            }
             else
             {
-                // Закрыть карту
                 if (dialogue != null)
                     dialogue.Stop();
-
                 ExitView();
             }
         }
@@ -84,9 +75,7 @@ public class BoardInteraction : MonoBehaviour
     void EnterView()
     {
         isViewing = true;
-
-        if (interactHint != null)
-            interactHint.SetActive(false);
+        InteractionHint.instance.Hide();
 
         oldCamPos = playerCamera.transform.position;
         oldCamRot = playerCamera.transform.rotation;
@@ -133,8 +122,8 @@ public class BoardInteraction : MonoBehaviour
         playerCamera.transform.position = oldCamPos;
         playerCamera.transform.rotation = oldCamRot;
 
-        if (playerNear && interactHint != null)
-            interactHint.SetActive(true);
+        if (playerNear)
+            InteractionHint.instance.Show("Press Space to view map");
     }
 
     void UpdateMapTexture()
@@ -153,8 +142,8 @@ public class BoardInteraction : MonoBehaviour
 
         playerNear = true;
 
-        if (!isViewing && interactHint != null)
-            interactHint.SetActive(true);
+        if (!isViewing)
+            InteractionHint.instance.Show("Press Space to view map");
     }
 
     void OnTriggerExit(Collider other)
@@ -162,8 +151,6 @@ public class BoardInteraction : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         playerNear = false;
-
-        if (interactHint != null)
-            interactHint.SetActive(false);
+        InteractionHint.instance.Hide();
     }
 }

@@ -28,6 +28,7 @@ public class NPCInteraction : MonoBehaviour
     private AudioSource audioSource;
     private bool playerNear = false;
     private bool isTalking = false;
+    private CharacterController playerController;
 
     void Awake()
     {
@@ -60,6 +61,10 @@ public class NPCInteraction : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         playerNear = true;
+        playerController = other.GetComponent<CharacterController>();
+
+        if (!isTalking && !autoPlayOnEnter)
+            InteractionHint.instance.Show("Press E to talk");
 
         if (autoPlayOnEnter && !isTalking)
             StartCoroutine(PlayDialogue());
@@ -70,7 +75,15 @@ public class NPCInteraction : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         playerNear = false;
+        playerController = null;
+        InteractionHint.instance.Hide();
         StopDialogue();
+    }
+
+    void SetPlayerMovement(bool enabled)
+    {
+        if (playerController != null)
+            playerController.enabled = enabled;
     }
 
     void StopDialogue()
@@ -80,6 +93,8 @@ public class NPCInteraction : MonoBehaviour
         StopAllCoroutines();
         audioSource.Stop();
         isTalking = false;
+
+        SetPlayerMovement(true);
 
         if (subtitleText != null)
         {
@@ -92,6 +107,8 @@ public class NPCInteraction : MonoBehaviour
     IEnumerator PlayDialogue()
     {
         isTalking = true;
+        InteractionHint.instance.Hide();
+        SetPlayerMovement(false);
 
         if (dialogueAudio != null)
         {
@@ -130,7 +147,11 @@ public class NPCInteraction : MonoBehaviour
         }
 
         StartCoroutine(FadeText("", false));
+        SetPlayerMovement(true);
         isTalking = false;
+
+        if (playerNear)
+            InteractionHint.instance.Show("Press E to talk");
     }
 
     IEnumerator FadeText(string text, bool show)

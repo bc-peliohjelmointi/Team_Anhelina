@@ -22,6 +22,7 @@ public class PlayerMonologue : MonoBehaviour
 
     private AudioSource audioSource;
     private bool played = false;
+    private CharacterController playerController;
 
     void Awake()
     {
@@ -42,11 +43,15 @@ public class PlayerMonologue : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         played = true;
+        playerController = other.GetComponent<CharacterController>();
         StartCoroutine(Play());
     }
 
     IEnumerator Play()
     {
+        if (playerController != null)
+            playerController.enabled = false;
+
         audioSource.clip = clip;
         audioSource.Play();
 
@@ -77,6 +82,9 @@ public class PlayerMonologue : MonoBehaviour
         }
 
         StartCoroutine(Fade("", false));
+
+        if (playerController != null)
+            playerController.enabled = true;
     }
 
     IEnumerator Fade(string text, bool show)
