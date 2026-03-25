@@ -7,66 +7,43 @@ public class HorrorIntro : MonoBehaviour
     [Header("UI")]
     public Image blackScreen;
     public Image whiteFlash;
-    public Image blurScreen;
 
     [Header("Audio")]
-    public AudioSource ambientAudio;
+    public AudioSource audioSource;
 
-    [Header("Camera Shake")]
-    public CameraShake camShake;
+    [Header("Timing")]
+    public float startDelay = 2f;             // thời gian black screen đầu
+    public float flashBeforeEnd = 1.5f;       // flash nháy trước khi audio kết thúc
+    public float blackFadeBeforeAudio = 1f;   // bắt đầu fade black screen trước audio end
+    public float fadeDuration = 0.4f;         // thời gian fade black screen
+
+    [Header("Flash Settings")]
+    public int flickerCount = 6;     // số lần nháy
+    public float flashAlpha = 0.6f;  // độ sáng flash
+    public float flashSpeed = 0.06f; // tốc độ mỗi lần nháy
 
     bool isPlaying = false;
 
     void Start()
     {
-        Debug.Log("HORROR INTRO START");
+        // Auto find nếu chưa assign
+        if (blackScreen == null)
+            blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
 
-        StartCoroutine(InitAndPlay());
-    }
+        if (whiteFlash == null)
+            whiteFlash = GameObject.Find("WhiteScreen").GetComponent<Image>();
 
-    IEnumerator InitAndPlay()
-    {
-        yield return null; // đợi scene load xong
+        if (audioSource == null)
+            audioSource = FindObjectOfType<AudioSource>();
 
+        // Kiểm tra PlayerPrefs NewGame
         int isNewGame = PlayerPrefs.GetInt("NewGame", 0);
-        Debug.Log("NewGame = " + isNewGame);
+        bool showIntro = isNewGame == 1;
 
-        if (isNewGame == 1)
-        {
-
-
-            yield return StartCoroutine(PlayIntro());
-        }
+        if (showIntro)
+            StartCoroutine(PlayIntro());
         else
-        {
-            Debug.Log("SKIP INTRO");
-
-            SkipIntro();
-        }
-    }
-
-    void SkipIntro()
-    {
-        if (ambientAudio)
-        {
-            ambientAudio.Stop();
-        }
-
-        if (blackScreen)
-        {
-            blackScreen.gameObject.SetActive(true);
-            blackScreen.color = new Color(0, 0, 0, 0); // KHÔNG ĐỂ ĐEN MÀN HÌNH
-        }
-
-        if (whiteFlash)
-        {
-            whiteFlash.gameObject.SetActive(false);
-        }
-
-        if (blurScreen)
-        {
-            blurScreen.gameObject.SetActive(false);
-        }
+            blackScreen.gameObject.SetActive(false); // skip intro, mở mắt luôn
     }
 
     IEnumerator PlayIntro()
@@ -74,89 +51,81 @@ public class HorrorIntro : MonoBehaviour
         if (isPlaying) yield break;
         isPlaying = true;
 
-        if (ambientAudio == null || ambientAudio.clip == null)
+        if (audioSource == null || audioSource.clip == null)
         {
-            Debug.LogError("Missing Audio");
+            Debug.LogError("Missing AudioSource or Clip!");
             yield break;
         }
 
-        // INIT UI
+        // BLACK SCREEN
         blackScreen.gameObject.SetActive(true);
         blackScreen.color = Color.black;
 
+        // WHITE FLASH (ẩn ban đầu)
         whiteFlash.gameObject.SetActive(true);
         whiteFlash.color = new Color(1, 1, 1, 0);
 
-        if (blurScreen)
-        {
-            blurScreen.gameObject.SetActive(true);
-            blurScreen.color = new Color(0, 0, 0, 0);
-        }
+        // DELAY đầu
+        yield return new WaitForSeconds(startDelay);
 
-        // AUDIO RESET
-        ambientAudio.Stop();
-        ambientAudio.time = 0f;
-        ambientAudio.Play();
+        // PLAY AUDIO
+        audioSource.Stop();
+        audioSource.time = 0f;
+        audioSource.Play();
 
         bool flashDone = false;
-        bool jumpDone = false;
+        bool blackFadeStarted = false;
 
-        while (ambientAudio != null && ambientAudio.isPlaying)
+        // LOOP kiểm tra thời gian audio
+        while (audioSource.isPlaying)
         {
-            float remaining = ambientAudio.clip.length - ambientAudio.time;
+            float remaining = audioSource.clip.length - audioSource.time;
 
-            // FLASH 2s trước end
-            if (!flashDone && remaining <= 2f)
+            // FLASH nháy nhiều lần
+            if (!flashDone && remaining <= flashBeforeEnd)
             {
                 flashDone = true;
-                StartCoroutine(FlashEffect());
+                StartCoroutine(FlashFlicker());
             }
 
-            // JUMPSCARE 1s trước end
-            if (!jumpDone && remaining <= 1f)
+            // BLACK SCREEN FADE SỚM
+            if (!blackFadeStarted && remaining <= blackFadeBeforeAudio)
             {
-                jumpDone = true;
-                StartCoroutine(JumpscareEffect());
-
-                if (camShake)
-                    StartCoroutine(camShake.Shake(0.3f, 0.2f));
+                blackFadeStarted = true;
+                blackScreen.CrossFadeAlpha(0f, fadeDuration, false);
             }
 
             yield return null;
         }
 
-        if (blackScreen)
-            blackScreen.CrossFadeAlpha(0f, 1f, false);
-
         isPlaying = false;
-
-        FindObjectOfType<PlayerSave>().allowSave = true;
     }
 
-    IEnumerator FlashEffect()
+    IEnumerator FlashFlicker()
     {
-        whiteFlash.color = new Color(1, 1, 1, 0.7f);
+        for (int i = 0; i < flickerCount; i++)
+        {
+            // FADE IN
+            float t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime / flashSpeed;
+                whiteFlash.color = new Color(1, 1, 1, Mathf.Lerp(0, flashAlpha, t));
+                yield return null;
+            }
 
-        yield return new WaitForSecondsRealtime(0.2f);
+            // FADE OUT
+            t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime / flashSpeed;
+                whiteFlash.color = new Color(1, 1, 1, Mathf.Lerp(flashAlpha, 0, t));
+                yield return null;
+            }
+        }
 
-        if (blurScreen)
-            blurScreen.color = new Color(0.6f, 0.45f, 0.25f, 0.5f);
-
-        yield return new WaitForSecondsRealtime(0.5f);
-
+        // đảm bảo tắt hẳn
         whiteFlash.color = new Color(1, 1, 1, 0);
-    }
-
-    IEnumerator JumpscareEffect()
-    {
-        whiteFlash.color = Color.white;
-
-        yield return new WaitForSecondsRealtime(0.1f);
-
-        whiteFlash.color = new Color(1, 1, 1, 0);
-
-        if (blurScreen)
-            blurScreen.color = new Color(0, 0, 0, 0.4f);
     }
 
     void OnDisable()

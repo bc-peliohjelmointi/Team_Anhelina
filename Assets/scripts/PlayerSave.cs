@@ -4,10 +4,10 @@ using UnityEngine.SceneManagement;
 public class PlayerSave : MonoBehaviour
 {
     public Transform player;
+    public Transform startPosition;
     public float autoSaveTime = 10f;
     public bool allowSave = true;
     float timer;
-    bool isNewGame = false;
 
     void Start()
     {
@@ -18,9 +18,13 @@ public class PlayerSave : MonoBehaviour
 
         if (isNewGame)
         {
-            Debug.Log("NEW GAME → KHÔNG LOAD SAVE");
+            Debug.Log("NEW GAME → No LOAD SAVE");
 
             allowSave = false;
+
+            if (startPosition != null)
+                player.position = startPosition.position;
+
             return; // ❗ chỉ skip load thôi, KHÔNG đụng flag
         }
 

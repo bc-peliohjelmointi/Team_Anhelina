@@ -76,11 +76,16 @@ public class MainMenu : MonoBehaviour
 
         if (!string.IsNullOrEmpty(continueSceneToLoad))
         {
+            PlayerPrefs.SetInt("NewGame", 0);
+            PlayerPrefs.Save();
+
             LevelManager.Instance.LoadScene(continueSceneToLoad, "CrossFade");
             continueSceneToLoad = null; // reset sau khi load
         }
         else
         {
+            PlayerPrefs.SetInt("NewGame", 1);
+            PlayerPrefs.Save();
             LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade"); // nút Chapter buttons
         }
     }
