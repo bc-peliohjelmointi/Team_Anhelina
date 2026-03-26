@@ -25,9 +25,9 @@ public class PlayerSave : MonoBehaviour
             if (startPosition != null)
                 player.position = startPosition.position;
 
-            return; // ❗ chỉ skip load thôi, KHÔNG đụng flag
+            return; // skip load save
         }
-
+        // continue
         LoadGame();
     }
 
