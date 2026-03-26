@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject chapter1Button;
     [SerializeField] GameObject chapter2Button;
     [SerializeField] GameObject chapter3Button;
+    [SerializeField] GameObject optionsPanel;
 
     [SerializeField] GameObject storyPanel;
 
@@ -22,6 +23,7 @@ public class PauseMenu : MonoBehaviour
         // Сlose confirmPanel
         confirmPanel.SetActive(false);
         confirmChapterPanel.SetActive(false);
+        optionsPanel.SetActive(false);
 
         if (storyPanel != null)
             storyPanel.SetActive(false);
@@ -32,6 +34,7 @@ public class PauseMenu : MonoBehaviour
         chapter2Button.SetActive(progress >= 2);
         chapter3Button.SetActive(progress >= 3);
 
+
     }
 
     void Update()
@@ -40,6 +43,19 @@ public class PauseMenu : MonoBehaviour
         {
             Pause();
         }
+    }
+
+    public void OpenOptions()
+    {
+        pauseMenu.SetActive(false);
+        optionsPanel.SetActive(true);
+        
+    }
+
+    public void BackFromOptions()
+    {
+        optionsPanel.SetActive(false);
+        pauseMenu.SetActive(true);
     }
 
     public void Pause()
@@ -107,6 +123,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Chapter1Button()
     {
+        PlayerPrefs.SetInt("NewGame", 1);
+        PlayerPrefs.Save();
+
         confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);
 
@@ -115,6 +134,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Chapter2Button()
     {
+
         confirmChapterPanel.SetActive(true);
         storyPanel.SetActive(false);
 
@@ -135,6 +155,20 @@ public class PauseMenu : MonoBehaviour
 
         confirmChapterPanel.SetActive(false);
         pauseMenu.SetActive(false);
+
+        int isNewGame = PlayerPrefs.GetInt("NewGame", 0);
+
+        if (isNewGame == 1)
+        {
+            Debug.Log("RESET SAVE FOR NEW GAME");
+
+            PlayerPrefs.DeleteKey("PlayerX");
+            PlayerPrefs.DeleteKey("PlayerY");
+            PlayerPrefs.DeleteKey("PlayerZ");
+            PlayerPrefs.DeleteKey("CurrentScene");
+
+            PlayerPrefs.Save();
+        }
 
         LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade");
     }

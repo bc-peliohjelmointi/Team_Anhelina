@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class VolumeController : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class VolumeController : MonoBehaviour
     public Slider uiSlider;
 
     public AudioSource musicSource; 
-    public AudioSource uiSource;    
+    public AudioSource uiSource;
+
+    public VideoPlayer videoPlayer;
 
     private float masterVolume = 1f;
     private float musicVolume = 1f;
@@ -54,7 +57,24 @@ public class VolumeController : MonoBehaviour
 
     void ApplyVolumes()
     {
-        musicSource.volume = masterVolume * musicVolume;
-        uiSource.volume = masterVolume * uiVolume;
+        // master all sounds
+        AudioListener.volume = masterVolume;
+
+        // Music only
+        musicSource.volume = musicVolume;
+
+        // UI only
+        uiSource.volume = uiVolume;
+
+        if (videoPlayer != null)
+        {
+            // đảm bảo có audio track
+            if (videoPlayer.audioTrackCount > 0)
+            {
+                videoPlayer.SetDirectAudioVolume(0, masterVolume);
+            }
+        }
     }
+
+
 }

@@ -12,6 +12,11 @@ public class PlayerLoad : MonoBehaviour
 
         yield return null;
 
+        // Nếu là New Game → skip load save
+        if (PlayerPrefs.GetInt("NewGame", 0) == 1)
+            yield break;
+
+        // Nếu là Continue → load save
         if (PlayerPrefs.HasKey("PlayerX") && PlayerPrefs.HasKey("CurrentScene"))
         {
             string savedScene = PlayerPrefs.GetString("CurrentScene");
