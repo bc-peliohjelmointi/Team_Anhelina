@@ -163088,8 +163088,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: monologue/dialogue
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
-  m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 981f71d005aa765439f75cae3a5ca838, type: 2}
+  m_sharedMaterial: {fileID: 116850312708832948, guid: 981f71d005aa765439f75cae3a5ca838, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -177532,7 +177532,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSave
   player: {fileID: 332555524}
+  startPosition: {fileID: 0}
   autoSaveTime: 10
+  allowSave: 1
 --- !u!114 &1986571414
 MonoBehaviour:
   m_ObjectHideFlags: 0
