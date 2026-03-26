@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class HorrorIntro : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class HorrorIntro : MonoBehaviour
 
     bool isPlaying = false;
 
+    // Event fired when intro finishes
+    public event Action OnIntroEnd;
+
     void Start()
     {
         // Auto find references if not assigned
@@ -50,9 +54,12 @@ public class HorrorIntro : MonoBehaviour
             // Skip intro → show game immediately
             blackScreen.gameObject.SetActive(false);
 
-            // Make sure player can move
+            // Ensure player can move
             if (playerMovement != null)
                 playerMovement.enabled = true;
+
+            // Fire event so other scripts know intro is skipped
+            OnIntroEnd?.Invoke();
         }
     }
 
@@ -115,6 +122,9 @@ public class HorrorIntro : MonoBehaviour
         // Re-enable player movement after intro
         if (playerMovement != null)
             playerMovement.enabled = true;
+
+        // Fire event to notify other scripts (e.g., PlayerMovement to lift camera)
+        OnIntroEnd?.Invoke();
 
         isPlaying = false;
     }
