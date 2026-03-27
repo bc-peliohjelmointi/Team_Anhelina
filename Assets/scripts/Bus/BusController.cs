@@ -15,12 +15,14 @@ public class BusController : MonoBehaviour
 
     void Start()
     {
-        // подписка на событие
         if (missionSystem != null)
             missionSystem.OnMissionChanged += CheckMission;
 
-        // выключаем автобус
         SetBusActive(false);
+
+        // Останавливаем звук на старте, даже если Play On Awake включён
+        if (engineAudio != null)
+            engineAudio.Stop();
     }
 
     void CheckMission(int currentMission)
