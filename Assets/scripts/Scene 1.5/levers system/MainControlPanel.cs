@@ -1,23 +1,15 @@
 using UnityEngine;
-
 public class MainControlPanel : MonoBehaviour
 {
     [Header("Puzzle Levels")]
     public PuzzleLevel1 puzzleLevel1;
     public PuzzleLevel2 puzzleLevel2;
     public PuzzleLevel3 puzzleLevel3;
-
     [Header("Indicator Lights")]
-    public Light light1;
-    public Light light2;
-    public Light light3;
-    public Light light4;
+    public Light light1, light2, light3, light4;
 
     [Header("Indicator Renderers")]
-    public Renderer renderer1;
-    public Renderer renderer2;
-    public Renderer renderer3;
-    public Renderer renderer4;
+    public Renderer renderer1, renderer2, renderer3, renderer4;
 
     [Header("Colors")]
     public Color redColor = Color.red;
@@ -25,6 +17,9 @@ public class MainControlPanel : MonoBehaviour
     public string emissionProperty = "_EmissionColor";
 
     private Material mat1, mat2, mat3, mat4;
+    private bool solved1 = false;
+    private bool solved2 = false;
+    private bool solved3 = false;
     private bool allSolved = false;
 
     void Start()
@@ -33,56 +28,43 @@ public class MainControlPanel : MonoBehaviour
         if (renderer2 != null) mat2 = renderer2.material;
         if (renderer3 != null) mat3 = renderer3.material;
         if (renderer4 != null) mat4 = renderer4.material;
-
-        UpdateAllLights();
+        RefreshLights();
     }
 
-    void Update()
+    public void NotifyLevelSolved()
     {
-        UpdateAllLights();
+        solved1 = puzzleLevel1 != null && puzzleLevel1.IsSolved();
+        solved2 = puzzleLevel2 != null && puzzleLevel2.IsSolved();
+        solved3 = puzzleLevel3 != null && puzzleLevel3.IsSolved();
+        RefreshLights();
     }
 
-    void UpdateAllLights()
+    void RefreshLights()
     {
-        bool solved1 = puzzleLevel1 != null && puzzleLevel1.IsSolved();
-        bool solved2 = puzzleLevel2 != null && puzzleLevel2.IsSolved();
-        bool solved3 = puzzleLevel3 != null && puzzleLevel3.IsSolved();
-
         SetLight(light1, mat1, solved1);
         SetLight(light2, mat2, solved2);
         SetLight(light3, mat3, solved3);
-
-        bool newAllSolved = solved1 && solved2 && solved3;
-
-        if (newAllSolved != allSolved)
+        bool newAll = solved1 && solved2 && solved3;
+        if (newAll != allSolved)
         {
-            allSolved = newAllSolved;
+            allSolved = newAll;
             SetLight(light4, mat4, allSolved);
         }
     }
 
-    void SetLight(Light lightComp, Material mat, bool isGreen)
+    void SetLight(Light l, Material mat, bool green)
     {
-        Color color = isGreen ? greenColor : redColor;
-
-        if (lightComp != null)
-        {
-            lightComp.color = color;
-            lightComp.enabled = true;
-        }
-
+        Color c = green ? greenColor : redColor;
+        if (l != null) { l.color = c; l.enabled = true; }
         if (mat != null)
         {
             mat.EnableKeyword("_EMISSION");
-            mat.SetColor(emissionProperty, color * 2f);
-            mat.color = color;
+            mat.SetColor(emissionProperty, c * 2f);
+            mat.color = c;
         }
     }
 
-    public bool CanOpenDoor()
-    {
-        return allSolved;
-    }
+    public bool CanOpenDoor() => allSolved;
 
     void OnDestroy()
     {

@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class ObjectDragRay : MonoBehaviour
 {
     public float maxDistance = 6f;
@@ -12,12 +11,9 @@ public class ObjectDragRay : MonoBehaviour
     public bool showCrosshair = true;
     public KeyCode interactKey = KeyCode.E;
     public LayerMask paperLayer;
-
-    [Header("Throw Settings")]
     public float throwForceMultiplier = 2.5f;
     public int velocitySamples = 5;
 
-    [Header("Puzzle Panel")]
     public float puzzlePanelDistance = 3f;
     public GameObject puzzlePanelPrompt;
 
@@ -36,19 +32,15 @@ public class ObjectDragRay : MonoBehaviour
     private float originalAngularDamping;
 
     private PuzzlePanelInteraction currentPanel;
+    private AuraHighlight currentAura;
 
     void Awake()
     {
         dotTexture = new Texture2D(1, 1);
         dotTexture.SetPixel(0, 0, dotColor);
         dotTexture.Apply();
-
         recentVelocities = new Vector3[velocitySamples];
-
-        if (puzzlePanelPrompt != null)
-        {
-            puzzlePanelPrompt.SetActive(false);
-        }
+        if (puzzlePanelPrompt != null) puzzlePanelPrompt.SetActive(false);
     }
 
     void Update()
@@ -56,6 +48,7 @@ public class ObjectDragRay : MonoBehaviour
         if (!isDragging)
         {
             CheckForPuzzlePanel();
+            CheckForAura();
         }
 
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(interactKey)) && !isDragging)
@@ -70,18 +63,10 @@ public class ObjectDragRay : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
                 TVButton tvButton = hit.collider.GetComponent<TVButton>();
-                if (tvButton != null)
-                {
-                    tvButton.Press();
-                    return;
-                }
+                if (tvButton != null) { tvButton.Press(); return; }
 
                 PSButton psButton = hit.collider.GetComponent<PSButton>();
-                if (psButton != null)
-                {
-                    psButton.Press();
-                    return;
-                }
+                if (psButton != null) { psButton.Press(); return; }
 
                 DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
                 if (draggable != null && draggable.canBeGrabbed && draggable.isPaper)
@@ -104,40 +89,41 @@ public class ObjectDragRay : MonoBehaviour
         }
 
         if ((Input.GetMouseButtonUp(0) || Input.GetKeyUp(interactKey)) && isDragging && currentObject != null)
-        {
             ReleaseObject();
-        }
     }
 
     void CheckForPuzzlePanel()
     {
         Ray ray = new Ray(transform.position, transform.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, puzzlePanelDistance))
+        if (Physics.Raycast(ray, out RaycastHit hit, puzzlePanelDistance))
         {
             PuzzlePanelInteraction panel = hit.collider.GetComponent<PuzzlePanelInteraction>();
-
             if (panel != null)
             {
                 if (currentPanel != panel)
                 {
                     currentPanel = panel;
-
-                    if (puzzlePanelPrompt != null)
-                    {
-                        puzzlePanelPrompt.SetActive(true);
-                    }
+                    if (puzzlePanelPrompt != null) puzzlePanelPrompt.SetActive(true);
                 }
-            }
-            else
-            {
-                ClearPanel();
+                return;
             }
         }
-        else
+        ClearPanel();
+    }
+
+    void CheckForAura()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        AuraHighlight aura = null;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
+            aura = hit.collider.GetComponent<AuraHighlight>();
+
+        if (aura != currentAura)
         {
-            ClearPanel();
+            if (currentAura != null) currentAura.SetGlow(false);
+            currentAura = aura;
+            if (currentAura != null) currentAura.SetGlow(true);
         }
     }
 
@@ -146,18 +132,13 @@ public class ObjectDragRay : MonoBehaviour
         if (currentPanel != null)
         {
             currentPanel = null;
-
-            if (puzzlePanelPrompt != null)
-            {
-                puzzlePanelPrompt.SetActive(false);
-            }
+            if (puzzlePanelPrompt != null) puzzlePanelPrompt.SetActive(false);
         }
     }
 
     void StartGrab(RaycastHit hit)
     {
         objectDistance = Vector3.Distance(transform.position, hit.point);
-
         localGrabPoint = currentObject.transform.InverseTransformPoint(hit.point);
         originalRotation = currentObject.transform.rotation;
         lastWorldPoint = hit.point;
@@ -173,16 +154,11 @@ public class ObjectDragRay : MonoBehaviour
         currentRb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
         if (currentObject.freezeRotation)
-        {
             currentRb.constraints = RigidbodyConstraints.FreezeRotation;
-        }
 
         for (int i = 0; i < velocitySamples; i++)
-        {
             recentVelocities[i] = Vector3.zero;
-        }
         velocityIndex = 0;
-
         isDragging = true;
     }
 
@@ -191,19 +167,14 @@ public class ObjectDragRay : MonoBehaviour
         if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null && currentRb != null)
         {
             Vector3 targetWorldPoint = transform.position + transform.forward * objectDistance;
-
             Vector3 worldGrabPoint = currentObject.transform.TransformPoint(localGrabPoint);
             Vector3 offset = worldGrabPoint - currentRb.position;
             Vector3 targetPosition = targetWorldPoint - offset;
-
-            Vector3 direction = targetPosition - currentRb.position;
-            float moveSpeed = moveForce * Time.fixedDeltaTime;
-            Vector3 newPosition = currentRb.position + direction * moveSpeed;
-
+            Vector3 newPosition = currentRb.position + (targetPosition - currentRb.position) * moveForce * Time.fixedDeltaTime;
             currentRb.MovePosition(newPosition);
 
-            Vector3 velocity = (targetWorldPoint - lastWorldPoint) / Time.fixedDeltaTime;
-            recentVelocities[velocityIndex] = velocity;
+            Vector3 vel = (targetWorldPoint - lastWorldPoint) / Time.fixedDeltaTime;
+            recentVelocities[velocityIndex] = vel;
             velocityIndex = (velocityIndex + 1) % velocitySamples;
             lastWorldPoint = targetWorldPoint;
         }
@@ -223,25 +194,13 @@ public class ObjectDragRay : MonoBehaviour
         }
         else
         {
-            Vector3 averageVelocity = Vector3.zero;
-            for (int i = 0; i < velocitySamples; i++)
-            {
-                averageVelocity += recentVelocities[i];
-            }
-            averageVelocity /= velocitySamples;
-
-            Vector3 throwVelocity = averageVelocity * throwForceMultiplier;
-
-            float maxSpeed = 25f;
-            if (throwVelocity.magnitude > maxSpeed)
-            {
-                throwVelocity = throwVelocity.normalized * maxSpeed;
-            }
-
-            currentRb.linearVelocity = throwVelocity;
-
-            Vector3 torque = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f;
-            currentRb.angularVelocity = torque;
+            Vector3 avg = Vector3.zero;
+            for (int i = 0; i < velocitySamples; i++) avg += recentVelocities[i];
+            avg /= velocitySamples;
+            Vector3 throwVel = avg * throwForceMultiplier;
+            if (throwVel.magnitude > 25f) throwVel = throwVel.normalized * 25f;
+            currentRb.linearVelocity = throwVel;
+            currentRb.angularVelocity = Vector3.Cross(throwVel, Vector3.right) * 0.3f;
         }
 
         currentRb.linearDamping = originalLinearDamping;
@@ -258,35 +217,28 @@ public class ObjectDragRay : MonoBehaviour
 
     Transform GetClosestSlot(Vector3 position)
     {
-        Transform bestSlot = null;
-        float bestDistance = slotSnapDistance;
-
+        Transform best = null;
+        float bestDist = slotSnapDistance;
         foreach (Transform slot in slots)
         {
             if (slot == null) continue;
-
             float d = Vector3.Distance(position, slot.position);
-            if (d < bestDistance)
-            {
-                bestDistance = d;
-                bestSlot = slot;
-            }
+            if (d < bestDist) { bestDist = d; best = slot; }
         }
-        return bestSlot;
+        return best;
     }
 
     void OnGUI()
     {
-        if (showCrosshair)
-        {
-            float x = (Screen.width - dotSize) * 0.5f;
-            float y = (Screen.height - dotSize) * 0.5f;
-            GUI.DrawTexture(new Rect(x, y, dotSize, dotSize), dotTexture);
-        }
+        if (!showCrosshair) return;
+        float x = (Screen.width - dotSize) * 0.5f;
+        float y = (Screen.height - dotSize) * 0.5f;
+        GUI.DrawTexture(new Rect(x, y, dotSize, dotSize), dotTexture);
     }
 
     void OnDisable()
     {
         ClearPanel();
+        if (currentAura != null) { currentAura.SetGlow(false); currentAura = null; }
     }
 }
