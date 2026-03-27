@@ -23,7 +23,7 @@ public class HorrorIntro : MonoBehaviour
 
     [Header("Timing")]
     public float startDelay = 2f;
-    public float flashBeforeEnd = 1.9f;
+    public float flashBeforeEnd = 2.5f;
     public float blackFadeBeforeAudio = 1f;
     public float fadeDuration = 0.4f;
 
