@@ -12,12 +12,18 @@ public class BusEndingTrigger : MonoBehaviour
     public string endingText = "Продолжение следует";
     public int mainMenuSceneIndex = 0;
 
+    [Header("Звук")]
+    public AudioClip endingMusic;           // Твой финальный трек
+    public float musicFadeInDuration = 2f;  // Нарастание громкости
+    public float soundFadeOutDuration = 1f; // Затухание всех звуков
+
     [Header("UI (можно задать своё или создастся автоматически)")]
     public Canvas endingCanvas;
     public Image fadePanel;
     public TextMeshProUGUI endingLabel;
 
     private bool _triggered = false;
+    private AudioSource _endingAudioSource;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -34,8 +40,13 @@ public class BusEndingTrigger : MonoBehaviour
     private IEnumerator PlayEnding()
     {
         SetupUI();
+        SetupAudio();
 
-        // --- 1. Fade Out ---
+        // --- 1. Глушим все звуки и запускаем финальную музыку ---
+        StartCoroutine(FadeOutAllSounds(soundFadeOutDuration));
+        StartCoroutine(FadeInEndingMusic(musicFadeInDuration));
+
+        // --- 2. Fade Out экрана ---
         float t = 0f;
         while (t < fadeDuration)
         {
@@ -46,7 +57,7 @@ public class BusEndingTrigger : MonoBehaviour
         }
         fadePanel.color = Color.black;
 
-        // --- 2. Надпись появляется ---
+        // --- 3. Надпись появляется ---
         endingLabel.gameObject.SetActive(true);
         t = 0f;
         float textFadeDuration = 1.5f;
@@ -58,11 +69,68 @@ public class BusEndingTrigger : MonoBehaviour
             yield return null;
         }
 
-        // --- 3. Ждём ---
+        // --- 4. Ждём ---
         yield return new WaitForSeconds(displayTime);
 
-        // --- 4. Загружаем главное меню ---
+        // --- 5. Загружаем главное меню ---
         SceneManager.LoadScene(mainMenuSceneIndex);
+    }
+
+    private void SetupAudio()
+    {
+        // Создаём отдельный AudioSource для финальной музыки
+        _endingAudioSource = gameObject.AddComponent<AudioSource>();
+        _endingAudioSource.clip = endingMusic;
+        _endingAudioSource.loop = true;
+        _endingAudioSource.volume = 0f;
+        _endingAudioSource.Play();
+    }
+
+    // Плавно глушим все AudioSource на сцене, кроме нашего финального
+    private IEnumerator FadeOutAllSounds(float duration)
+    {
+        AudioSource[] allSources = FindObjectsOfType<AudioSource>();
+
+        // Запоминаем начальные громкости
+        float[] startVolumes = new float[allSources.Length];
+        for (int i = 0; i < allSources.Length; i++)
+            startVolumes[i] = allSources[i].volume;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float factor = 1f - Mathf.Clamp01(t / duration);
+
+            for (int i = 0; i < allSources.Length; i++)
+            {
+                if (allSources[i] == _endingAudioSource) continue; // наш не трогаем
+                if (allSources[i] != null)
+                    allSources[i].volume = startVolumes[i] * factor;
+            }
+
+            yield return null;
+        }
+
+        // Полностью останавливаем все лишние источники
+        foreach (var source in allSources)
+        {
+            if (source == _endingAudioSource) continue;
+            if (source != null) source.Stop();
+        }
+    }
+
+    // Плавно поднимаем громкость финальной музыки
+    private IEnumerator FadeInEndingMusic(float duration)
+    {
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            _endingAudioSource.volume = Mathf.Clamp01(t / duration);
+            yield return null;
+        }
+        _endingAudioSource.volume = 1f;
     }
 
     private void SetupUI()
@@ -89,7 +157,6 @@ public class BusEndingTrigger : MonoBehaviour
             rt.sizeDelta = Vector2.zero;
         }
 
-        // Убеждаемся что FadePanel активен (Alpha=0, но объект включён)
         fadePanel.gameObject.SetActive(true);
 
         if (endingLabel == null)
@@ -107,7 +174,6 @@ public class BusEndingTrigger : MonoBehaviour
             rt.sizeDelta = Vector2.zero;
         }
 
-        // EndingText скрыт до нужного момента
         endingLabel.gameObject.SetActive(false);
     }
 }
