@@ -63,8 +63,16 @@ public class PlayerMovement : MonoBehaviour
     private float lastJumpTime;
     private float jumpCooldown = 0.5f;
     private bool isControlLocked;
-    private float targetCameraHeight;
-    private float currentCameraHeight;
+    [HideInInspector]
+    public float currentCameraHeight;
+
+    [HideInInspector]
+    public float targetCameraHeight;
+    private bool disableCameraControl = false;
+
+
+    [HideInInspector]
+    public bool freezeCameraHeight = false;
 
     void Start()
     {
@@ -94,11 +102,16 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Time.timeScale == 0f) return;
 
+        if (!disableCameraControl)
+        {
+            HandleMouseLook();
+            SmoothCameraHeight();
+        }
         HandleMovement();
-        HandleMouseLook();
+
         UpdateEnergyUI();
         HandleFallDeath();
-        SmoothCameraHeight();
+
     }
 
     public void LockControl()
@@ -219,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
 
     void SmoothCameraHeight()
     {
-        if (playerCamera == null) return;
+        if (playerCamera == null || freezeCameraHeight) return; 
 
         currentCameraHeight = Mathf.Lerp(currentCameraHeight, targetCameraHeight, Time.deltaTime * cameraVerticalSmooth);
 
@@ -297,6 +310,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void LockCamera()
+    {
+        disableCameraControl = true;
+    }
+
+    public void UnlockCamera()
+    {
+        disableCameraControl = false;
+    }
     public void Die()
     {
         if (isDead) return;
