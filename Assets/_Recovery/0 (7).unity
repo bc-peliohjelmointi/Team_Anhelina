@@ -18189,15 +18189,15 @@ MonoBehaviour:
   audioSource: {fileID: 236605222}
   playerMovement: {fileID: 1989195048}
   playerCamera: {fileID: 222779377}
-  introCameraStartY: 1.4
-  introCameraEndY: 2.11
+  introCameraStartY: 2.11
+  introCameraEndY: 170.18
   introCameraLiftDuration: 6.7
-  startDelay: 2
-  flashBeforeEnd: 2
+  startDelay: 0.5
+  flashBeforeEnd: 1.9
   blackFadeBeforeAudio: 1
   fadeDuration: 0.4
-  flickerCount: 6
-  flashAlpha: 0.6
+  flickerCount: 3
+  flashAlpha: 1
   flashSpeed: 0.06
 --- !u!4 &1552130109
 Transform:
@@ -21893,7 +21893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7353598887252864465, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: m_Height
-      value: 4.1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9172874571533972117, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: m_LocalScale.x
@@ -21913,7 +21913,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9172874571533972117, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.66
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 9172874571533972117, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
       propertyPath: m_LocalPosition.z
