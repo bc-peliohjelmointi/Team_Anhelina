@@ -1,26 +1,16 @@
 using UnityEngine;
 public class MainControlPanel : MonoBehaviour
 {
-    [Header("Puzzle Levels")]
     public PuzzleLevel1 puzzleLevel1;
     public PuzzleLevel2 puzzleLevel2;
     public PuzzleLevel3 puzzleLevel3;
-    [Header("Indicator Lights")]
     public Light light1, light2, light3, light4;
-
-    [Header("Indicator Renderers")]
     public Renderer renderer1, renderer2, renderer3, renderer4;
-
-    [Header("Colors")]
     public Color redColor = Color.red;
     public Color greenColor = Color.green;
     public string emissionProperty = "_EmissionColor";
-
     private Material mat1, mat2, mat3, mat4;
-    private bool solved1 = false;
-    private bool solved2 = false;
-    private bool solved3 = false;
-    private bool allSolved = false;
+    private bool solved1, solved2, solved3, allSolved;
 
     void Start()
     {
@@ -36,6 +26,7 @@ public class MainControlPanel : MonoBehaviour
         solved1 = puzzleLevel1 != null && puzzleLevel1.IsSolved();
         solved2 = puzzleLevel2 != null && puzzleLevel2.IsSolved();
         solved3 = puzzleLevel3 != null && puzzleLevel3.IsSolved();
+        allSolved = solved1 && solved2 && solved3;
         RefreshLights();
     }
 
@@ -44,33 +35,21 @@ public class MainControlPanel : MonoBehaviour
         SetLight(light1, mat1, solved1);
         SetLight(light2, mat2, solved2);
         SetLight(light3, mat3, solved3);
-        bool newAll = solved1 && solved2 && solved3;
-        if (newAll != allSolved)
-        {
-            allSolved = newAll;
-            SetLight(light4, mat4, allSolved);
-        }
+        SetLight(light4, mat4, allSolved);
     }
 
     void SetLight(Light l, Material mat, bool green)
     {
         Color c = green ? greenColor : redColor;
         if (l != null) { l.color = c; l.enabled = true; }
-        if (mat != null)
-        {
-            mat.EnableKeyword("_EMISSION");
-            mat.SetColor(emissionProperty, c * 2f);
-            mat.color = c;
-        }
+        if (mat != null) { mat.EnableKeyword("_EMISSION"); mat.SetColor(emissionProperty, c * 2f); mat.color = c; }
     }
 
     public bool CanOpenDoor() => allSolved;
 
     void OnDestroy()
     {
-        if (mat1 != null) Destroy(mat1);
-        if (mat2 != null) Destroy(mat2);
-        if (mat3 != null) Destroy(mat3);
-        if (mat4 != null) Destroy(mat4);
+        if (mat1 != null) Destroy(mat1); if (mat2 != null) Destroy(mat2);
+        if (mat3 != null) Destroy(mat3); if (mat4 != null) Destroy(mat4);
     }
 }

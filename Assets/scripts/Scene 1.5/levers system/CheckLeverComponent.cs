@@ -1,25 +1,19 @@
 using UnityEngine;
 public class CheckLeverComponent : MonoBehaviour
 {
-    [Header("Renderer")]
     public Renderer leverRenderer;
-    [Header("Owner Puzzle Level")]
     public PuzzleLevel1 puzzleLevel1;
     public PuzzleLevel2 puzzleLevel2;
     public PuzzleLevel3 puzzleLevel3;
-
-    [Header("Highlight")]
     public Color highlightColor = new Color(1f, 1f, 0f, 1f);
     public float outlineWidth = 0.015f;
-
     private Material[] originalMaterials;
     private Material[] highlightMaterials;
     private bool isPulling = false;
 
     void Start()
     {
-        if (leverRenderer != null)
-            originalMaterials = leverRenderer.materials;
+        if (leverRenderer != null) originalMaterials = leverRenderer.materials;
     }
 
     public void PullLever()
@@ -43,8 +37,7 @@ public class CheckLeverComponent : MonoBehaviour
     public void Highlight(bool enable)
     {
         if (leverRenderer == null || originalMaterials == null) return;
-        if (enable) CreateHighlight();
-        else RemoveHighlight();
+        if (enable) CreateHighlight(); else RemoveHighlight();
     }
 
     void CreateHighlight()
@@ -53,8 +46,7 @@ public class CheckLeverComponent : MonoBehaviour
         Shader s = Shader.Find("Custom/OutlineEdge");
         if (s == null) return;
         highlightMaterials = new Material[originalMaterials.Length + 1];
-        for (int i = 0; i < originalMaterials.Length; i++)
-            highlightMaterials[i] = originalMaterials[i];
+        for (int i = 0; i < originalMaterials.Length; i++) highlightMaterials[i] = originalMaterials[i];
         Material m = new Material(s);
         m.SetColor("_OutlineColor", highlightColor);
         m.SetFloat("_OutlineWidth", outlineWidth);
@@ -66,8 +58,7 @@ public class CheckLeverComponent : MonoBehaviour
     {
         if (highlightMaterials == null) return;
         leverRenderer.materials = originalMaterials;
-        if (highlightMaterials.Length > originalMaterials.Length)
-            Destroy(highlightMaterials[highlightMaterials.Length - 1]);
+        if (highlightMaterials.Length > originalMaterials.Length) Destroy(highlightMaterials[highlightMaterials.Length - 1]);
         highlightMaterials = null;
     }
 
