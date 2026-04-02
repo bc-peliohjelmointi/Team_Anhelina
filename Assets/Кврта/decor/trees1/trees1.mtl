@@ -1,0 +1,49 @@
+newmtl Bark_DeadTree0
+Ka 0 0 0
+Ns 8.16617
+Ks 0 0 0
+Kd 0.466242 0.424685 0.410984
+map_Kd Bark_DeadTree0.jpg
+map_Bump Bark_DeadTree_b0.jpg
+newmtl Fir_Tree_Branch
+Ka 0 0 0
+Ns 7.69061
+Ks 1 1 1
+Kd 0.027666 0.0365035 0.0139021
+map_Kd Fir_Tree_Branch_1.jpg
+map_Bump Fir_Tree_Branch__1.jpg
+newmtl Leaf_Plum
+Ka 0 0 0
+Ns 7.69061
+Ks 1 1 1
+Kd 0.0303226 0.0965139 0.0149008
+map_Kd Leaf_Plum_2.jpg
+map_Bump Leaf_Plum_b_2.jpg
+newmtl Bark_DeadTree1
+Ka 0 0 0
+Ns 8.16617
+Ks 0 0 0
+Kd 0.466242 0.424685 0.410984
+map_Kd Bark_DeadTree1_3.jpg
+map_Bump Bark_DeadTree_b1_3.jpg
+newmtl Bark_Pear
+Ka 0 0 0
+Ns 8.16617
+Ks 0.94902 0.576471 0.156863
+Kd 0.347556 0.333968 0.327949
+map_Kd Bark_Pear_4.jpg
+map_Bump Bark_Pear_b_4.jpg
+newmtl Leaf_Cherry
+Ka 0 0 0
+Ns 7.24274
+Ks 1 1 1
+Kd 0.0343216 0.0642026 0.00908695
+map_Kd Leaf_Cherry_5.jpg
+map_Bump Leaf_Cherry_b_5.jpg
+newmtl Leaf_CherryAutum
+Ka 0 0 0
+Ns 20.0855
+Ks 1 1 1
+Kd 0.054712 0.0300515 0.0073043
+map_Kd Leaf_CherryAutu0_6.jpg
+map_Bump Leaf_CherryAutu1_6.jpg
