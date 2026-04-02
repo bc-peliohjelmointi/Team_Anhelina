@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {
    public static SceneController instance;
-   public bool isNewGame = true;
 
     private void Awake()
     {
