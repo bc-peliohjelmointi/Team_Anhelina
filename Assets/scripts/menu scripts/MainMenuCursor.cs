@@ -4,16 +4,17 @@ public class MainMenuCursor : MonoBehaviour
 {
     void OnEnable()
     {
-        // Разблокируем курсор и делаем его видимым
+        // unlock & show cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // Сбрасываем время на случай если была пауза
+        // reset time in case of pause
         Time.timeScale = 1f;
     }
 
     void UnlockCursor()
     {
+        // helper to unlock cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }

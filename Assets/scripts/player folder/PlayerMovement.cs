@@ -7,8 +7,8 @@ using static UnityEngine.EventSystems.EventTrigger;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    private PlayerAnimationController animController;
-    private CharacterController controller;
+    private PlayerAnimationController animController; // player animator
+    private CharacterController controller; // character controller
 
     [Header("Movement")]
     public float walkSpeed = 5f;
@@ -53,8 +53,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject deathCanvas;
     public CreditsSlideshow slideshow;
 
-    private Vector3 velocity;
-    private float xRotation = 0f;
+    private Vector3 velocity; // vertical velocity
+    private float xRotation = 0f; // camera X rotation
     private float currentRunEnergy;
     private bool isOverheated;
     private bool isDead;
@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animController = GetComponentInChildren<PlayerAnimationController>();
 
-        currentRunEnergy = maxRunEnergy;
+        currentRunEnergy = maxRunEnergy;  // full stamina
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
         if (isDead || isControlLocked)
         {
             if (animController != null)
-                animController.SetMovement(0f, 0f, false);
+                animController.SetMovement(0f, 0f, false);  // stop animations
 
             return;
         }
@@ -104,14 +104,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (!disableCameraControl)
         {
-            HandleMouseLook();
-            SmoothCameraHeight();
+            HandleMouseLook(); // rotate camera
+            SmoothCameraHeight(); // smooth camera Y
         }
-        HandleMovement();
+        HandleMovement(); // move player
 
-        UpdateEnergyUI();
-        HandleFallDeath();
-
+        UpdateEnergyUI(); // stamina bar
+        HandleFallDeath(); // check fall death
     }
 
     public void LockControl()
@@ -138,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;
+            velocity.y = -2f;  // small downward force to stick
 
             if (animController != null)
                 animController.SetJump(false);
@@ -151,9 +150,11 @@ public class PlayerMovement : MonoBehaviour
         bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
 
         if (animController != null)
-            animController.SetMovement(x, z, wantsToRun);
+            animController.SetMovement(x, z, wantsToRun); // update animations
 
         float speed = walkSpeed;
+
+        // handle running + stamina
 
         if (!isOverheated && wantsToRun && isMoving && currentRunEnergy > 0f)
         {
@@ -179,6 +180,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
+        // stair climbing
         if (enableStairClimbing && isMoving)
         {
             float stepUp = ClimbStairs(move.normalized);
@@ -190,6 +192,7 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move * speed * Time.deltaTime);
 
+        // jump
         if (isGrounded && Input.GetButtonDown("Jump") && Time.time - lastJumpTime > jumpCooldown)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -200,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         velocity.y += gravity * fallMultiplier * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime); // apply gravity
     }
 
     float ClimbStairs(Vector3 moveDirection)
@@ -210,6 +213,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
         RaycastHit hitLower;
 
+        // detect step in front
         if (Physics.Raycast(rayOrigin, moveDirection, out hitLower, controller.radius + stepCheckDistance))
         {
             float stepHeight = hitLower.point.y - transform.position.y;
@@ -221,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (!Physics.Raycast(rayOriginUpper, moveDirection, out hitUpper, controller.radius + stepCheckDistance))
                 {
-                    controller.Move(Vector3.up * stepHeight * stepSmoothness);
+                    controller.Move(Vector3.up * stepHeight * stepSmoothness);  // climb step
                     return stepHeight * stepSmoothness;
                 }
             }
@@ -257,23 +261,30 @@ public class PlayerMovement : MonoBehaviour
             playerCamera.localRotation = targetRotation;
         }
 
-        transform.Rotate(Vector3.up * mouseX);
+        transform.Rotate(Vector3.up * mouseX);  // rotate player
     }
 
+
+    // Update the stamina UI (run energy bar)
     void UpdateEnergyUI()
     {
         if (runEnergyBar == null) return;
 
+        // Fill bar based on current stamina
         runEnergyBar.fillAmount = currentRunEnergy / maxRunEnergy;
 
+        // Show UI only if not full
         if (runEnergyUI != null)
             runEnergyUI.SetActive(currentRunEnergy < maxRunEnergy);
 
+        // Change color if overheated
         runEnergyBar.color = isOverheated ? Color.red : new Color(0.7f, 0f, 1f);
     }
 
     void HandleFallDeath()
     {
+
+        // Start tracking fall when player leaves ground
         if (!controller.isGrounded && !isFalling)
         {
             isFalling = true;
@@ -284,6 +295,8 @@ public class PlayerMovement : MonoBehaviour
         {
             float fallDistance = startFallY - transform.position.y;
 
+
+            // Kill player if fallen too far
             if (fallDistance >= deathHeight)
                 Die();
 
@@ -291,10 +304,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    // Called automatically when controller hits another collider
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (isDead) return;
 
+        // Instant death if colliding with a car
         if (hit.collider.CompareTag("Car"))
         {
             Die();
@@ -310,6 +326,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    // Disable camera rotation for cutscenes, events
     public void LockCamera()
     {
         disableCameraControl = true;
@@ -319,26 +337,33 @@ public class PlayerMovement : MonoBehaviour
     {
         disableCameraControl = false;
     }
+
+    // Handle player death
     public void Die()
     {
-        if (isDead) return;
+        if (isDead) return; // avoid multiple triggers
 
         isDead = true;
 
-        velocity = Vector3.zero;
-        controller.enabled = false;
+        velocity = Vector3.zero; // stop all movement
+        controller.enabled = false; // disable character controller
 
+        // Stop footstep sounds
         if (walkFootstepSource) walkFootstepSource.Stop();
         if (runFootstepSource) runFootstepSource.Stop();
 
+        // Show cursor so player can interact with UI
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
+        // Freeze game
         Time.timeScale = 0f;
 
+        // Show death UI
         if (deathCanvas != null)
             deathCanvas.SetActive(true);
 
+        // Start credits slideshow if assigned
         if (slideshow != null)
             slideshow.StartSlideshow();
     }

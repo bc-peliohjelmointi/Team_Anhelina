@@ -2,25 +2,26 @@
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    private Animator anim;
+    private Animator anim; // animator reference
 
     void Awake()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>(); // get Animator component
     }
 
     public void SetMovement(float x, float z, bool shiftPressed)
     {
+        // check if player is moving
         bool isMoving = Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f;
-
         anim.SetBool("isMoving", isMoving);
 
-        // chỉ chạy nhanh khi đang đi + shift
+        // run only if moving + shift pressed
         bool isRunning = isMoving && shiftPressed;
         anim.SetBool("isRunning", isRunning);
     }
+
     public void SetJump(bool jump)
     {
-        anim.SetBool("isJumping", jump);
+        anim.SetBool("isJumping", jump); // trigger jump animation
     }
 }

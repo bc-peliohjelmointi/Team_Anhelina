@@ -6,123 +6,129 @@ using System;
 public class HorrorIntro : MonoBehaviour
 {
     [Header("UI")]
-    public Image blackScreen;
-    public Image whiteFlash;
+    public Image blackScreen;   // black overlay
+    public Image whiteFlash;    // flash effect
 
     [Header("Audio")]
-    public AudioSource audioSource;
+    public AudioSource audioSource; // intro sound
 
     [Header("Player")]
-    public PlayerMovement playerMovement;
-    public Transform playerCamera;
+    public PlayerMovement playerMovement; // player control
+    public Transform playerCamera;        // camera transform
 
     [Header("Camera Lift Settings")]
-    public float introCameraStartY = 2.11f;
-    public float introCameraEndY = 1.6f;
-    public float introCameraLiftDuration = 6.7f;
+    public float introCameraStartY = 2.11f; // start height
+    public float introCameraEndY = 1.6f;    // end height
+    public float introCameraLiftDuration = 6.7f; // lift time
 
     [Header("Timing")]
-    public float startDelay = 2f;
-    public float flashBeforeEnd = 2.5f;
-    public float blackFadeBeforeAudio = 1f;
-    public float fadeDuration = 0.4f;
+    public float startDelay = 2f;            // delay before audio
+    public float flashBeforeEnd = 2.5f;      // when flash starts
+    public float blackFadeBeforeAudio = 1f;  // when black fades
+    public float fadeDuration = 0.4f;        // fade speed
 
     [Header("Flash Settings")]
-    public int flickerCount = 6;
-    public float flashAlpha = 0.6f;
-    public float flashSpeed = 0.06f;
+    public int flickerCount = 6;     // number of flashes
+    public float flashAlpha = 0.6f;  // flash strength
+    public float flashSpeed = 0.06f; // flash speed
 
-    private bool isPlaying = false;
-    private bool isCameraLifting = false;
+    private bool isPlaying = false;        // prevent replay
+    private bool isCameraLifting = false; // avoid double lift
 
-    private Vector3 originalCamPos;
+    private Vector3 originalCamPos; // store camera pos
 
-    public event Action OnIntroEnd;
+    public event Action OnIntroEnd; // event when intro ends
 
     void Start()
     {
-        // Hide cursor immediately
+        // lock + hide cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        // auto find UI if missing
         if (blackScreen == null)
             blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
 
         if (whiteFlash == null)
             whiteFlash = GameObject.Find("WhiteScreen").GetComponent<Image>();
 
+        // auto find audio
         if (audioSource == null)
             audioSource = FindObjectOfType<AudioSource>();
 
+        // save original camera position
         if (playerCamera != null)
         {
             originalCamPos = playerCamera.localPosition;
         }
 
-        // LOCK camera from PlayerMovement immediately (fix jitter)
+        // lock camera early (fix jitter)
         if (playerMovement != null)
             playerMovement.LockCamera();
 
-        // Setup intro camera pose
+        // setup intro camera (look down + higher pos)
         if (playerCamera != null && WillPlayIntro())
         {
             Vector3 camPos = originalCamPos;
             camPos.y = introCameraStartY;
             playerCamera.localPosition = camPos;
 
-            playerCamera.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            playerCamera.localRotation = Quaternion.Euler(90f, 0f, 0f); // look down
         }
 
-        OnIntroEnd += StartCameraLift;
+        OnIntroEnd += StartCameraLift; // connect event → lift
 
         if (WillPlayIntro())
-            StartCoroutine(PlayIntro());
+            StartCoroutine(PlayIntro()); // start intro
         else
         {
-            blackScreen.gameObject.SetActive(false);
+            blackScreen.gameObject.SetActive(false); // skip intro
 
             if (playerMovement != null)
             {
                 playerMovement.enabled = true;
-                playerMovement.UnlockCamera();
+                playerMovement.UnlockCamera(); // give control back
             }
 
-            OnIntroEnd?.Invoke();
+            OnIntroEnd?.Invoke(); // still trigger event
         }
     }
 
     bool WillPlayIntro()
     {
-        int isNewGame = PlayerPrefs.GetInt("NewGame", 0);
-        return isNewGame == 1;
+        int isNewGame = PlayerPrefs.GetInt("NewGame", 0); // check flag
+        return isNewGame == 1; // only play if new game
     }
 
     IEnumerator PlayIntro()
     {
-        if (isPlaying) yield break;
+        if (isPlaying) yield break; // prevent duplicate
         isPlaying = true;
 
-        // Disable movement + lock camera
+        // disable movement + lock cam
         if (playerMovement != null)
         {
             playerMovement.enabled = false;
             playerMovement.LockCamera();
         }
 
+        // safety check
         if (audioSource == null || audioSource.clip == null)
         {
             Debug.LogError("Missing AudioSource or Clip!");
             yield break;
         }
 
+        // setup visuals
         blackScreen.gameObject.SetActive(true);
         blackScreen.color = Color.black;
 
         whiteFlash.gameObject.SetActive(true);
         whiteFlash.color = new Color(1, 1, 1, 0);
 
-        yield return new WaitForSeconds(startDelay);
+        yield return new WaitForSeconds(startDelay); // wait before start
 
+        // restart audio clean
         audioSource.Stop();
         audioSource.time = 0f;
         audioSource.Play();
@@ -131,36 +137,38 @@ public class HorrorIntro : MonoBehaviour
         bool blackFadeStarted = false;
 
         bool liftStarted = false;
-        float liftStartTime = audioSource.clip.length - 1f;
+        float liftStartTime = audioSource.clip.length - 1f; // start lift before end
 
         while (audioSource.isPlaying)
         {
-            float elapsed = audioSource.time;
-            float remaining = audioSource.clip.length - audioSource.time;
+            float elapsed = audioSource.time; // current time
+            float remaining = audioSource.clip.length - audioSource.time; // time left
 
+            // trigger flash near end
             if (!flashDone && remaining <= flashBeforeEnd)
             {
                 flashDone = true;
                 StartCoroutine(FlashFlicker());
             }
 
+            // fade black out near end
             if (!blackFadeStarted && remaining <= blackFadeBeforeAudio)
             {
                 blackFadeStarted = true;
                 blackScreen.CrossFadeAlpha(0f, fadeDuration, false);
             }
 
-            // Start camera lift BEFORE audio ends
+            // start camera lift before audio ends
             if (!liftStarted && elapsed >= liftStartTime)
             {
                 liftStarted = true;
                 StartCameraLift();
             }
 
-            yield return null;
+            yield return null; // next frame
         }
 
-        // Enable movement again
+        // re-enable movement
         if (playerMovement != null)
             playerMovement.enabled = true;
 
@@ -175,7 +183,7 @@ public class HorrorIntro : MonoBehaviour
             while (t < 1)
             {
                 t += Time.deltaTime / flashSpeed;
-                whiteFlash.color = new Color(1, 1, 1, Mathf.Lerp(0, flashAlpha, t));
+                whiteFlash.color = new Color(1, 1, 1, Mathf.Lerp(0, flashAlpha, t)); // fade in
                 yield return null;
             }
 
@@ -183,12 +191,12 @@ public class HorrorIntro : MonoBehaviour
             while (t < 1)
             {
                 t += Time.deltaTime / flashSpeed;
-                whiteFlash.color = new Color(1, 1, 1, Mathf.Lerp(flashAlpha, 0, t));
+                whiteFlash.color = new Color(1, 1, 1, Mathf.Lerp(flashAlpha, 0, t)); // fade out
                 yield return null;
             }
         }
 
-        whiteFlash.color = new Color(1, 1, 1, 0);
+        whiteFlash.color = new Color(1, 1, 1, 0); // reset
     }
 
     void StartCameraLift()
@@ -196,7 +204,7 @@ public class HorrorIntro : MonoBehaviour
         if (playerCamera != null && !isCameraLifting)
         {
             isCameraLifting = true;
-            StartCoroutine(CameraLiftRoutine());
+            StartCoroutine(CameraLiftRoutine()); // run lift
         }
     }
 
@@ -206,15 +214,16 @@ public class HorrorIntro : MonoBehaviour
 
         float timer = 0f;
 
-        // Start state: cúi đầu, y = introCameraStartY
+        // rotation: down → normal
         Quaternion startRot = Quaternion.Euler(90f, 0f, 0f);
         Quaternion endRot = Quaternion.Euler(0f, 0f, 0f);
 
+        // position: high → lower
         Vector3 startPos = originalCamPos;
         startPos.y = introCameraStartY;
 
         Vector3 liftEndPos = originalCamPos;
-        liftEndPos.y = introCameraEndY; // kết thúc lift ở đây
+        liftEndPos.y = introCameraEndY;
 
         playerCamera.localRotation = startRot;
         playerCamera.localPosition = startPos;
@@ -223,15 +232,15 @@ public class HorrorIntro : MonoBehaviour
         {
             timer += Time.deltaTime;
             float t = Mathf.Clamp01(timer / introCameraLiftDuration);
-            t = Mathf.SmoothStep(0f, 1f, t);
+            t = Mathf.SmoothStep(0f, 1f, t); // smooth motion
 
-            playerCamera.localRotation = Quaternion.Slerp(startRot, endRot, t);
-            playerCamera.localPosition = Vector3.Lerp(startPos, liftEndPos, t);
+            playerCamera.localRotation = Quaternion.Slerp(startRot, endRot, t); // rotate up
+            playerCamera.localPosition = Vector3.Lerp(startPos, liftEndPos, t); // move down
 
             yield return null;
         }
 
-        // Gán chính xác vị trí lift cuối → camera không nhảy xuống
+        // force exact final state
         playerCamera.localRotation = endRot;
         playerCamera.localPosition = liftEndPos;
 
@@ -239,19 +248,18 @@ public class HorrorIntro : MonoBehaviour
 
         if (playerMovement != null)
         {
-            // khóa luôn chiều cao camera để không tụt xuống
+            // lock final camera height
             playerMovement.freezeCameraHeight = true;
             playerMovement.currentCameraHeight = liftEndPos.y;
             playerMovement.targetCameraHeight = liftEndPos.y;
 
-            // unlock camera control để người chơi vẫn nhìn được
-            playerMovement.UnlockCamera();
+            playerMovement.UnlockCamera(); // allow look
         }
     }
 
     void OnDisable()
     {
-        StopAllCoroutines();
+        StopAllCoroutines(); // stop all running coroutines
         isPlaying = false;
     }
 }

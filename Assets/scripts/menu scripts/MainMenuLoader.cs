@@ -10,39 +10,38 @@ public class MainMenuLoader : MonoBehaviour
 
     public void PlayGame()
     {
-        loadingPanel.SetActive(true);
-        StartCoroutine(LoadSceneAsync());
+        loadingPanel.SetActive(true); // show loading UI
+        StartCoroutine(LoadSceneAsync()); // start async load
     }
 
     IEnumerator LoadSceneAsync()
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(1);
-        operation.allowSceneActivation = false;
+        operation.allowSceneActivation = false; // wait for slider
 
         float displayedProgress = 0f;
 
         while (!operation.isDone)
         {
-            // Real progress from 0 → 0.9
+            // real progress 0 → 0.9
             float targetProgress = Mathf.Clamp01(operation.progress / 0.9f);
 
-            // Smoothly move the displayed slider
+            // smooth slider movement
             displayedProgress = Mathf.MoveTowards(displayedProgress, targetProgress, Time.deltaTime);
             loadingBar.value = displayedProgress;
 
-            // Check if async load is ready
             if (operation.progress >= 0.9f)
             {
-                // Smoothly finish the last 10%
+                // finish last 10% smoothly
                 displayedProgress = Mathf.MoveTowards(displayedProgress, 1f, Time.deltaTime);
                 loadingBar.value = displayedProgress;
 
-                // Only activate scene when slider reaches 100%
+                // activate scene when slider hits 100%
                 if (displayedProgress >= 1f)
                     operation.allowSceneActivation = true;
             }
 
-            yield return null;
+            yield return null; // wait next frame
         }
     }
 }
