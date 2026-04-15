@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// simpler version of drag ray - no puzzle panel or aura support
+// just grab, drag, snap to slots, and throw
 public class ObjectDragRay : MonoBehaviour
 {
     public float maxDistance = 6f;
@@ -15,7 +17,7 @@ public class ObjectDragRay : MonoBehaviour
 
     [Header("Throw Settings")]
     public float throwForceMultiplier = 2.5f;
-    public int velocitySamples = 5;
+    public int velocitySamples = 5; // how many frames to average for throw speed
 
     private Texture2D dotTexture;
     private DraggableObject currentObject;
@@ -23,9 +25,9 @@ public class ObjectDragRay : MonoBehaviour
     private float objectDistance;
     private bool isDragging = false;
     private Vector3 localGrabPoint;
-    private Quaternion originalRotation;
+    private Quaternion originalRotation; // restore on slot snap
 
-    private Vector3[] recentVelocities;
+    private Vector3[] recentVelocities; // ring buffer for throw velocity
     private int velocityIndex = 0;
     private Vector3 lastWorldPoint;
     private float originalLinearDamping;
@@ -47,6 +49,7 @@ public class ObjectDragRay : MonoBehaviour
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
+                // check buttons first before trying to grab objects
                 TVButton tvButton = hit.collider.GetComponent<TVButton>();
                 if (tvButton != null)
                 {
@@ -71,6 +74,7 @@ public class ObjectDragRay : MonoBehaviour
             }
         }
 
+        // scroll to push/pull object closer or farther away
         if (isDragging && currentObject != null)
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -95,11 +99,12 @@ public class ObjectDragRay : MonoBehaviour
         originalRotation = currentObject.transform.rotation;
         lastWorldPoint = hit.point;
 
+        // save original damping to restore later
         originalLinearDamping = currentRb.linearDamping;
         originalAngularDamping = currentRb.angularDamping;
 
         currentRb.useGravity = false;
-        currentRb.linearDamping = 10f;
+        currentRb.linearDamping = 10f;   // high damping = feels controlled and heavy
         currentRb.angularDamping = 10f;
         currentRb.linearVelocity = Vector3.zero;
         currentRb.angularVelocity = Vector3.zero;
@@ -110,6 +115,7 @@ public class ObjectDragRay : MonoBehaviour
             currentRb.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
+        // clear old velocity data so throw isnt affected by previous movement
         for (int i = 0; i < velocitySamples; i++)
         {
             recentVelocities[i] = Vector3.zero;
@@ -119,12 +125,14 @@ public class ObjectDragRay : MonoBehaviour
         isDragging = true;
     }
 
+    // physics movement in fixed update for smooth dragging
     void FixedUpdate()
     {
         if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null && currentRb != null)
         {
             Vector3 targetWorldPoint = transform.position + transform.forward * objectDistance;
 
+            // account for where exactly the object was grabbed
             Vector3 worldGrabPoint = currentObject.transform.TransformPoint(localGrabPoint);
             Vector3 offset = worldGrabPoint - currentRb.position;
             Vector3 targetPosition = targetWorldPoint - offset;
@@ -135,6 +143,7 @@ public class ObjectDragRay : MonoBehaviour
 
             currentRb.MovePosition(newPosition);
 
+            // track velocity every frame for throw calculation later
             Vector3 velocity = (targetWorldPoint - lastWorldPoint) / Time.fixedDeltaTime;
             recentVelocities[velocityIndex] = velocity;
             velocityIndex = (velocityIndex + 1) % velocitySamples;
@@ -149,6 +158,7 @@ public class ObjectDragRay : MonoBehaviour
         Transform slot = GetClosestSlot(currentRb.position);
         if (slot != null)
         {
+            // snap to slot and restore original rotation
             currentRb.position = slot.position;
             currentRb.rotation = originalRotation;
             currentRb.linearVelocity = Vector3.zero;
@@ -156,6 +166,7 @@ public class ObjectDragRay : MonoBehaviour
         }
         else
         {
+            // calculate throw from average of recent velocities
             Vector3 averageVelocity = Vector3.zero;
             for (int i = 0; i < velocitySamples; i++)
             {
@@ -165,6 +176,7 @@ public class ObjectDragRay : MonoBehaviour
 
             Vector3 throwVelocity = averageVelocity * throwForceMultiplier;
 
+            // cap it so objects dont fly too fast
             float maxSpeed = 25f;
             if (throwVelocity.magnitude > maxSpeed)
             {
@@ -173,10 +185,11 @@ public class ObjectDragRay : MonoBehaviour
 
             currentRb.linearVelocity = throwVelocity;
 
-            Vector3 torque = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f;
+            Vector3 torque = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f; // spin on throw
             currentRb.angularVelocity = torque;
         }
 
+        // restore everything back to normal
         currentRb.linearDamping = originalLinearDamping;
         currentRb.angularDamping = originalAngularDamping;
         currentRb.useGravity = true;
@@ -189,6 +202,7 @@ public class ObjectDragRay : MonoBehaviour
         localGrabPoint = Vector3.zero;
     }
 
+    // finds closest slot within snap distance, returns null if none found
     Transform GetClosestSlot(Vector3 position)
     {
         Transform bestSlot = null;
@@ -208,6 +222,7 @@ public class ObjectDragRay : MonoBehaviour
         return bestSlot;
     }
 
+    // draws dot crosshair in center of screen
     void OnGUI()
     {
         if (showCrosshair)

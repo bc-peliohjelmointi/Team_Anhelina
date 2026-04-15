@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// this script handles picking up the board after all episodes are done
+// board slides into view when you look down, hides when you look straight
 public class BoardPickup : MonoBehaviour
 {
     [Header("Player")]
@@ -7,7 +9,7 @@ public class BoardPickup : MonoBehaviour
     public Transform playerCamera;
 
     [Header("References")]
-    public PSMenuNavigation psMenuNavigation;
+    public PSMenuNavigation psMenuNavigation; // need this to check if all episodes are complete
 
     [Header("Board Object")]
     public GameObject boardObject;
@@ -21,12 +23,12 @@ public class BoardPickup : MonoBehaviour
     public Vector3 hiddenRotation = new Vector3(30f, 0f, 0f);
 
     [Header("Camera Angle Settings")]
-    public float startShowAngle = 65f;
-    public float fullyVisibleAngle = 80f;
+    public float startShowAngle = 65f;    // board starts appearing at this angle
+    public float fullyVisibleAngle = 80f; // fully visible at this angle
 
     [Header("Animation")]
     public float smoothSpeed = 10f;
-    public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f); // makes slide feel nicer
 
     [Header("Interaction")]
     public float interactionDistance = 2f;
@@ -35,11 +37,11 @@ public class BoardPickup : MonoBehaviour
     public GameObject interactionPromptObject;
 
     private bool isNearBoard = false;
-    private bool hasPickedUpBoard = false;
+    private bool hasPickedUpBoard = false; // once picked up, stays picked up
     private bool isBoardInHand = false;
     private Vector3 originalBoardPosition;
     private Quaternion originalBoardRotation;
-    private Transform originalBoardParent;
+    private Transform originalBoardParent; // save parent so we can put it back
 
     void Start()
     {
@@ -53,6 +55,7 @@ public class BoardPickup : MonoBehaviour
             interactionPromptObject.SetActive(false);
         }
 
+        // save original transform so we can restore it when putting board away
         if (boardObject != null)
         {
             originalBoardPosition = boardObject.transform.position;
@@ -60,6 +63,7 @@ public class BoardPickup : MonoBehaviour
             originalBoardParent = boardObject.transform.parent;
         }
 
+        // try to find player by tag if not assigned manually
         if (player == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -72,15 +76,16 @@ public class BoardPickup : MonoBehaviour
 
     void Update()
     {
+        // if board is already picked up handle in-hand logic separately
         if (hasPickedUpBoard)
         {
             if (isBoardInHand)
             {
-                UpdateBoardTransform();
+                UpdateBoardTransform(); // slide board based on camera angle
 
                 if (Input.GetKeyDown(pickupKey))
                 {
-                    PutBoardAway();
+                    PutBoardAway(); // put back to original spot
                 }
             }
             else
@@ -98,6 +103,7 @@ public class BoardPickup : MonoBehaviour
         float distance = Vector3.Distance(player.position, transform.position);
         isNearBoard = distance <= interactionDistance;
 
+        // only allow pickup if close AND all episodes done
         bool canPickup = isNearBoard && AreAllEpisodesComplete();
 
         if (interactionPromptCanvas != null)
@@ -116,13 +122,14 @@ public class BoardPickup : MonoBehaviour
         }
     }
 
+    // smoothly moves board between hidden and visible based on where camera is looking
     void UpdateBoardTransform()
     {
         if (playerCamera == null || boardObject == null) return;
 
         float cameraXRotation = GetCameraXRotation();
         float slideValue = CalculateSlideValue(cameraXRotation);
-        float curvedValue = slideCurve.Evaluate(slideValue);
+        float curvedValue = slideCurve.Evaluate(slideValue); // apply curve for nicer feel
 
         Vector3 targetPosition = Vector3.Lerp(hiddenPosition, visiblePosition, curvedValue);
         Quaternion targetRotation = Quaternion.Lerp(
@@ -131,6 +138,7 @@ public class BoardPickup : MonoBehaviour
             curvedValue
         );
 
+        // smooth lerp so it doesnt snap instantly
         boardObject.transform.localPosition = Vector3.Lerp(
             boardObject.transform.localPosition,
             targetPosition,
@@ -148,6 +156,7 @@ public class BoardPickup : MonoBehaviour
     {
         float rotation = playerCamera.localEulerAngles.x;
 
+        // unity returns 0-360, convert to -180 to 180 range
         if (rotation > 180f)
         {
             rotation -= 360f;
@@ -156,15 +165,16 @@ public class BoardPickup : MonoBehaviour
         return Mathf.Clamp(rotation, -90f, 90f);
     }
 
+    // returns 0 to 1 depending on how far camera is between startShowAngle and fullyVisibleAngle
     float CalculateSlideValue(float cameraAngle)
     {
         if (cameraAngle < startShowAngle)
         {
-            return 0f;
+            return 0f; // not looking down enough
         }
         else if (cameraAngle >= fullyVisibleAngle)
         {
-            return 1f;
+            return 1f; // fully visible
         }
         else
         {
@@ -172,6 +182,7 @@ public class BoardPickup : MonoBehaviour
         }
     }
 
+    // checks if all 3 checkmarks are active - that means all episodes were solved
     bool AreAllEpisodesComplete()
     {
         if (psMenuNavigation == null) return false;
@@ -193,6 +204,7 @@ public class BoardPickup : MonoBehaviour
 
         hasPickedUpBoard = true;
 
+        // disable physics so it doesnt fall when parented to camera
         Rigidbody rb = boardObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -200,6 +212,7 @@ public class BoardPickup : MonoBehaviour
             rb.useGravity = false;
         }
 
+        // disable collider so it doesnt block raycasts
         Collider col = boardObject.GetComponent<Collider>();
         if (col != null)
         {
@@ -219,6 +232,7 @@ public class BoardPickup : MonoBehaviour
         TakeBoardInHand();
     }
 
+    // parents board to camera and sets starting position
     void TakeBoardInHand()
     {
         if (boardObject == null || playerCamera == null) return;
@@ -230,6 +244,7 @@ public class BoardPickup : MonoBehaviour
         boardObject.transform.localRotation = Quaternion.Euler(hiddenRotation);
     }
 
+    // puts board back where it was in the world
     void PutBoardAway()
     {
         if (boardObject == null) return;
@@ -240,6 +255,7 @@ public class BoardPickup : MonoBehaviour
         boardObject.transform.position = originalBoardPosition;
         boardObject.transform.rotation = originalBoardRotation;
 
+        // re-enable physics
         Rigidbody rb = boardObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -259,6 +275,7 @@ public class BoardPickup : MonoBehaviour
         return hasPickedUpBoard;
     }
 
+    // gizmos to see interaction range and board positions in scene view
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -268,14 +285,14 @@ public class BoardPickup : MonoBehaviour
         {
             Gizmos.color = Color.yellow;
             Vector3 hiddenPos = playerCamera.TransformPoint(hiddenPosition);
-            Gizmos.DrawWireCube(hiddenPos, Vector3.one * 0.1f);
+            Gizmos.DrawWireCube(hiddenPos, Vector3.one * 0.1f); // yellow = hidden position
 
             Gizmos.color = Color.cyan;
             Vector3 visiblePos = playerCamera.TransformPoint(visiblePosition);
-            Gizmos.DrawWireCube(visiblePos, Vector3.one * 0.1f);
+            Gizmos.DrawWireCube(visiblePos, Vector3.one * 0.1f); // cyan = visible position
 
             Gizmos.color = Color.white;
-            Gizmos.DrawLine(hiddenPos, visiblePos);
+            Gizmos.DrawLine(hiddenPos, visiblePos); // line between them
         }
     }
 }

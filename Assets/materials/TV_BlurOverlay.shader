@@ -3,13 +3,12 @@ Shader "Custom/TV_BlurOverlay"
     Properties
     {
         _Color ("Color", Color) = (0,0.5,1,1)
-        _OverlayStrength ("Overlay Strength", Range(0,1)) = 0
+        _OverlayStrength ("Overlay Strength", Range(0,1)) = 0 // 0 = invisible, 1 = full color
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
-
         Pass
         {
             CGPROGRAM
@@ -40,6 +39,7 @@ Shader "Custom/TV_BlurOverlay"
                 return o;
             }
 
+            // simple flat color multiplied by strength - used for tint/overlay effects
             fixed4 frag(v2f i) : SV_Target
             {
                 return _Color * _OverlayStrength;

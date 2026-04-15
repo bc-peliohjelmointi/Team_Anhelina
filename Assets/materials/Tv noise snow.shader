@@ -2,17 +2,15 @@ Shader "Custom/Tvnoisesnow"
 {
     Properties
     {
-        _Speed ("Speed", Float) = 15
-        _Scale ("Noise Scale", Float) = 120
-        _Intensity ("Intensity", Float) = 2
-        _LineDensity ("Line Density", Float) = 300
+        _Speed ("Speed", Float) = 15        // how fast noise scrolls down
+        _Scale ("Noise Scale", Float) = 120 // grain size, higher = smaller grain
+        _Intensity ("Intensity", Float) = 2 // overall brightness of noise
+        _LineDensity ("Line Density", Float) = 300 // horizontal scan lines frequency
     }
-
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
-
         Pass
         {
             CGPROGRAM
@@ -37,6 +35,7 @@ Shader "Custom/Tvnoisesnow"
                 float4 vertex : SV_POSITION;
             };
 
+            // classic hash for white noise
             float random(float2 uv)
             {
                 return frac(sin(dot(uv, float2(12.9898,78.233))) * 43758.5453);
@@ -54,17 +53,19 @@ Shader "Custom/Tvnoisesnow"
             {
                 float2 uv = i.uv;
 
+                // scroll uv over time to make noise move
                 uv.y += _Time.y * _Speed;
 
-                float noise = random(floor(uv * _Scale));
+                float noise = random(floor(uv * _Scale)); // pixelated random noise
 
+                // horizontal scan line effect - bright thin lines
                 float lines = frac(uv.y * _LineDensity);
-                lines = step(0.95, lines);
+                lines = step(0.95, lines); // only the top 5% of each line period
 
                 float finalValue = noise + lines;
                 finalValue *= _Intensity;
 
-                return fixed4(finalValue, finalValue, finalValue, 1);
+                return fixed4(finalValue, finalValue, finalValue, 1); // grayscale output
             }
             ENDCG
         }
