@@ -1,25 +1,24 @@
 using UnityEngine;
 using System.Collections;
 
-// physical button that toggles the TV on and off
-// has a cooldown so player cant spam it
-public class TVButton : MonoBehaviour
+// physical button that toggles the PS screen on and off
+// almost identical to TVButton but controls PSScreen instead
+public class PSButton : MonoBehaviour
 {
-    public TVPowerEffect tvEffect;
+    public PSScreen psScreen;
     public Light indicatorLight;
     public Color offColor = Color.red;
     public Color onColor = Color.gray;
-    public float cooldownTime = 5f;         // seconds before button can be pressed again
+    public float cooldownTime = 5f; // cooldown prevents spam pressing
     public AudioSource buttonClickSound;
     private bool isOn = false;
     private bool canPress = true;
-    private bool wasEverTurnedOn = false;   // tracks if TV was ever turned on - used elsewhere for puzzle logic
 
     void Start()
     {
         if (indicatorLight != null)
         {
-            indicatorLight.color = offColor; // start red (off)
+            indicatorLight.color = offColor;
         }
     }
 
@@ -28,11 +27,6 @@ public class TVButton : MonoBehaviour
         if (!canPress) return;
 
         isOn = !isOn;
-
-        if (isOn)
-        {
-            wasEverTurnedOn = true; // set this once and never reset
-        }
 
         if (buttonClickSound != null)
         {
@@ -44,15 +38,15 @@ public class TVButton : MonoBehaviour
             indicatorLight.color = isOn ? onColor : offColor;
         }
 
-        if (tvEffect != null)
+        if (psScreen != null)
         {
             if (isOn)
             {
-                tvEffect.TurnOn();
+                psScreen.TurnOn();
             }
             else
             {
-                tvEffect.TurnOff();
+                psScreen.TurnOff();
             }
         }
 
@@ -69,10 +63,5 @@ public class TVButton : MonoBehaviour
     public bool IsOn()
     {
         return isOn;
-    }
-
-    public bool WasEverTurnedOn()
-    {
-        return wasEverTurnedOn;
     }
 }
