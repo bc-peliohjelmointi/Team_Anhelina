@@ -1,7 +1,7 @@
 using UnityEngine;
 
-// simpler version of drag ray - no puzzle panel or aura support
-// just grab, drag, snap to slots, and throw
+// handles grabbing, dragging, snapping paper objects
+// also detects buttons, puzzle panels, and now highlights hovered objects with aura
 public class ObjectDragRay : MonoBehaviour
 {
     public float maxDistance = 6f;
@@ -17,7 +17,10 @@ public class ObjectDragRay : MonoBehaviour
 
     [Header("Throw Settings")]
     public float throwForceMultiplier = 2.5f;
-    public int velocitySamples = 5; // how many frames to average for throw speed
+    public int velocitySamples = 5;
+
+    [Header("Aura / Highlight")]
+    public float auraCheckDistance = 6f; // can be different from max grab distance
 
     private Texture2D dotTexture;
     private DraggableObject currentObject;
@@ -25,13 +28,15 @@ public class ObjectDragRay : MonoBehaviour
     private float objectDistance;
     private bool isDragging = false;
     private Vector3 localGrabPoint;
-    private Quaternion originalRotation; // restore on slot snap
+    private Quaternion originalRotation;
 
-    private Vector3[] recentVelocities; // ring buffer for throw velocity
+    private Vector3[] recentVelocities;
     private int velocityIndex = 0;
     private Vector3 lastWorldPoint;
     private float originalLinearDamping;
     private float originalAngularDamping;
+
+    private AuraHighlight currentAura; // currently highlighted object
 
     void Awake()
     {
@@ -44,12 +49,18 @@ public class ObjectDragRay : MonoBehaviour
 
     void Update()
     {
+        // only check for aura when not dragging something
+        if (!isDragging)
+        {
+            CheckForAura();
+        }
+
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(interactKey)) && !isDragging)
         {
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
-                // check buttons first before trying to grab objects
+                // check buttons first
                 TVButton tvButton = hit.collider.GetComponent<TVButton>();
                 if (tvButton != null)
                 {
@@ -64,6 +75,7 @@ public class ObjectDragRay : MonoBehaviour
                     return;
                 }
 
+                // then try to grab paper
                 DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
                 if (draggable != null && draggable.canBeGrabbed && draggable.isPaper)
                 {
@@ -74,7 +86,7 @@ public class ObjectDragRay : MonoBehaviour
             }
         }
 
-        // scroll to push/pull object closer or farther away
+        // scroll to push/pull object
         if (isDragging && currentObject != null)
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -91,20 +103,51 @@ public class ObjectDragRay : MonoBehaviour
         }
     }
 
+    // checks what the player is looking at and updates aura glow accordingly
+    void CheckForAura()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        AuraHighlight aura = null;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, auraCheckDistance))
+        {
+            // try to get aura from hit object or its parent
+            aura = hit.collider.GetComponent<AuraHighlight>();
+            if (aura == null)
+            {
+                aura = hit.collider.GetComponentInParent<AuraHighlight>();
+            }
+        }
+
+        // only update if something changed - dont call SetGlow every frame for nothing
+        if (aura != currentAura)
+        {
+            if (currentAura != null)
+            {
+                currentAura.SetGlow(false); // turn off old one
+            }
+
+            currentAura = aura;
+
+            if (currentAura != null)
+            {
+                currentAura.SetGlow(true); // turn on new one
+            }
+        }
+    }
+
     void StartGrab(RaycastHit hit)
     {
         objectDistance = Vector3.Distance(transform.position, hit.point);
-
         localGrabPoint = currentObject.transform.InverseTransformPoint(hit.point);
         originalRotation = currentObject.transform.rotation;
         lastWorldPoint = hit.point;
 
-        // save original damping to restore later
         originalLinearDamping = currentRb.linearDamping;
         originalAngularDamping = currentRb.angularDamping;
 
         currentRb.useGravity = false;
-        currentRb.linearDamping = 10f;   // high damping = feels controlled and heavy
+        currentRb.linearDamping = 10f;
         currentRb.angularDamping = 10f;
         currentRb.linearVelocity = Vector3.zero;
         currentRb.angularVelocity = Vector3.zero;
@@ -115,7 +158,6 @@ public class ObjectDragRay : MonoBehaviour
             currentRb.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
-        // clear old velocity data so throw isnt affected by previous movement
         for (int i = 0; i < velocitySamples; i++)
         {
             recentVelocities[i] = Vector3.zero;
@@ -125,14 +167,12 @@ public class ObjectDragRay : MonoBehaviour
         isDragging = true;
     }
 
-    // physics movement in fixed update for smooth dragging
     void FixedUpdate()
     {
         if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null && currentRb != null)
         {
             Vector3 targetWorldPoint = transform.position + transform.forward * objectDistance;
 
-            // account for where exactly the object was grabbed
             Vector3 worldGrabPoint = currentObject.transform.TransformPoint(localGrabPoint);
             Vector3 offset = worldGrabPoint - currentRb.position;
             Vector3 targetPosition = targetWorldPoint - offset;
@@ -143,7 +183,6 @@ public class ObjectDragRay : MonoBehaviour
 
             currentRb.MovePosition(newPosition);
 
-            // track velocity every frame for throw calculation later
             Vector3 velocity = (targetWorldPoint - lastWorldPoint) / Time.fixedDeltaTime;
             recentVelocities[velocityIndex] = velocity;
             velocityIndex = (velocityIndex + 1) % velocitySamples;
@@ -158,7 +197,6 @@ public class ObjectDragRay : MonoBehaviour
         Transform slot = GetClosestSlot(currentRb.position);
         if (slot != null)
         {
-            // snap to slot and restore original rotation
             currentRb.position = slot.position;
             currentRb.rotation = originalRotation;
             currentRb.linearVelocity = Vector3.zero;
@@ -166,7 +204,6 @@ public class ObjectDragRay : MonoBehaviour
         }
         else
         {
-            // calculate throw from average of recent velocities
             Vector3 averageVelocity = Vector3.zero;
             for (int i = 0; i < velocitySamples; i++)
             {
@@ -176,7 +213,6 @@ public class ObjectDragRay : MonoBehaviour
 
             Vector3 throwVelocity = averageVelocity * throwForceMultiplier;
 
-            // cap it so objects dont fly too fast
             float maxSpeed = 25f;
             if (throwVelocity.magnitude > maxSpeed)
             {
@@ -184,12 +220,9 @@ public class ObjectDragRay : MonoBehaviour
             }
 
             currentRb.linearVelocity = throwVelocity;
-
-            Vector3 torque = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f; // spin on throw
-            currentRb.angularVelocity = torque;
+            currentRb.angularVelocity = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f;
         }
 
-        // restore everything back to normal
         currentRb.linearDamping = originalLinearDamping;
         currentRb.angularDamping = originalAngularDamping;
         currentRb.useGravity = true;
@@ -202,7 +235,6 @@ public class ObjectDragRay : MonoBehaviour
         localGrabPoint = Vector3.zero;
     }
 
-    // finds closest slot within snap distance, returns null if none found
     Transform GetClosestSlot(Vector3 position)
     {
         Transform bestSlot = null;
@@ -222,7 +254,6 @@ public class ObjectDragRay : MonoBehaviour
         return bestSlot;
     }
 
-    // draws dot crosshair in center of screen
     void OnGUI()
     {
         if (showCrosshair)
@@ -230,6 +261,16 @@ public class ObjectDragRay : MonoBehaviour
             float x = (Screen.width - dotSize) * 0.5f;
             float y = (Screen.height - dotSize) * 0.5f;
             GUI.DrawTexture(new Rect(x, y, dotSize, dotSize), dotTexture);
+        }
+    }
+
+    // make sure we turn off any active glow when this script is disabled
+    void OnDisable()
+    {
+        if (currentAura != null)
+        {
+            currentAura.SetGlow(false);
+            currentAura = null;
         }
     }
 }
