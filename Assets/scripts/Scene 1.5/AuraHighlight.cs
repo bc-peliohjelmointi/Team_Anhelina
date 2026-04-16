@@ -1,107 +1,97 @@
 using UnityEngine;
-using System.Collections;
+// attach this to any object you want to glow when player looks at it
+// works together with ObjectDragRayLevers which calls SetGlow(true/false)
 public class AuraHighlight : MonoBehaviour
 {
-    [Header("Renderers")]
-    public Renderer[] renderers;
     [Header("Glow Settings")]
-    public Color glowColor = new Color(0f, 1f, 1f, 1f);
+    // the color of the emission glow, white by default
+    public Color glowColor = Color.white;
+    // peak brightness of the glow
     public float glowIntensity = 1.5f;
-    public float fadeSpeed = 8f;
+    // speed of the breathing pulse animation
+    public float glowSpeed = 3f;
+    // if false, glow is static with no animation
+    public bool usePulse = true;
+    [Header("Outline Settings")]
+    // optional outline effect instead of emission, usually leave this off
+    public bool useOutline = false;
+    public Color outlineColor = Color.yellow;
+    public float outlineWidth = 0.02f;
 
-    [Header("Pulse")]
-    public bool pulse = true;
-    public float pulseSpeed = 2f;
-    public float pulseMin = 0.8f;
-    public float pulseMax = 1.8f;
-
+    private Renderer[] renderers;
+    private Material[] originalMaterials;
+    private Material[] glowMaterials;
     private bool isGlowing = false;
-    private float currentIntensity = 0f;
-    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
-    private Material[][] originalMaterials;
-    private Material[][] instanceMaterials;
-    private bool initialized = false;
+    private float pulseTimer = 0f;
 
-    void Start()
+    void Awake()
     {
-        if (renderers == null || renderers.Length == 0)
-        {
-            Renderer r = GetComponent<Renderer>();
-            if (r != null) renderers = new Renderer[] { r };
-        }
-
-        originalMaterials = new Material[renderers.Length][];
-        instanceMaterials = new Material[renderers.Length][];
+        // grab all renderers including children, works for multi-mesh objects
+        renderers = GetComponentsInChildren<Renderer>();
+        originalMaterials = new Material[renderers.Length];
+        glowMaterials = new Material[renderers.Length];
 
         for (int i = 0; i < renderers.Length; i++)
         {
-            if (renderers[i] == null) continue;
-            originalMaterials[i] = renderers[i].sharedMaterials;
-            Material[] inst = new Material[renderers[i].sharedMaterials.Length];
-            for (int j = 0; j < inst.Length; j++)
-                inst[j] = new Material(renderers[i].sharedMaterials[j]);
-            instanceMaterials[i] = inst;
-        }
-
-        initialized = true;
-    }
-
-    void Update()
-    {
-        if (!initialized) return;
-
-        float target = isGlowing ? glowIntensity : 0f;
-        currentIntensity = Mathf.Lerp(currentIntensity, target, Time.deltaTime * fadeSpeed);
-
-        float intensity = currentIntensity;
-        if (isGlowing && pulse)
-        {
-            float p = Mathf.Sin(Time.time * pulseSpeed) * 0.5f + 0.5f;
-            intensity = Mathf.Lerp(pulseMin, pulseMax, p) * (currentIntensity / glowIntensity);
-        }
-
-        Color emission = glowColor * intensity;
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            if (renderers[i] == null || instanceMaterials[i] == null) continue;
-
-            renderers[i].materials = instanceMaterials[i];
-
-            foreach (Material mat in instanceMaterials[i])
+            if (renderers[i] != null)
             {
-                if (mat == null) continue;
-                mat.EnableKeyword("_EMISSION");
-                mat.SetColor(EmissionColor, emission);
+                // save the original so we can restore it later
+                originalMaterials[i] = renderers[i].material;
+                // make a copy with emission enabled for the glow version
+                glowMaterials[i] = new Material(renderers[i].material);
+                glowMaterials[i].EnableKeyword("_EMISSION");
             }
         }
     }
 
-    public void SetGlow(bool enable)
+    void Update()
     {
-        isGlowing = enable;
-        if (!enable && Mathf.Approximately(currentIntensity, 0f))
-            RestoreOriginalMaterials();
-    }
+        if (!isGlowing) return;
 
-    void RestoreOriginalMaterials()
-    {
-        if (!initialized) return;
-        for (int i = 0; i < renderers.Length; i++)
+        if (usePulse)
         {
-            if (renderers[i] == null || originalMaterials[i] == null) continue;
-            renderers[i].sharedMaterials = originalMaterials[i];
+            // sine wave makes the glow breathe in and out smoothly
+            pulseTimer += Time.deltaTime * glowSpeed;
+            float pulse = (Mathf.Sin(pulseTimer) + 1f) / 2f;
+            float currentIntensity = Mathf.Lerp(glowIntensity * 0.4f, glowIntensity, pulse);
+            for (int i = 0; i < glowMaterials.Length; i++)
+            {
+                if (glowMaterials[i] != null)
+                    glowMaterials[i].SetColor("_EmissionColor", glowColor * currentIntensity);
+            }
         }
     }
 
-    void OnDestroy()
+    // called by ObjectDragRayLevers when player starts or stops looking at this object
+    public void SetGlow(bool on)
     {
-        if (!initialized) return;
+        isGlowing = on;
         for (int i = 0; i < renderers.Length; i++)
         {
-            if (instanceMaterials[i] == null) continue;
-            foreach (Material mat in instanceMaterials[i])
-                if (mat != null) Destroy(mat);
+            if (renderers[i] == null) continue;
+            if (on)
+            {
+                // swap to glow material and set initial brightness
+                renderers[i].material = glowMaterials[i];
+                glowMaterials[i].SetColor("_EmissionColor", glowColor * glowIntensity);
+                pulseTimer = 0f;
+            }
+            else
+            {
+                // put original material back
+                renderers[i].material = originalMaterials[i];
+            }
         }
+    }
+
+    public bool IsGlowing()
+    {
+        return isGlowing;
+    }
+
+    // make sure we restore original material if object gets disabled while glowing
+    void OnDisable()
+    {
+        SetGlow(false);
     }
 }
