@@ -709,6 +709,7 @@ GameObject:
   - component: {fileID: 51672837}
   - component: {fileID: 51672842}
   - component: {fileID: 51672841}
+  - component: {fileID: 51672843}
   - component: {fileID: 51672840}
   - component: {fileID: 51672839}
   - component: {fileID: 51672838}
@@ -858,6 +859,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51672836}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &51672843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51672836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9075ee05a7aea44b46c8dca4a16145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuraHighlight
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowIntensity: 1.5
+  glowSpeed: 3
+  usePulse: 1
+  useOutline: 0
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  outlineWidth: 0.02
 --- !u!1 &54636821 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7571850415358279223, guid: b905c60e686e99e4b805b036d31456fa, type: 3}
@@ -6418,6 +6438,7 @@ GameObject:
   - component: {fileID: 516630114}
   - component: {fileID: 516630119}
   - component: {fileID: 516630118}
+  - component: {fileID: 516630120}
   - component: {fileID: 516630117}
   - component: {fileID: 516630116}
   - component: {fileID: 516630115}
@@ -6567,6 +6588,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516630113}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &516630120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516630113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9075ee05a7aea44b46c8dca4a16145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuraHighlight
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowIntensity: 1.5
+  glowSpeed: 3
+  usePulse: 1
+  useOutline: 0
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  outlineWidth: 0.02
 --- !u!1 &542677037
 GameObject:
   m_ObjectHideFlags: 0
@@ -8388,7 +8428,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.004, y: -0.41}
+  m_AnchoredPosition: {x: 0.004, y: -0.68}
   m_SizeDelta: {x: 40, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &728134171
@@ -8413,8 +8453,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Turn on third episode
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8511,7 +8551,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2180264, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9366,6 +9406,7 @@ GameObject:
   - component: {fileID: 801932753}
   - component: {fileID: 801932758}
   - component: {fileID: 801932757}
+  - component: {fileID: 801932759}
   - component: {fileID: 801932756}
   - component: {fileID: 801932755}
   - component: {fileID: 801932754}
@@ -9515,6 +9556,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 801932752}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &801932759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801932752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9075ee05a7aea44b46c8dca4a16145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuraHighlight
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowIntensity: 1.5
+  glowSpeed: 3
+  usePulse: 1
+  useOutline: 0
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  outlineWidth: 0.02
 --- !u!1 &802116709
 GameObject:
   m_ObjectHideFlags: 0
@@ -9934,7 +9994,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.004, y: -0.48}
+  m_AnchoredPosition: {x: 0.004, y: -0.85}
   m_SizeDelta: {x: 40, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &843980205
@@ -9959,8 +10019,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Turn on second episode
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10057,7 +10117,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2180264, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14029,8 +14089,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: E
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14123,7 +14183,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -770.24}
+  m_AnchoredPosition: {x: 0, y: -367.21}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1287372950
@@ -15042,20 +15102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b973422ffd2dcd44ab52ab0398891323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PSButton
-  psScreen: {fileID: 0}
-  indicatorLight: {fileID: 0}
-  offColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  onColor:
-    r: 0.5
-    g: 0.5
-    b: 0.5
-    a: 1
-  cooldownTime: 5
-  buttonClickSound: {fileID: 0}
 --- !u!1001 &1315309551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16196,6 +16242,7 @@ GameObject:
   - component: {fileID: 1369857324}
   - component: {fileID: 1369857329}
   - component: {fileID: 1369857328}
+  - component: {fileID: 1369857330}
   - component: {fileID: 1369857327}
   - component: {fileID: 1369857326}
   - component: {fileID: 1369857325}
@@ -16345,6 +16392,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369857323}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1369857330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369857323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9075ee05a7aea44b46c8dca4a16145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuraHighlight
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowIntensity: 1.5
+  glowSpeed: 3
+  usePulse: 1
+  useOutline: 0
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  outlineWidth: 0.02
 --- !u!1 &1385164818
 GameObject:
   m_ObjectHideFlags: 0
@@ -23146,7 +23212,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.004, y: -1.01}
+  m_AnchoredPosition: {x: 0.004, y: -1.19}
   m_SizeDelta: {x: 40, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1902144095
@@ -23171,8 +23237,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Turn on first episode
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23269,7 +23335,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2180264, guid: 4c555d732ffc7ae489f4d4151db322f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23614,8 +23680,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: TURN ON TV
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b7a7c5b1f344ea438ae4ed66f7f15db, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 4b7a7c5b1f344ea438ae4ed66f7f15db, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23712,7 +23778,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2180264, guid: 4b7a7c5b1f344ea438ae4ed66f7f15db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25328,6 +25394,7 @@ GameObject:
   - component: {fileID: 2118086049}
   - component: {fileID: 2118086054}
   - component: {fileID: 2118086053}
+  - component: {fileID: 2118086055}
   - component: {fileID: 2118086052}
   - component: {fileID: 2118086051}
   - component: {fileID: 2118086050}
@@ -25477,6 +25544,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118086048}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2118086055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118086048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9075ee05a7aea44b46c8dca4a16145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuraHighlight
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowIntensity: 1.5
+  glowSpeed: 3
+  usePulse: 1
+  useOutline: 0
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  outlineWidth: 0.02
 --- !u!1 &2131424557
 GameObject:
   m_ObjectHideFlags: 0
