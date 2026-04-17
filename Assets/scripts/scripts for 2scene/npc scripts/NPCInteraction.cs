@@ -1,62 +1,126 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using TMPro;
 
-// Yksi tekstitysrivi: teksti ja aika, jolloin se näytetään
 [System.Serializable]
 public class DialogueSubtitle
 {
-    [TextArea] public string text; // Tekstityksen sisältö
-    public float startTime;        // Aika sekunteissa, jolloin rivi alkaa
-    public float endTime;          // Aika sekunteissa, jolloin rivi loppuu
+    [TextArea] public string text;
+    public float startTime;
+    public float endTime;
 }
 
 public class NPCInteraction : MonoBehaviour
 {
     [Header("Mission Settings")]
-    public int missionID;               // Tehtävän numero, johon tämä NPC liittyy
-    public MissionSystem missionSystem; // Viittaus tehtäväjärjestelmään
+    public int missionID;
+    public MissionSystem missionSystem;
 
     [Header("Dialogue Settings")]
-    public AudioClip dialogueAudio;        // Dialogin äänitiedosto
-    public DialogueSubtitle[] subtitles;   // Kaikki tekstitysrivit taulukossa
-    public TextMeshProUGUI subtitleText;   // Tekstikenttä tekstitystä varten
-    public float fadeSpeed = 3f;           // Tekstityksen häivytyksen nopeus
+    public AudioClip dialogueAudio;
+    public DialogueSubtitle[] subtitles;
+    public TextMeshProUGUI subtitleText;
+    public float fadeSpeed = 3f;
 
     [Header("Trigger Mode")]
-    public bool autoPlayOnEnter = false; // Jos true, dialogi alkaa automaattisesti alueelle astuessa
+    public bool autoPlayOnEnter = false;
 
-    private AudioSource audioSource;              // Äänikomponentti dialogille
-    private bool playerNear = false;              // Onko pelaaja NPC:n lähellä
-    private bool isTalking = false;               // Onko dialogi käynnissä
-    private CharacterController playerController; // Pelaajan liikkumiskomponentti
+    [Header("Animation Settings")]
+    public Animator npcAnimator;
+
+    // Названия параметров/состояний в Animator
+    private static readonly string ANIM_SIT_TALK = "SitTalk";   // Bool или Trigger
+    private static readonly string ANIM_STAND_UP = "StandUp";   // Trigger
+    private static readonly string ANIM_WALK = "Walk";      // Bool
+    private static readonly string ANIM_STAND_TALK = "StandTalk"; // Bool
+    private static readonly string ANIM_SIT_IDLE = "SitIdle";   // Bool (обычное сидение без разговора)
+
+    [Header("NPC Movement (Return to Seat)")]
+    public NavMeshAgent navAgent;          // NavMeshAgent на NPC
+    public Transform seatTransform;        // Точка, где NPC сидело изначально
+    public float returnStopDistance = 0.3f;// Расстояние, при котором считаем что дошли
+
+    private AudioSource audioSource;
+    private bool playerNear = false;
+    private bool isTalking = false;
+    private bool isReturning = false;
+    private CharacterController playerController;
+
+    // Сохраняем начальный поворот NPC
+    private Quaternion initialRotation;
 
     void Awake()
     {
-        // Luodaan äänikomponentti automaattisesti
         audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.spatialBlend = 0f; // Asetetaan 2D-ääneksi
+        audioSource.spatialBlend = 0f;
 
-        // Piilotetaan tekstitys pelin alussa
         if (subtitleText != null)
         {
             subtitleText.text = "";
             Color c = subtitleText.color;
-            subtitleText.color = new Color(c.r, c.g, c.b, 0f); // Alpha = 0, täysin läpinäkyvä
+            subtitleText.color = new Color(c.r, c.g, c.b, 0f);
+        }
+
+        // Запоминаем начальный поворот
+        initialRotation = transform.rotation;
+
+        // Отключаем NavMeshAgent пока не нужен
+        if (navAgent != null)
+            navAgent.enabled = false;
+
+        // Начальная анимация — сидит и говорит (или просто сидит)
+        SetAnimationState(AnimState.SitTalk);
+    }
+
+    // -------------------------------------------------------
+    // Перечисление всех состояний анимации
+    // -------------------------------------------------------
+    enum AnimState { SitTalk, StandUp, Walk, StandTalk, SitIdle }
+
+    void SetAnimationState(AnimState state)
+    {
+        if (npcAnimator == null) return;
+
+        // Сначала сбрасываем все Bool-параметры
+        npcAnimator.SetBool(ANIM_SIT_TALK, false);
+        npcAnimator.SetBool(ANIM_WALK, false);
+        npcAnimator.SetBool(ANIM_STAND_TALK, false);
+        npcAnimator.SetBool(ANIM_SIT_IDLE, false);
+
+        switch (state)
+        {
+            case AnimState.SitTalk:
+                npcAnimator.SetBool(ANIM_SIT_TALK, true);
+                break;
+
+            case AnimState.StandUp:
+                // Trigger — одноразовое срабатывание, переход к Walk/Stand
+                npcAnimator.SetTrigger(ANIM_STAND_UP);
+                break;
+
+            case AnimState.Walk:
+                npcAnimator.SetBool(ANIM_WALK, true);
+                break;
+
+            case AnimState.StandTalk:
+                npcAnimator.SetBool(ANIM_STAND_TALK, true);
+                break;
+
+            case AnimState.SitIdle:
+                npcAnimator.SetBool(ANIM_SIT_IDLE, true);
+                break;
         }
     }
 
+    // -------------------------------------------------------
     void Update()
     {
-        // Tarkistetaan, painaako pelaaja E-näppäintä NPC:n lähellä
-        if (playerNear && Input.GetKeyDown(KeyCode.E) && !isTalking && !autoPlayOnEnter)
+        if (playerNear && Input.GetKeyDown(KeyCode.E) && !isTalking && !autoPlayOnEnter && !isReturning)
         {
-            // Aloitetaan dialogi vain, jos oikea tehtävä on aktiivisena
             if (missionSystem == null || missionSystem.GetCurrentMission() == missionID)
             {
                 StartCoroutine(PlayDialogue());
-
-                // Merkitään tehtävä suoritetuksi dialogin alkaessa
                 if (missionSystem != null)
                     missionSystem.CompleteMission(missionID);
             }
@@ -65,156 +129,223 @@ public class NPCInteraction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Tarkistetaan, onko alueelle astunut objekti pelaaja
         if (!other.CompareTag("Player")) return;
-
         playerNear = true;
-
-        // Tallennetaan pelaajan liikkumiskomponentti
         playerController = other.GetComponent<CharacterController>();
 
-        // Näytetään vihje vain manuaalisessa tilassa
-        if (!isTalking && !autoPlayOnEnter)
+        if (!isTalking && !autoPlayOnEnter && !isReturning)
             InteractionHint.instance.Show("Press E to talk");
 
-        // Automaattisessa tilassa dialogi alkaa heti alueelle astuessa
-        if (autoPlayOnEnter && !isTalking)
+        if (autoPlayOnEnter && !isTalking && !isReturning)
             StartCoroutine(PlayDialogue());
     }
 
     void OnTriggerExit(Collider other)
     {
-        // Tarkistetaan, onko alueelta poistunut objekti pelaaja
         if (!other.CompareTag("Player")) return;
-
         playerNear = false;
         playerController = null;
-
-        // Piilotetaan vihje ja pysäytetään dialogi
         InteractionHint.instance.Hide();
         StopDialogue();
     }
 
     void SetPlayerMovement(bool enabled)
     {
-        // Kytketään pelaajan liikkuminen päälle tai pois
         if (playerController != null)
             playerController.enabled = enabled;
     }
 
     void StopDialogue()
     {
-        // Jos dialogi ei ole käynnissä, ei tehdä mitään
         if (!isTalking) return;
-
-        // Pysäytetään kaikki coroutiinit ja ääni
         StopAllCoroutines();
         audioSource.Stop();
         isTalking = false;
-
-        // Palautetaan pelaajan liikkuminen
         SetPlayerMovement(true);
 
-        // Tyhjennetään tekstityskenttä
         if (subtitleText != null)
         {
             subtitleText.text = "";
             Color c = subtitleText.color;
             subtitleText.color = new Color(c.r, c.g, c.b, 0f);
         }
+
+        // Возвращаем NPC на место
+        StartCoroutine(ReturnToSeat());
     }
 
+    // -------------------------------------------------------
+    // Основной диалог с тайм-кодами анимации
+    // -------------------------------------------------------
     IEnumerator PlayDialogue()
     {
         isTalking = true;
-
-        // Piilotetaan vihje dialogin ajaksi
         InteractionHint.instance.Hide();
-
-        // Estetään pelaajan liikkuminen dialogin ajaksi
         SetPlayerMovement(false);
 
-        // Aloitetaan äänen toisto
+        // --- Фаза 1: 0–27 сек — сидит и говорит ---
+        SetAnimationState(AnimState.SitTalk);
+
         if (dialogueAudio != null)
         {
             audioSource.clip = dialogueAudio;
             audioSource.Play();
         }
 
-        int currentSubtitle = -1; // Nykyisen tekstitysrivin indeksi (-1 = ei mitään)
+        int currentSubtitle = -1;
+        bool stoodUp = false;
+        bool startedWalk = false;
+        bool startedStandTalk = false;
 
-        // Loopataan niin kauan kuin ääni on käynnissä
         while (audioSource.isPlaying)
         {
-            float elapsed = audioSource.time; // Kulunut aika sekunteissa
-            int activeLine = -1;
+            float elapsed = audioSource.time;
 
-            // Etsitään, mikä tekstitysrivi on aktiivinen tällä hetkellä
+            // --- Переключение анимаций по времени ---
+
+            // 27 сек — встаёт (Trigger)
+            if (!stoodUp && elapsed >= 27f)
+            {
+                stoodUp = true;
+                SetAnimationState(AnimState.StandUp);
+            }
+
+            // 29 сек — идёт (небольшая задержка после вставания, подбери сам)
+            if (!startedWalk && elapsed >= 29f)
+            {
+                startedWalk = true;
+                SetAnimationState(AnimState.Walk);
+            }
+
+            // 33 сек — стоит и говорит
+            if (!startedStandTalk && elapsed >= 33f)
+            {
+                startedStandTalk = true;
+                SetAnimationState(AnimState.StandTalk);
+            }
+
+            // --- Субтитры ---
+            int activeLine = -1;
             for (int i = 0; i < subtitles.Length; i++)
             {
                 if (elapsed >= subtitles[i].startTime && elapsed < subtitles[i].endTime)
                 {
                     activeLine = i;
-                    break; // Löydettiin aktiivinen rivi
+                    break;
                 }
             }
 
-            // Jos aktiivinen rivi on vaihtunut, päivitetään tekstitys
             if (activeLine != currentSubtitle)
             {
                 currentSubtitle = activeLine;
-                StopCoroutine("FadeText"); // Pysäytetään edellinen häivytys
-
+                StopCoroutine("FadeText");
                 if (currentSubtitle >= 0)
-                    // Näytetään uusi tekstitysrivi
                     StartCoroutine(FadeText(subtitles[currentSubtitle].text, true));
                 else
-                    // Ei aktiivista riviä — piilotetaan tekstitys
                     StartCoroutine(FadeText("", false));
             }
 
-            yield return null; // Odotetaan seuraavaan ruutuun
+            yield return null;
         }
 
-        // Ääni on loppunut — piilotetaan tekstitys
+        // Ääni on loppunut
         StartCoroutine(FadeText("", false));
-
-        // Palautetaan pelaajan liikkuminen
         SetPlayerMovement(true);
         isTalking = false;
 
-        // Näytetään vihje uudelleen, jos pelaaja on edelleen lähellä
+        // После конца диалога — NPC возвращается на место
+        StartCoroutine(ReturnToSeat());
+
         if (playerNear)
             InteractionHint.instance.Show("Press E to talk");
     }
 
+    // -------------------------------------------------------
+    // Возврат NPC на исходную позицию
+    // -------------------------------------------------------
+    IEnumerator ReturnToSeat()
+    {
+        if (seatTransform == null || navAgent == null) yield break;
+        if (isReturning) yield break;
+
+        isReturning = true;
+
+        // Включаем NavMeshAgent и запускаем ходьбу
+        navAgent.enabled = true;
+        navAgent.isStopped = false;
+        navAgent.SetDestination(seatTransform.position);
+        SetAnimationState(AnimState.Walk);
+
+        // Ждём пока NPC дойдёт до места
+        while (true)
+        {
+            float dist = Vector3.Distance(transform.position, seatTransform.position);
+            if (dist <= returnStopDistance)
+                break;
+
+            // Дополнительная проверка через NavMeshAgent
+            if (!navAgent.pathPending && navAgent.remainingDistance <= returnStopDistance)
+                break;
+
+            yield return null;
+        }
+
+        // Пришли — останавливаем агента
+        navAgent.isStopped = true;
+        navAgent.enabled = false;
+
+        // Возвращаем исходный поворот плавно
+        yield return StartCoroutine(RotateToInitial());
+
+        // Садимся обратно — небольшая задержка перед анимацией "сесть"
+        // Если у тебя есть анимация "садится" — добавь Trigger здесь
+        // npcAnimator.SetTrigger("SitDown");
+        // yield return new WaitForSeconds(1.5f); // время анимации приседания
+
+        // Финальное состояние — сидит и говорит (или SitIdle если молчит)
+        SetAnimationState(AnimState.SitTalk);
+
+        isReturning = false;
+    }
+
+    // Плавный поворот к начальному вращению
+    IEnumerator RotateToInitial()
+    {
+        float duration = 0.5f;
+        float elapsed = 0f;
+        Quaternion from = transform.rotation;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(from, initialRotation, elapsed / duration);
+            yield return null;
+        }
+
+        transform.rotation = initialRotation;
+    }
+
+    // -------------------------------------------------------
     IEnumerator FadeText(string text, bool show)
     {
-        // Jos tekstikenttää ei ole, ei tehdä mitään
         if (subtitleText == null) yield break;
-
         Color c = subtitleText.color;
 
-        // Häivytetään nykyinen teksti läpinäkyväksi
         while (c.a > 0f)
         {
-            c.a -= Time.deltaTime * fadeSpeed * 2f;      // Poistumisnopeus on kaksinkertainen
-            c.a = Mathf.Max(c.a, 0f);                    // Ei mennä alle nollan
+            c.a -= Time.deltaTime * fadeSpeed * 2f;
+            c.a = Mathf.Max(c.a, 0f);
             subtitleText.color = c;
             yield return null;
         }
 
-        // Vaihdetaan teksti uuteen
         subtitleText.text = text;
-
-        // Jos teksti pitää vain piilottaa, lopetetaan tässä
         if (!show) yield break;
 
-        // Häivytetään uusi teksti näkyväksi
         while (c.a < 1f)
         {
             c.a += Time.deltaTime * fadeSpeed;
-            c.a = Mathf.Min(c.a, 1f);  // Ei mennä yli yhden
+            c.a = Mathf.Min(c.a, 1f);
             subtitleText.color = c;
             yield return null;
         }

@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool freezeCameraHeight = false;
 
+   
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -111,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
 
         UpdateEnergyUI(); // stamina bar
         HandleFallDeath(); // check fall death
+
+        
     }
 
     public void LockControl()
