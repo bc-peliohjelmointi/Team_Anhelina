@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.24181202, g: 0.24379544, b: 0.24528301, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
@@ -89418,7 +89418,6 @@ MonoBehaviour:
   autoPlayOnEnter: 0
   npcAnimator: {fileID: 910116802}
   timeStandUp: 20
-  timeWalk: 21
   navAgent: {fileID: 910116806}
   seatTransform: {fileID: 1696939470}
   returnStopDistance: 0.5
@@ -171299,7 +171298,6 @@ MonoBehaviour:
   autoPlayOnEnter: 0
   npcAnimator: {fileID: 0}
   timeStandUp: 20
-  timeWalk: 23
   navAgent: {fileID: 0}
   seatTransform: {fileID: 0}
   returnStopDistance: 0.3
