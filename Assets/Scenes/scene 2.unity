@@ -89416,13 +89416,13 @@ MonoBehaviour:
   subtitleText: {fileID: 1819036172}
   fadeSpeed: 1
   autoPlayOnEnter: 0
-  npcAnimator: {fileID: 910116802}
+  npcAnimator: {fileID: 0}
   timeStandUp: 20
-  navAgent: {fileID: 910116806}
-  seatTransform: {fileID: 1696939470}
-  returnStopDistance: 0.5
-  playerStandPoint: {fileID: 982595916}
-  fadePanel: {fileID: 652681429}
+  navAgent: {fileID: 0}
+  seatTransform: {fileID: 0}
+  returnStopDistance: 0.3
+  playerStandPoint: {fileID: 0}
+  fadePanel: {fileID: 0}
   fadeDuration: 0.4
   skipHintText: {fileID: 0}
 --- !u!195 &910116806
@@ -163357,7 +163357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0eb38f8a143d559409ad8867955fce2c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -244.1414
+      value: -244.414
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0eb38f8a143d559409ad8867955fce2c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -171303,7 +171303,7 @@ MonoBehaviour:
   returnStopDistance: 0.3
   playerStandPoint: {fileID: 0}
   fadePanel: {fileID: 0}
-  fadeDuration: 0.3
+  fadeDuration: 0.4
   skipHintText: {fileID: 0}
 --- !u!136 &1886051493
 CapsuleCollider:
