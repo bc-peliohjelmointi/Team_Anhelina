@@ -21,13 +21,14 @@ public class DraggableObject : MonoBehaviour
     // how many seconds after leaving bounds before paper teleports back
     public float returnDelay = 3f;
     // the boundary trigger collider - create an empty GameObject with a large
+    // Box Collider set to Is Trigger = true and assign it here
     // paper teleports back when it leaves this collider
     public Collider boundaryCollider;
 
     [Header("Drag System - fixes going through walls + realistic paper throw")]
     // new spring-based dragging so the object never passes through colliders
-    public float dragSpringStrength = 68f;   // increased for sharper, less "viscous" feel when dragging
-    public float dragDamping = 5f;           // lowered so it feels more responsive and less sticky
+    public float dragSpringStrength = 68f; // increased for sharper, less "viscous" feel when dragging
+    public float dragDamping = 5f; // lowered so it feels more responsive and less sticky
 
     // internal stuff
     private Vector3 returnPosition;
@@ -35,8 +36,8 @@ public class DraggableObject : MonoBehaviour
     private bool isOutOfBounds = false;
     private Coroutine returnCoroutine;
 
-    private bool isBeingDragged = false;     // flag so we know the player is holding it
-    private Vector3 dragTargetPosition;      // target position updated every frame from ObjectDragRay
+    private bool isBeingDragged = false; // flag so we know the player is holding it
+    private Vector3 dragTargetPosition; // target position updated every frame from ObjectDragRay
 
     void Awake()
     {
@@ -72,7 +73,7 @@ public class DraggableObject : MonoBehaviour
             returnRotation = transform.rotation;
         }
     }
-
+                   
     public void StartDragging()
     {
         if (rb == null) return;
@@ -81,7 +82,7 @@ public class DraggableObject : MonoBehaviour
         rb.useGravity = false;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-        // keep the paper flat in the hand (feels natural)
+        // keep the paper flat in the hand 
         if (freezeRotationDuringDrag)
             rb.constraints = RigidbodyConstraints.FreezeRotation;
 
@@ -98,6 +99,17 @@ public class DraggableObject : MonoBehaviour
     {
         if (rb == null || !isBeingDragged) return;
         isBeingDragged = false;
+
+        // if the paper was dragged outside the boundary and then released,
+        // the OnTriggerExit never started the timer (because we were holding it).
+        // So we manually check here and start the return timer if needed.
+        if (!IsInsideBoundary())
+        {
+            isOutOfBounds = true;
+            if (returnCoroutine != null) StopCoroutine(returnCoroutine);
+            returnCoroutine = StartCoroutine(ReturnAfterDelay());
+        }
+
         OnReleased(); // everything that happens when you let go is now here
     }
 
@@ -147,12 +159,19 @@ public class DraggableObject : MonoBehaviour
         }
     }
 
+    // helper to check if the paper is currently inside the boundary (used on release)
+    private bool IsInsideBoundary()
+    {
+        if (boundaryCollider == null) return true; // no boundary assigned = always "inside"
+        return boundaryCollider.bounds.Contains(transform.position);
+    }
+
     // called when paper exits the boundary trigger collider
     void OnTriggerExit(Collider other)
     {
         // only react to the assigned boundary collider
         if (boundaryCollider != null && other != boundaryCollider) return;
-        // if player is still holding it, don't start the return timer
+        // if player is still holding it, don't start the return timer yet
         if (isBeingDragged) return;
 
         if (!isOutOfBounds)
