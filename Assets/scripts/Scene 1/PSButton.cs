@@ -1,19 +1,18 @@
 using UnityEngine;
 using System.Collections;
 
-public class TVButton : MonoBehaviour
+// physical button that toggles the PS screen on and off
+// almost identical to TVButton but controls PSScreen instead
+public class PSButton : MonoBehaviour
 {
-    public TVPowerEffect tvEffect;
+    public PSScreen psScreen;
     public Light indicatorLight;
     public Color offColor = Color.red;
     public Color onColor = Color.gray;
-    public float cooldownTime = 5f;
-
+    public float cooldownTime = 5f; // cooldown prevents spam pressing
     public AudioSource buttonClickSound;
-
     private bool isOn = false;
     private bool canPress = true;
-    private bool wasEverTurnedOn = false;
 
     void Start()
     {
@@ -29,11 +28,6 @@ public class TVButton : MonoBehaviour
 
         isOn = !isOn;
 
-        if (isOn)
-        {
-            wasEverTurnedOn = true;
-        }
-
         if (buttonClickSound != null)
         {
             buttonClickSound.Play();
@@ -44,15 +38,15 @@ public class TVButton : MonoBehaviour
             indicatorLight.color = isOn ? onColor : offColor;
         }
 
-        if (tvEffect != null)
+        if (psScreen != null)
         {
             if (isOn)
             {
-                tvEffect.TurnOn();
+                psScreen.TurnOn();
             }
             else
             {
-                tvEffect.TurnOff();
+                psScreen.TurnOff();
             }
         }
 
@@ -69,10 +63,5 @@ public class TVButton : MonoBehaviour
     public bool IsOn()
     {
         return isOn;
-    }
-
-    public bool WasEverTurnedOn()
-    {
-        return wasEverTurnedOn;
     }
 }

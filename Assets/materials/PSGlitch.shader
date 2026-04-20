@@ -2,10 +2,12 @@
 {
     Properties
     {
+        // three color levels for the green PS screen look
         _BaseColor ("Base Color", Color) = (0, 0.2, 0, 1)
         _MediumColor ("Medium Color", Color) = (0, 0.5, 0, 1)
         _BrightColor ("Bright Color", Color) = (0, 1, 0, 1)
         
+        // 0=solid, 1=animated noise, 2=grid, 3=random
         [Header(Background)]
         _BackgroundType ("Background Type", Range(0, 3)) = 0
         _BackgroundColor ("Background Color", Color) = (0, 0.1, 0, 1)
@@ -13,6 +15,7 @@
         _BackgroundNoiseScale ("Background Noise Scale", Range(0.1, 10)) = 1
         _BackgroundNoiseSpeed ("Background Noise Speed", Range(0, 2)) = 0.1
         
+        // 0=horizontal, 1=vertical, 2=both
         [Header(Scanlines)]
         _ScanlineType ("Scanline Type", Range(0, 2)) = 0
         _ScanlineFrequency ("Scanline Frequency", Range(0, 200)) = 100
@@ -23,7 +26,7 @@
         _GlitchFrequency ("Glitch Frequency", Range(0, 0.1)) = 0.01
         _GlitchIntensity ("Glitch Intensity", Range(0, 1)) = 0.1
         _GlitchSpeed ("Glitch Speed", Range(0, 10)) = 1
-        _GlitchBlockSize ("Glitch Block Size", Range(1, 100)) = 10
+        _GlitchBlockSize ("Glitch Block Size", Range(1, 100)) = 10 // how many rows per glitch block
         
         [Header(Noise)]
         _NoiseIntensity ("Noise Intensity", Range(0, 1)) = 0.1
@@ -41,6 +44,7 @@
         _MinBrightness ("Min Brightness", Range(0, 1)) = 0.2
         _MaxBrightness ("Max Brightness", Range(0, 2)) = 1.0
     }
+
     SubShader
     {
         Tags { "RenderType"="Opaque" }
@@ -68,32 +72,25 @@
             float4 _BaseColor;
             float4 _MediumColor;
             float4 _BrightColor;
-            
             float _BackgroundType;
             float4 _BackgroundColor;
             float _BackgroundPixelation;
             float _BackgroundNoiseScale;
             float _BackgroundNoiseSpeed;
-            
             float _ScanlineType;
             float _ScanlineFrequency;
             float _ScanlineSpeed;
             float _ScanlineIntensity;
-            
             float _GlitchFrequency;
             float _GlitchIntensity;
             float _GlitchSpeed;
             float _GlitchBlockSize;
-            
             float _NoiseIntensity;
             float _NoiseSpeed;
             float _NoiseScale;
-            
             float _FlickerSpeed;
             float _FlickerIntensity;
-            
             float _ChromaticAberration;
-            
             float _MinBrightness;
             float _MaxBrightness;
 
@@ -115,19 +112,19 @@
                 float2 i = floor(p);
                 float2 f = frac(p);
                 f = f * f * (3.0 - 2.0 * f);
-                
                 float a = random(i);
                 float b = random(i + float2(1.0, 0.0));
                 float c = random(i + float2(0.0, 1.0));
                 float d = random(i + float2(1.0, 1.0));
-                
                 return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y);
             }
 
+            // handles the different background modes
             fixed4 getBackground(float2 uv, float time)
             {
                 float2 bgUV = uv;
                 
+                // pixelate UV if needed
                 if (_BackgroundPixelation > 1.0)
                 {
                     bgUV = floor(uv * _BackgroundPixelation) / _BackgroundPixelation;
@@ -137,15 +134,16 @@
                 
                 if (_BackgroundType < 0.5)
                 {
-                    return bgColor;
+                    return bgColor; // solid color
                 }
                 else if (_BackgroundType < 1.5)
                 {
                     float n = noise(bgUV * _BackgroundNoiseScale + time * _BackgroundNoiseSpeed);
-                    return bgColor * (0.8 + n * 0.4);
+                    return bgColor * (0.8 + n * 0.4); // animated noise overlay
                 }
                 else if (_BackgroundType < 2.5)
                 {
+                    // grid lines
                     float gridX = step(0.95, frac(bgUV.x * 20.0));
                     float gridY = step(0.95, frac(bgUV.y * 20.0));
                     float grid = max(gridX, gridY);
@@ -154,7 +152,7 @@
                 else
                 {
                     float r = random(bgUV * time * 0.01);
-                    return bgColor * (0.5 + r * 0.5);
+                    return bgColor * (0.5 + r * 0.5); // fully random noise
                 }
             }
 
@@ -165,6 +163,7 @@
                 
                 fixed4 background = getBackground(uv, time);
                 
+                // scanlines - supports horizontal, vertical, or both
                 float scanline = 1.0;
                 if (_ScanlineType < 0.5)
                 {
@@ -182,6 +181,7 @@
                 }
                 scanline = scanline * _ScanlineIntensity + (1.0 - _ScanlineIntensity);
                 
+                // horizontal glitch shift on random rows
                 float glitchRow = floor(uv.y * _GlitchBlockSize);
                 float glitchChance = step(1.0 - _GlitchFrequency, random(float2(glitchRow, floor(time * _GlitchSpeed))));
                 float glitchOffset = (random(float2(glitchRow, floor(time * _GlitchSpeed))) - 0.5) * _GlitchIntensity;
@@ -196,11 +196,12 @@
                 brightness *= flicker;
                 brightness = lerp(_MinBrightness, _MaxBrightness, brightness);
                 
+                // pick color based on noise value - gives three-tier green look
                 float colorNoise = random(uv * time * 0.01);
                 fixed4 col;
                 if (colorNoise < 0.7)
                 {
-                    col = lerp(_BaseColor, _MediumColor, colorNoise / 0.7);
+                    col = lerp(_BaseColor, _MediumColor, colorNoise / 0.7); // dark to medium
                 }
                 else if (colorNoise < 0.95)
                 {
@@ -208,16 +209,18 @@
                 }
                 else
                 {
-                    col = _BrightColor;
+                    col = _BrightColor; // bright flashes on rare pixels
                 }
                 
                 col *= brightness;
                 
+                // on glitch rows, randomly flash bright green pixels
                 if (glitchChance > 0.5 && random(float2(uv.x, time)) > 0.7)
                 {
                     col = _BrightColor;
                 }
                 
+                // chromatic aberration - shift red and blue channels apart
                 if (_ChromaticAberration > 0.0)
                 {
                     float2 offsetR = uv + float2(_ChromaticAberration, 0);
@@ -230,7 +233,7 @@
                     col = fixed4(r, g, b, 1);
                 }
                 
-                col = lerp(background, col, col.a);
+                col = lerp(background, col, col.a); // blend with background
                 
                 return col;
             }

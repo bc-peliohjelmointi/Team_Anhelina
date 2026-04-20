@@ -1,24 +1,25 @@
 using UnityEngine;
 using System.Collections;
 
-public class PSButton : MonoBehaviour
+// physical button that toggles the TV on and off
+// has a cooldown so player cant spam it
+public class TVButton : MonoBehaviour
 {
-    public PSScreen psScreen;
+    public TVPowerEffect tvEffect;
     public Light indicatorLight;
     public Color offColor = Color.red;
     public Color onColor = Color.gray;
-    public float cooldownTime = 5f;
-
+    public float cooldownTime = 5f;         // seconds before button can be pressed again
     public AudioSource buttonClickSound;
-
     private bool isOn = false;
     private bool canPress = true;
+    private bool wasEverTurnedOn = false;   // tracks if TV was ever turned on - used elsewhere for puzzle logic
 
     void Start()
     {
         if (indicatorLight != null)
         {
-            indicatorLight.color = offColor;
+            indicatorLight.color = offColor; // start red (off)
         }
     }
 
@@ -27,6 +28,11 @@ public class PSButton : MonoBehaviour
         if (!canPress) return;
 
         isOn = !isOn;
+
+        if (isOn)
+        {
+            wasEverTurnedOn = true; // set this once and never reset
+        }
 
         if (buttonClickSound != null)
         {
@@ -38,15 +44,15 @@ public class PSButton : MonoBehaviour
             indicatorLight.color = isOn ? onColor : offColor;
         }
 
-        if (psScreen != null)
+        if (tvEffect != null)
         {
             if (isOn)
             {
-                psScreen.TurnOn();
+                tvEffect.TurnOn();
             }
             else
             {
-                psScreen.TurnOff();
+                tvEffect.TurnOff();
             }
         }
 
@@ -63,5 +69,10 @@ public class PSButton : MonoBehaviour
     public bool IsOn()
     {
         return isOn;
+    }
+
+    public bool WasEverTurnedOn()
+    {
+        return wasEverTurnedOn;
     }
 }

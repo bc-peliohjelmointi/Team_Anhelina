@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ps text
+  m_Name: Ps Text
   m_Shader: {fileID: 4800000, guid: c84bc80e218e7724a93d615576f76409, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -85,9 +85,18 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _BaseBrightness: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BloomEnabled: 1
+    - _BloomSize: 0.005
+    - _BloomStrength: 0.3
+    - _BrightnessVariation: 0.05
     - _BumpScale: 1
+    - _CharDropoutDuration: 0.3
+    - _CharDropoutEnabled: 1
+    - _CharDropoutFrequency: 0.02
+    - _CharDropoutSpeed: 3
     - _ChromaticAberration: 0.005
     - _ChromaticEnabled: 0
     - _ClearCoatMask: 0
@@ -117,13 +126,16 @@ Material:
     - _GlossyReflections: 0
     - _GlowIntensity: 1.95
     - _GlowSize: 0.099
+    - _InnerGlow: 0.3
     - _MaxBrightness: 0.3
     - _Metallic: 0
     - _MinBrightness: 0.36
     - _NoiseEnabled: 0.33
     - _NoiseIntensity: 0.027
+    - _NoiseScale: 80
     - _NoiseSpeed: 1
     - _OcclusionStrength: 1
+    - _OuterGlow: 0.01
     - _Parallax: 0.005
     - _Pixelation: 1
     - _QueueOffset: 0
