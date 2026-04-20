@@ -73,7 +73,12 @@ public class DraggableObject : MonoBehaviour
             returnRotation = transform.rotation;
         }
     }
-                   
+
+    // ====================== NEW DRAG METHODS - call these from ObjectDragRay ======================
+    // 1. When player grabs the object ? StartDragging()
+    // 2. Every frame while holding ? UpdateDragTarget(new position)
+    // 3. When player releases ? StopDragging()
+
     public void StartDragging()
     {
         if (rb == null) return;
@@ -82,7 +87,7 @@ public class DraggableObject : MonoBehaviour
         rb.useGravity = false;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-        // keep the paper flat in the hand 
+        // keep the paper flat in the hand (feels natural)
         if (freezeRotationDuringDrag)
             rb.constraints = RigidbodyConstraints.FreezeRotation;
 
@@ -100,7 +105,7 @@ public class DraggableObject : MonoBehaviour
         if (rb == null || !isBeingDragged) return;
         isBeingDragged = false;
 
-        // if the paper was dragged outside the boundary and then released,
+        // IMPORTANT FIX: if the paper was dragged outside the boundary and then released,
         // the OnTriggerExit never started the timer (because we were holding it).
         // So we manually check here and start the return timer if needed.
         if (!IsInsideBoundary())
@@ -113,6 +118,7 @@ public class DraggableObject : MonoBehaviour
         OnReleased(); // everything that happens when you let go is now here
     }
 
+    // ====================== PHYSICS DRAG (this fixes passing through colliders) ======================
     void FixedUpdate()
     {
         if (isBeingDragged && rb != null)
