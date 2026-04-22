@@ -5188,45 +5188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69f5a146aa57954cb2fc302eca24133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 0, y: -63, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: -0.5, y: 0, z: 2.5}
-  switchSpeed: 5
-  topLampLight: {fileID: 2145001801}
-  topLampRenderer: {fileID: 0}
-  bottomLampLight: {fileID: 752453677}
-  bottomLampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 61516621}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &61516621 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4707577414948294379, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
-  m_PrefabInstance: {fileID: 61516616}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &61516623
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6563,46 +6524,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 81949339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
+  downRotation: {x: 45, y: 0, z: 0}
+  upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
+  upPosition: {x: 0, y: 0, z: 0}
   switchSpeed: 5
-  lampLight: {fileID: 1033076844}
+  lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 81949345}
-  highlightColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.001
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
   ownerLevel1: {fileID: 0}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &81949345 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 1421920329}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &84385242
 GameObject:
   m_ObjectHideFlags: 0
@@ -8880,8 +8824,8 @@ Transform:
   m_GameObject: {fileID: 115894093}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 69.8, y: 320, z: 180.4687}
-  m_LocalScale: {x: 2.751286, y: 1, z: 10}
+  m_LocalPosition: {x: 69.8, y: 320, z: 180.3942}
+  m_LocalScale: {x: 2.7661676, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -9857,43 +9801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
-  switchSpeed: 5
-  lampLight: {fileID: 1764539784}
-  lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 139231095}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &139231095 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 139231090}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &139231097
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16231,7 +16138,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 252645166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
@@ -16242,35 +16149,18 @@ MonoBehaviour:
   switchSpeed: 5
   lampLight: {fileID: 2121868570}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 252645172}
-  highlightColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.001
-  ownerLevel1: {fileID: 0}
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
+  ownerLevel1: {fileID: 1418857040}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &252645172 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 427597591}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &253152065
 GameObject:
   m_ObjectHideFlags: 0
@@ -24103,28 +23993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dae365e60d6c084fac79bc8ba6b1a58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleLevel2
-  lever1: {fileID: 61516619}
-  lever2: {fileID: 1088410747}
-  lever3: {fileID: 1285815908}
-  lever4: {fileID: 691663155}
-  correctCombination: "\x01\x01"
-  checkLeverTransform: {fileID: 0}
-  checkLeverMeshFilter: {fileID: 507186706}
-  checkDownRotation: {x: 0, y: 0, z: 0}
-  checkUpRotation: {x: 25, y: 0, z: 0}
-  checkLeverSpeed: 5
-  validationHoldTime: 5
-  checkHighlightColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  checkOutlineWidth: 0.02
-  audioSource: {fileID: 0}
-  correctSound: {fileID: 0}
-  wrongSound: {fileID: 0}
-  soundVolume: 0.5
-  controlPanel: {fileID: 0}
 --- !u!1 &402877182
 GameObject:
   m_ObjectHideFlags: 0
@@ -24316,46 +24184,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 403090954}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
+  downRotation: {x: 45, y: 0, z: 0}
+  upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
+  upPosition: {x: 0, y: 0, z: 0}
   switchSpeed: 5
-  lampLight: {fileID: 2138777420}
+  lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 403090956}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
   ownerLevel1: {fileID: 0}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &403090956 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 403090952}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &403090959
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25930,45 +25781,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69f5a146aa57954cb2fc302eca24133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 0, y: -63, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: -0.5, y: 0, z: 2.5}
-  switchSpeed: 5
-  topLampLight: {fileID: 1101882457}
-  topLampRenderer: {fileID: 0}
-  bottomLampLight: {fileID: 127703725}
-  bottomLampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 425922026}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &425922026 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4707577414948294379, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
-  m_PrefabInstance: {fileID: 425922021}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &425922028
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31969,16 +31781,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19220997, y: 0.7993885, z: 0.4569525}
   m_Center: {x: 0.013735972, y: 0.16606225, z: -0.5593253}
---- !u!23 &507186705 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5533902656396769271, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
-  m_PrefabInstance: {fileID: 1618078105}
-  m_PrefabAsset: {fileID: 0}
---- !u!33 &507186706 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 3619748128055804684, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
-  m_PrefabInstance: {fileID: 1618078105}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &507186707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31991,16 +31793,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3206194c30c194c40a684c8e7a0e656e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverComponent
-  leverRenderer: {fileID: 507186705}
-  puzzleLevel1: {fileID: 0}
-  puzzleLevel2: {fileID: 0}
-  puzzleLevel3: {fileID: 0}
-  highlightColor:
-    r: 1
-    g: 1
-    b: 0
-    a: 1
-  outlineWidth: 0.015
 --- !u!1001 &507232274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42122,45 +41914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69f5a146aa57954cb2fc302eca24133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 0, y: -63, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: -0.5, y: 0, z: 2.5}
-  switchSpeed: 5
-  topLampLight: {fileID: 7910792}
-  topLampRenderer: {fileID: 0}
-  bottomLampLight: {fileID: 1327036974}
-  bottomLampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 664893098}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &664893098 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4707577414948294379, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
-  m_PrefabInstance: {fileID: 664893093}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &664893100
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42283,46 +42036,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 667163234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
+  downRotation: {x: 45, y: 0, z: 0}
+  upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
+  upPosition: {x: 0, y: 0, z: 0}
   switchSpeed: 5
-  lampLight: {fileID: 110569372}
+  lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 667163236}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
   ownerLevel1: {fileID: 0}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &667163236 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 667163232}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &667163239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43420,16 +43156,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19220997, y: 0.7993885, z: 0.4569525}
   m_Center: {x: 0.013735972, y: 0.16606225, z: -0.55929476}
---- !u!23 &686760456 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5533902656396769271, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
-  m_PrefabInstance: {fileID: 1496048445}
-  m_PrefabAsset: {fileID: 0}
---- !u!33 &686760457 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 3619748128055804684, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
-  m_PrefabInstance: {fileID: 1496048445}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &686760458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43442,16 +43168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3206194c30c194c40a684c8e7a0e656e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverComponent
-  leverRenderer: {fileID: 686760456}
-  puzzleLevel1: {fileID: 0}
-  puzzleLevel2: {fileID: 0}
-  puzzleLevel3: {fileID: 0}
-  highlightColor:
-    r: 1
-    g: 1
-    b: 0
-    a: 1
-  outlineWidth: 0.015
 --- !u!1 &689526777
 GameObject:
   m_ObjectHideFlags: 0
@@ -43649,45 +43365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69f5a146aa57954cb2fc302eca24133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 0, y: -63, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: -0.5, y: 0, z: 2.5}
-  switchSpeed: 5
-  topLampLight: {fileID: 428067844}
-  topLampRenderer: {fileID: 0}
-  bottomLampLight: {fileID: 627923031}
-  bottomLampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 691663157}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &691663157 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4707577414948294379, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
-  m_PrefabInstance: {fileID: 691663152}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &691663159
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -55314,46 +54991,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 835150434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
+  downRotation: {x: 45, y: 0, z: 0}
+  upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
+  upPosition: {x: 0, y: 0, z: 0}
   switchSpeed: 5
-  lampLight: {fileID: 1706926150}
+  lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 835150436}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
   ownerLevel1: {fileID: 0}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &835150436 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 835150432}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &835150439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60783,19 +60443,9 @@ PrefabInstance:
       insertIndex: 2
       addedObject: {fileID: 921945830}
   m_SourcePrefab: {fileID: 100100000, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
---- !u!4 &921945819 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7914669156728061091, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
-  m_PrefabInstance: {fileID: 921945818}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &921945820 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1203032579523216380, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
-  m_PrefabInstance: {fileID: 921945818}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &921945821 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9172874571533972117, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
   m_PrefabInstance: {fileID: 921945818}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &921945830
@@ -61411,8 +61061,8 @@ Transform:
   m_GameObject: {fileID: 934157782}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 43.8922, y: 323.6791, z: 166.77}
-  m_LocalScale: {x: 4.879159, y: 1, z: 0.45361054}
+  m_LocalPosition: {x: 43.8922, y: 323.0063, z: 166.77}
+  m_LocalScale: {x: 4.879159, y: 1, z: 0.5881521}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -68276,43 +67926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
-  switchSpeed: 5
-  lampLight: {fileID: 1262955935}
-  lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 1047673930}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &1047673930 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 1047673925}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &1047673932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68436,6 +68049,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Switch_Box
       objectReference: {fileID: 0}
+    - target: {fileID: 5665475833285408240, guid: cf7664efecbda6b479ec235f6d9d5057, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6a2d7c4a57050684bac8187244a9295e, type: 2}
     - target: {fileID: 7871561238111979598, guid: cf7664efecbda6b479ec235f6d9d5057, type: 3}
       propertyPath: m_LocalScale.x
       value: 7
@@ -68535,46 +68152,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1048503536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
+  downRotation: {x: 45, y: 0, z: 0}
+  upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
+  upPosition: {x: 0, y: 0, z: 0}
   switchSpeed: 5
-  lampLight: {fileID: 1131416371}
+  lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 1048503543}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
   ownerLevel1: {fileID: 0}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &1048503543 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 1579050376}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1049294935
 GameObject:
   m_ObjectHideFlags: 0
@@ -71057,45 +70657,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69f5a146aa57954cb2fc302eca24133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 0, y: -63, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: -0.5, y: 0, z: 2.5}
-  switchSpeed: 5
-  topLampLight: {fileID: 133321656}
-  topLampRenderer: {fileID: 0}
-  bottomLampLight: {fileID: 1820398757}
-  bottomLampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 1088410749}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &1088410749 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4707577414948294379, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
-  m_PrefabInstance: {fileID: 1088410744}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &1088410751
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -84890,30 +84451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9937557945a312a4fad9d26f8f606214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleLevel3
-  smallLever1: {fileID: 1495407125}
-  smallLever2: {fileID: 1047673928}
-  smallLever3: {fileID: 2096058771}
-  smallLever4: {fileID: 139231093}
-  doubleLever1: {fileID: 425922024}
-  doubleLever2: {fileID: 664893096}
-  correctCombination: 
-  checkLeverTransform: {fileID: 0}
-  checkLeverMeshFilter: {fileID: 686760457}
-  checkDownRotation: {x: 0, y: 0, z: 0}
-  checkUpRotation: {x: 25, y: 0, z: 0}
-  checkLeverSpeed: 5
-  validationHoldTime: 5
-  checkHighlightColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  checkOutlineWidth: 0.02
-  audioSource: {fileID: 0}
-  correctSound: {fileID: 0}
-  wrongSound: {fileID: 0}
-  soundVolume: 0.5
-  controlPanel: {fileID: 0}
 --- !u!1001 &1285815905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85021,45 +84558,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69f5a146aa57954cb2fc302eca24133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleLever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 0, y: -63, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: -0.5, y: 0, z: 2.5}
-  switchSpeed: 5
-  topLampLight: {fileID: 1124062628}
-  topLampRenderer: {fileID: 0}
-  bottomLampLight: {fileID: 1962691052}
-  bottomLampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 1285815910}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &1285815910 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4707577414948294379, guid: c94823be9f80be144855fc1fc6923b83, type: 3}
-  m_PrefabInstance: {fileID: 1285815905}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &1285815912
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -90094,29 +89592,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342910560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b93994087bc9f124799c40efd957b600, type: 3}
+  m_Script: {fileID: 11500000, guid: 35b620a22fe82d24f9587b423d19af09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzlePanelInteraction
-  player: {fileID: 921945821}
-  playerCamera: {fileID: 921945819}
-  cameraTargetPosition: {fileID: 1192731570}
+  player: {fileID: 0}
+  playerCamera: {fileID: 0}
+  cameraTargetPosition: {fileID: 0}
   cameraSpeed: 3
-  interactionDistance: 15
+  interactionDistance: 3
   interactKey: 101
-  interactionPrompt: {fileID: 1022058237}
-  rayDistance: 1000
+  interactionPrompt: {fileID: 0}
+  rayDistance: 10
   leverLayer:
+    serializedVersion: 2
     m_Bits: 4294967295
-  showCursor: 0
-  cursorSize: 6
-  cursorColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
+  showCursor: 1
+  cursorSize: 8
+  cursorColor: {r: 1, g: 1, b: 1, a: 1}
   mouseSensitivity: 2
-  maxVerticalAngle: 70
-  maxHorizontalAngle: 70
+  maxVerticalAngle: 30
+  maxHorizontalAngle: 40
   puzzleLevel1: {fileID: 0}
   puzzleLevel2: {fileID: 0}
   puzzleLevel3: {fileID: 0}
@@ -92081,46 +91576,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1397809069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
+  downRotation: {x: 45, y: 0, z: 0}
+  upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
+  upPosition: {x: 0, y: 0, z: 0}
   switchSpeed: 5
-  lampLight: {fileID: 1616594048}
+  lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 1397809071}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
   ownerLevel1: {fileID: 0}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &1397809071 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 1397809067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &1397809074
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93803,29 +93281,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1418857038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c74c5969bbbdbff40b58829483589eab, type: 3}
+  m_Script: {fileID: 11500000, guid: 76e73baa4ea0294499f2674d478ea9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleLevel1
-  lever1: {fileID: 252645171}
-  lever2: {fileID: 81949344}
-  lever3: {fileID: 1048503541}
-  lever4: {fileID: 667163235}
-  lever5: {fileID: 1397809070}
-  lever6: {fileID: 835150435}
-  lever7: {fileID: 403090955}
-  lever8: {fileID: 1543997681}
-  correctCombination: 
+  lever1: {fileID: 0}
+  lever2: {fileID: 0}
+  lever3: {fileID: 0}
+  lever4: {fileID: 0}
+  lever5: {fileID: 0}
+  lever6: {fileID: 0}
+  lever7: {fileID: 0}
+  lever8: {fileID: 0}
+  correctCombination: 0001010100010001
   checkLeverTransform: {fileID: 0}
-  checkLeverMeshFilter: {fileID: 1582197378}
-  checkDownRotation: {x: 0, y: 0, z: 0}
-  checkUpRotation: {x: 25, y: 0, z: 0}
+  checkLeverMeshFilter: {fileID: 0}
+  checkDownRotation: {x: 45, y: 0, z: 0}
+  checkUpRotation: {x: -45, y: 0, z: 0}
   checkLeverSpeed: 5
   validationHoldTime: 5
-  checkHighlightColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
+  checkHighlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   checkOutlineWidth: 0.02
   audioSource: {fileID: 0}
   correctSound: {fileID: 0}
@@ -97322,28 +96796,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f382581d0a9a2548a025eb7fabc3ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainControlPanel
-  puzzleLevel1: {fileID: 1418857040}
-  puzzleLevel2: {fileID: 399899020}
-  puzzleLevel3: {fileID: 1285732394}
-  light1: {fileID: 1113642533}
-  light2: {fileID: 281660425}
-  light3: {fileID: 1809105174}
-  light4: {fileID: 1681837645}
-  renderer1: {fileID: 0}
-  renderer2: {fileID: 0}
-  renderer3: {fileID: 0}
-  renderer4: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
 --- !u!1 &1489024787
 GameObject:
   m_ObjectHideFlags: 0
@@ -98047,43 +97499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
-  switchSpeed: 5
-  lampLight: {fileID: 1124496973}
-  lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 1495407127}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &1495407127 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 1495407122}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &1495407129
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -99015,8 +98430,8 @@ Transform:
   m_GameObject: {fileID: 1509087432}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 43.8922, y: 360.0711, z: 166.77}
-  m_LocalScale: {x: 4.879159, y: 1, z: 0.45361054}
+  m_LocalPosition: {x: 43.8922, y: 359.673, z: 166.77}
+  m_LocalScale: {x: 4.879159, y: 1, z: 0.53326553}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -101059,46 +100474,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1543997680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
+  m_Script: {fileID: 11500000, guid: 63615723e33697e4cb9caec72f791e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
+  downRotation: {x: 45, y: 0, z: 0}
+  upRotation: {x: -45, y: 0, z: 0}
   downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
+  upPosition: {x: 0, y: 0, z: 0}
   switchSpeed: 5
-  lampLight: {fileID: 2086952756}
+  lampLight: {fileID: 0}
   lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
+  redColor: {r: 1, g: 0, b: 0, a: 1}
+  greenColor: {r: 0, g: 1, b: 0, a: 1}
   emissionProperty: _EmissionColor
   audioSource: {fileID: 0}
   switchSound: {fileID: 0}
   soundVolume: 0.5
-  leverRenderer: {fileID: 1543997682}
-  highlightColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
+  leverRenderer: {fileID: 0}
+  highlightColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidth: 0.015
   ownerLevel1: {fileID: 0}
   ownerLevel2: {fileID: 0}
   ownerLevel3: {fileID: 0}
---- !u!23 &1543997682 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 1543997678}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &1543997685
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -103959,11 +103357,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5533902656396769271, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
   m_PrefabInstance: {fileID: 942738289}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &1582197378 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 3619748128055804684, guid: a2a0a8072fe72414e92cc43574b19870, type: 3}
-  m_PrefabInstance: {fileID: 942738289}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1582197379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103973,18 +103366,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1582197371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3206194c30c194c40a684c8e7a0e656e, type: 3}
+  m_Script: {fileID: 11500000, guid: bf24db954f5baf74aa5f9d87dc68a6ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckLeverComponent
   leverRenderer: {fileID: 1582197377}
   puzzleLevel1: {fileID: 0}
   puzzleLevel2: {fileID: 0}
   puzzleLevel3: {fileID: 0}
-  highlightColor:
-    r: 1
-    g: 0.27581584
-    b: 0
-    a: 1
+  highlightColor: {r: 1, g: 1, b: 0, a: 1}
   outlineWidth: 0.015
 --- !u!1 &1583778437
 GameObject:
@@ -132897,8 +132286,8 @@ Transform:
   m_GameObject: {fileID: 2050946421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 43.8922, y: 286.7391, z: 166.77}
-  m_LocalScale: {x: 4.879159, y: 1, z: 0.45361054}
+  m_LocalPosition: {x: 43.8922, y: 286.3295, z: 166.77}
+  m_LocalScale: {x: 4.879159, y: 1, z: 0.535529}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -135886,43 +135275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3260f362ea359ab439a60395ddbf3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
-  isUp: 0
-  downRotation: {x: 0, y: 0, z: 0}
-  upRotation: {x: 60, y: 0, z: 0}
-  downPosition: {x: 0, y: 0, z: 0}
-  upPosition: {x: 0, y: -0.5, z: 0.9}
-  switchSpeed: 5
-  lampLight: {fileID: 1590324267}
-  lampRenderer: {fileID: 0}
-  redColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
-  greenColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  emissionProperty: _EmissionColor
-  audioSource: {fileID: 0}
-  switchSound: {fileID: 0}
-  soundVolume: 0.5
-  leverRenderer: {fileID: 2096058773}
-  highlightColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  outlineWidth: 0.02
-  ownerLevel1: {fileID: 0}
-  ownerLevel2: {fileID: 0}
-  ownerLevel3: {fileID: 0}
---- !u!23 &2096058773 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8868888236303267018, guid: 22c877ebdbcf5954486e5ccc662df5c1, type: 3}
-  m_PrefabInstance: {fileID: 2096058768}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &2096058775
 BoxCollider:
   m_ObjectHideFlags: 0
