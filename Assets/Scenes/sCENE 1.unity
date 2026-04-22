@@ -996,9 +996,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &54636821 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7571850415358279223, guid: b905c60e686e99e4b805b036d31456fa, type: 3}
@@ -3693,7 +3690,7 @@ MonoBehaviour:
     m_Bits: 0
   throwForceMultiplier: 3
   velocitySamples: 10
-  auraCheckDistance: 6
+  auraCheckDistance: 50
   rotationSpeed: 180
   distanceAdjustSpeed: 4
 --- !u!4 &222779377 stripped
@@ -4367,25 +4364,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4916195442768824718, guid: 4649378ed7900354d92be8bf247fe554, type: 3}
   m_PrefabInstance: {fileID: 1112305926}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &273998239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273998235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f9075ee05a7aea44b46c8dca4a16145, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AuraHighlight
-  glowColor: {r: 1, g: 1, b: 1, a: 1}
-  glowIntensity: 1.5
-  glowSpeed: 3
-  usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!114 &273998240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4429,6 +4407,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.49206516, y: 0.8562307, z: 0.48337117}
   m_Center: {x: -0.021730155, y: 0.0063450197, z: -0.66333276}
+--- !u!114 &273998245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273998235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9075ee05a7aea44b46c8dca4a16145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuraHighlight
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowIntensity: 1.5
+  glowSpeed: 3
+  usePulse: 1
 --- !u!1001 &274180066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8292,9 +8286,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &519373126
 GameObject:
   m_ObjectHideFlags: 0
@@ -9037,9 +9028,6 @@ MonoBehaviour:
   glowIntensity: 0.1
   glowSpeed: 10
   usePulse: 1
-  useOutline: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 5
 --- !u!1 &583440994
 GameObject:
   m_ObjectHideFlags: 0
@@ -12740,9 +12728,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &802116709
 GameObject:
   m_ObjectHideFlags: 0
@@ -13977,9 +13962,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &891485096
 GameObject:
   m_ObjectHideFlags: 0
@@ -15605,9 +15587,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1001 &1058868402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16568,10 +16547,10 @@ PrefabInstance:
       addedObject: {fileID: 273998241}
     - targetCorrespondingSourceObject: {fileID: 4916195442768824718, guid: 4649378ed7900354d92be8bf247fe554, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 273998240}
+      addedObject: {fileID: 273998245}
     - targetCorrespondingSourceObject: {fileID: 4916195442768824718, guid: 4649378ed7900354d92be8bf247fe554, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 273998239}
+      addedObject: {fileID: 273998240}
   m_SourcePrefab: {fileID: 100100000, guid: 4649378ed7900354d92be8bf247fe554, type: 3}
 --- !u!1 &1112495540
 GameObject:
@@ -17913,9 +17892,6 @@ MonoBehaviour:
   glowIntensity: 0.1
   glowSpeed: 10
   usePulse: 1
-  useOutline: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 5
 --- !u!1 &1236611733 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2034b70f74d7ae6419cfac1101da71d9, type: 3}
@@ -18097,9 +18073,6 @@ MonoBehaviour:
   glowIntensity: 0.1
   glowSpeed: 10
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!114 &1236611740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19703,9 +19676,6 @@ MonoBehaviour:
   glowIntensity: 0.1
   glowSpeed: 10
   usePulse: 1
-  useOutline: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 5
 --- !u!1 &1291964835
 GameObject:
   m_ObjectHideFlags: 0
@@ -22038,9 +22008,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &1385164818
 GameObject:
   m_ObjectHideFlags: 0
@@ -23866,9 +23833,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1001 &1508329201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24330,9 +24294,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &1535960016 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2607388282623583784, guid: 9eb8c77df5ad9c0449bb679c53d49525, type: 3}
@@ -24853,9 +24814,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &1552130107
 GameObject:
   m_ObjectHideFlags: 0
@@ -24897,7 +24855,7 @@ MonoBehaviour:
   flashBeforeEnd: 2
   blackFadeBeforeAudio: 1
   fadeDuration: 0.4
-  flickerCount: 6
+  flickerCount: 1
   flashAlpha: 0.6
   flashSpeed: 0.06
 --- !u!4 &1552130109
@@ -25928,9 +25886,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &1587212184
 GameObject:
   m_ObjectHideFlags: 0
@@ -29217,9 +29172,6 @@ MonoBehaviour:
   glowIntensity: 0.1
   glowSpeed: 10
   usePulse: 1
-  useOutline: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 5
 --- !u!1 &1765482019
 GameObject:
   m_ObjectHideFlags: 0
@@ -29402,9 +29354,6 @@ MonoBehaviour:
   glowIntensity: 0.1
   glowSpeed: 10
   usePulse: 1
-  useOutline: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 5
 --- !u!1 &1768427367
 GameObject:
   m_ObjectHideFlags: 0
@@ -30745,9 +30694,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &1838867688
 GameObject:
   m_ObjectHideFlags: 0
@@ -34085,9 +34031,6 @@ MonoBehaviour:
   glowIntensity: 1.5
   glowSpeed: 3
   usePulse: 1
-  useOutline: 0
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineWidth: 0.02
 --- !u!1 &2131424557
 GameObject:
   m_ObjectHideFlags: 0

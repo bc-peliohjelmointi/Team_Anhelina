@@ -1,6 +1,6 @@
 using UnityEngine;
 // handles grabbing, dragging, snapping paper objects
-// also detects buttons, puzzle panels, and now highlights hovered objects with aura
+// detects buttons and highlights hovered objects with aura
 public class ObjectDragRay : MonoBehaviour
 {
     public float maxDistance = 6f;
@@ -19,16 +19,12 @@ public class ObjectDragRay : MonoBehaviour
     public int velocitySamples = 5;
 
     [Header("Aura / Highlight")]
-    public float auraCheckDistance = 6f; // can be different from max grab distance
+    public float auraCheckDistance = 6f;
 
     [Header("Controls while holding paper")]
-    // Z = rotate paper left (counter-clockwise on Y axis)
-    // X = rotate paper right (clockwise on Y axis)
-    // Q = move paper AWAY from camera (increase distance)
-    // E = move paper TOWARD camera (decrease distance)
-    // full 360 degree rotation is possible - just hold the key
-    public float rotationSpeed = 180f;      // degrees per second
-    public float distanceAdjustSpeed = 4f;  // how fast Q/E changes the hold distance
+    // Z/X = rotate left/right, Q/E = push/pull distance
+    public float rotationSpeed = 180f;
+    public float distanceAdjustSpeed = 4f;
 
     private Texture2D dotTexture;
     private DraggableObject currentObject;
@@ -54,33 +50,24 @@ public class ObjectDragRay : MonoBehaviour
 
     void Update()
     {
-        // only check for aura when not dragging something
         if (!isDragging)
-        {
             CheckForAura();
-        }
 
-        // grab input
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(interactKey)) && !isDragging)
         {
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
-                // check buttons first
-                TVButton tvButton = hit.collider.GetComponent<TVButton>();
-                if (tvButton != null)
-                {
-                    tvButton.Press();
-                    return;
-                }
-                PSButton psButton = hit.collider.GetComponent<PSButton>();
-                if (psButton != null)
-                {
-                    psButton.Press();
-                    return;
-                }
+                // check light switch first
+                LightSwitch lightSwitch = hit.collider.GetComponent<LightSwitch>();
+                if (lightSwitch != null) { lightSwitch.Toggle(); return; }
 
-                // then try to grab paper
+                TVButton tvButton = hit.collider.GetComponent<TVButton>();
+                if (tvButton != null) { tvButton.Press(); return; }
+
+                PSButton psButton = hit.collider.GetComponent<PSButton>();
+                if (psButton != null) { psButton.Press(); return; }
+
                 DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
                 if (draggable != null && draggable.canBeGrabbed && draggable.isPaper)
                 {
@@ -91,9 +78,9 @@ public class ObjectDragRay : MonoBehaviour
             }
         }
 
-        // scroll to push/pull object 
         if (isDragging && currentObject != null)
         {
+            // scroll to push or pull
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0)
             {
@@ -101,56 +88,43 @@ public class ObjectDragRay : MonoBehaviour
                 objectDistance = Mathf.Clamp(objectDistance, 1f, maxDistance);
             }
 
-            // rotate paper left/right with Z/X
+            // rotate with Z/X
             float rotDelta = 0f;
             if (Input.GetKey(KeyCode.Z)) rotDelta -= rotationSpeed * Time.deltaTime;
             if (Input.GetKey(KeyCode.X)) rotDelta += rotationSpeed * Time.deltaTime;
-            if (rotDelta != 0f && currentObject != null)
-            {
+            if (rotDelta != 0f)
                 currentObject.transform.Rotate(0f, rotDelta, 0f, Space.Self);
-            }
 
-            // NEW: Q/E now moves paper toward/away from camera 
+            // adjust distance with Q/E
             float distanceDelta = 0f;
-            if (Input.GetKey(KeyCode.Q)) distanceDelta += distanceAdjustSpeed * Time.deltaTime; // Q = farther
-            if (Input.GetKey(KeyCode.E)) distanceDelta -= distanceAdjustSpeed * Time.deltaTime; // E = closer
-            objectDistance += distanceDelta;
-            objectDistance = Mathf.Clamp(objectDistance, 1f, maxDistance);
+            if (Input.GetKey(KeyCode.Q)) distanceDelta += distanceAdjustSpeed * Time.deltaTime;
+            if (Input.GetKey(KeyCode.E)) distanceDelta -= distanceAdjustSpeed * Time.deltaTime;
+            objectDistance = Mathf.Clamp(objectDistance + distanceDelta, 1f, maxDistance);
         }
 
-        // release input
         if ((Input.GetMouseButtonUp(0) || Input.GetKeyUp(interactKey)) && isDragging && currentObject != null)
-        {
             ReleaseObject();
-        }
     }
 
-    // checks what the player is looking at and updates aura glow accordingly
+    // shoots a ray forward and glows whatever the player is looking at
     void CheckForAura()
     {
         Ray ray = new Ray(transform.position, transform.forward);
         AuraHighlight aura = null;
+
         if (Physics.Raycast(ray, out RaycastHit hit, auraCheckDistance))
         {
-            // try to get aura from hit object or its parent
             aura = hit.collider.GetComponent<AuraHighlight>();
-            if (aura == null)
-            {
-                aura = hit.collider.GetComponentInParent<AuraHighlight>();
-            }
+            if (aura == null) aura = hit.collider.GetComponentInParent<AuraHighlight>();
+            if (aura == null) aura = hit.collider.GetComponentInChildren<AuraHighlight>();
         }
-        // only update if something changed - dont call SetGlow every frame for nothing
+
+        // only swap if something actually changed
         if (aura != currentAura)
         {
-            if (currentAura != null)
-            {
-                currentAura.SetGlow(false); // turn off old one
-            }
+            if (currentAura != null) currentAura.SetGlow(false);
             currentAura = aura;
-            if (currentAura != null)
-            {
-                currentAura.SetGlow(true); // turn on new one
-            }
+            if (currentAura != null) currentAura.SetGlow(true);
         }
     }
 
@@ -163,16 +137,14 @@ public class ObjectDragRay : MonoBehaviour
         originalLinearDamping = currentRb.linearDamping;
         originalAngularDamping = currentRb.angularDamping;
 
-        // switch to the new physical drag system
         currentObject.StartDragging();
 
         currentRb.linearVelocity = Vector3.zero;
         currentRb.angularVelocity = Vector3.zero;
 
         for (int i = 0; i < velocitySamples; i++)
-        {
             recentVelocities[i] = Vector3.zero;
-        }
+
         velocityIndex = 0;
         isDragging = true;
     }
@@ -181,17 +153,16 @@ public class ObjectDragRay : MonoBehaviour
     {
         if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null && currentRb != null)
         {
-            // target point is now purely along the camera ray 
             Vector3 targetWorldPoint = transform.position + transform.forward * objectDistance;
 
+            // offset so the exact grab point follows the ray, not the pivot
             Vector3 worldGrabPoint = currentObject.transform.TransformPoint(localGrabPoint);
             Vector3 offset = worldGrabPoint - currentRb.position;
             Vector3 targetPosition = targetWorldPoint - offset;
 
-            // send the target to DraggableObject 
             currentObject.UpdateDragTarget(targetPosition);
 
-            // keep velocity sampling for throw calculation 
+            // sample velocity for throw on release
             Vector3 velocity = (targetWorldPoint - lastWorldPoint) / Time.fixedDeltaTime;
             recentVelocities[velocityIndex] = velocity;
             velocityIndex = (velocityIndex + 1) % velocitySamples;
@@ -206,6 +177,7 @@ public class ObjectDragRay : MonoBehaviour
         Transform slot = GetClosestSlot(currentRb.position);
         if (slot != null)
         {
+            // snap into slot and freeze it there
             currentRb.position = slot.position;
             currentRb.rotation = originalRotation;
             currentRb.linearVelocity = Vector3.zero;
@@ -213,24 +185,20 @@ public class ObjectDragRay : MonoBehaviour
         }
         else
         {
+            // average last few frames of movement for a natural throw
             Vector3 averageVelocity = Vector3.zero;
             for (int i = 0; i < velocitySamples; i++)
-            {
                 averageVelocity += recentVelocities[i];
-            }
             averageVelocity /= velocitySamples;
 
             Vector3 throwVelocity = averageVelocity * throwForceMultiplier;
-            float maxSpeed = 25f;
-            if (throwVelocity.magnitude > maxSpeed)
-            {
-                throwVelocity = throwVelocity.normalized * maxSpeed;
-            }
+            if (throwVelocity.magnitude > 25f)
+                throwVelocity = throwVelocity.normalized * 25f;
+
             currentRb.linearVelocity = throwVelocity;
             currentRb.angularVelocity = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f;
         }
 
-        // release through the new system 
         currentObject.StopDragging();
 
         currentObject = null;
@@ -266,7 +234,6 @@ public class ObjectDragRay : MonoBehaviour
         }
     }
 
-    // make sure we turn off any active glow when this script is disabled
     void OnDisable()
     {
         if (currentAura != null)
