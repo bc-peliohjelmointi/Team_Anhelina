@@ -26,6 +26,12 @@ public class ObjectDragRay : MonoBehaviour
     public float rotationSpeed = 180f;
     public float distanceAdjustSpeed = 4f;
 
+    [Header("Zoom Settings")]
+    // how much to zoom in when right mouse is held
+    public float zoomFOV = 30f;
+    // how fast the zoom transitions in and out
+    public float zoomSpeed = 10f;
+
     private Texture2D dotTexture;
     private DraggableObject currentObject;
     private Rigidbody currentRb;
@@ -40,18 +46,30 @@ public class ObjectDragRay : MonoBehaviour
     private float originalAngularDamping;
     private AuraHighlight currentAura;
 
+    // zoom state
+    private Camera cam;
+    private float defaultFOV;
+    private bool isZooming = false;
+
     void Awake()
     {
         dotTexture = new Texture2D(1, 1);
         dotTexture.SetPixel(0, 0, dotColor);
         dotTexture.Apply();
         recentVelocities = new Vector3[velocitySamples];
+
+        // grab the camera and save its default FOV
+        cam = GetComponentInChildren<Camera>();
+        if (cam == null) cam = Camera.main;
+        if (cam != null) defaultFOV = cam.fieldOfView;
     }
 
     void Update()
     {
         if (!isDragging)
             CheckForAura();
+
+        HandleZoom();
 
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(interactKey)) && !isDragging)
         {
@@ -104,6 +122,16 @@ public class ObjectDragRay : MonoBehaviour
 
         if ((Input.GetMouseButtonUp(0) || Input.GetKeyUp(interactKey)) && isDragging && currentObject != null)
             ReleaseObject();
+    }
+
+    // smoothly zooms in when right mouse is held, zooms back out on release
+    void HandleZoom()
+    {
+        if (cam == null) return;
+
+        isZooming = Input.GetMouseButton(1);
+        float targetFOV = isZooming ? zoomFOV : defaultFOV;
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
     }
 
     // shoots a ray forward and glows whatever the player is looking at
@@ -236,6 +264,10 @@ public class ObjectDragRay : MonoBehaviour
 
     void OnDisable()
     {
+        // restore FOV if script gets disabled mid-zoom
+        if (cam != null)
+            cam.fieldOfView = defaultFOV;
+
         if (currentAura != null)
         {
             currentAura.SetGlow(false);
