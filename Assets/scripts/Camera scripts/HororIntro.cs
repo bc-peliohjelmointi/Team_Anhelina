@@ -79,7 +79,10 @@ public class HorrorIntro : MonoBehaviour
         OnIntroEnd += StartCameraLift; // connect event → lift
 
         if (WillPlayIntro())
-            StartCoroutine(PlayIntro()); // start intro
+        {
+            OnIntroEnd += StartCameraLift; // only connect lift when is new game
+            StartCoroutine(PlayIntro());
+        }
         else
         {
             blackScreen.gameObject.SetActive(false); // skip intro
@@ -90,7 +93,7 @@ public class HorrorIntro : MonoBehaviour
                 playerMovement.UnlockCamera(); // give control back
             }
 
-            OnIntroEnd?.Invoke(); // still trigger event
+            
         }
     }
 

@@ -146,6 +146,10 @@ public class MainMenu : MonoBehaviour
         confirmPanel.SetActive(false);
         storyPanel.SetActive(false);
         mainPanel.SetActive(false);
+
+        PlayerPrefs.SetInt("NewGame", 1); 
+        PlayerPrefs.Save();
+
         LevelManager.Instance.LoadScene(sceneToLoad, "CrossFade"); // load confirmed
     }
 
@@ -155,4 +159,23 @@ public class MainMenu : MonoBehaviour
         storyPanel.SetActive(true); // cancel, back to story
     }
 
+
+    public void NewGamePlay()  // newgame button
+
+    {
+        // deleted all old
+        PlayerPrefs.DeleteKey("PlayerX");
+        PlayerPrefs.DeleteKey("PlayerY");
+        PlayerPrefs.DeleteKey("PlayerZ");
+        PlayerPrefs.DeleteKey("CurrentScene");
+
+        // set flag to make  HorrorIntro play
+        PlayerPrefs.SetInt("NewGame", 1);
+        PlayerPrefs.Save();
+
+        LevelManager.Instance.LoadScene("sCENE 1", "CrossFade");
+    }
+
 }
+
+
