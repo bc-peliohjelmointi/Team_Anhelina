@@ -36,6 +36,7 @@ public class NPCInteraction : MonoBehaviour
     private const int STATE_SIT_TALK = 1;
     private const int STATE_STAND_UP = 2;
     private const int STATE_WALK = 3;
+    // STATE_STAND_IDLE прибрано — Walk одразу переходить в SitIdle
 
     [Header("Dialogue Animation Timings")]
     public float timeStandUp = 20f;
@@ -62,7 +63,6 @@ public class NPCInteraction : MonoBehaviour
     private CharacterController playerController;
     private Quaternion initialRotation;
 
-    // -------------------------------------------------------
     void SetState(int state)
     {
         if (npcAnimator == null) return;
@@ -70,7 +70,6 @@ public class NPCInteraction : MonoBehaviour
         Debug.Log($"[NPC] State → {state}");
     }
 
-    // -------------------------------------------------------
     void Awake()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
@@ -96,16 +95,8 @@ public class NPCInteraction : MonoBehaviour
         SetState(STATE_SIT_IDLE);
     }
 
-    // -------------------------------------------------------
     void Update()
     {
-
-        // ВРЕМЕННО — показывает текущее состояние в консоли
-        if (npcAnimator != null)
-            Debug.Log("[NPC] Current state: " +
-                npcAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash + " | " +
-                npcAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-
         if (playerNear && Input.GetKeyDown(KeyCode.E) && !isTalking && !autoPlayOnEnter && !isReturning)
         {
             if (missionSystem == null || missionSystem.GetCurrentMission() == missionID)
@@ -117,7 +108,6 @@ public class NPCInteraction : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------
     void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
@@ -140,14 +130,12 @@ public class NPCInteraction : MonoBehaviour
         StopDialogue();
     }
 
-    // -------------------------------------------------------
     void SetPlayerMovement(bool enabled)
     {
         if (playerController != null)
             playerController.enabled = enabled;
     }
 
-    // -------------------------------------------------------
     void StopDialogue()
     {
         if (!isTalking) return;
@@ -172,17 +160,14 @@ public class NPCInteraction : MonoBehaviour
         StartCoroutine(ReturnToSeat());
     }
 
-    // -------------------------------------------------------
     IEnumerator PlayDialogue()
     {
         isTalking = true;
         InteractionHint.instance.Hide();
         SetPlayerMovement(false);
 
-        // --- Затемнение ---
         yield return StartCoroutine(ScreenFade(0f, 1f));
 
-        // --- Телепорт игрока ---
         if (playerStandPoint != null && playerController != null)
         {
             playerController.enabled = false;
@@ -195,18 +180,13 @@ public class NPCInteraction : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.3f);
-
-        // --- Появление ---
         yield return StartCoroutine(ScreenFade(1f, 0f));
 
-        // --- Подсказка пропуска ---
         if (skipHintText != null)
             skipHintText.gameObject.SetActive(true);
 
-        // --- Сидит и говорит ---
         SetState(STATE_SIT_TALK);
 
-        // --- Аудио ---
         if (dialogueAudio != null)
         {
             audioSource.clip = dialogueAudio;
@@ -226,17 +206,14 @@ public class NPCInteraction : MonoBehaviour
 
             float elapsed = audioSource.time;
 
-            // Встаёт — Walk и SitIdle сработают сами через Exit Time в Animator
             if (!didStandUp && elapsed >= timeStandUp)
             {
                 didStandUp = true;
-                SetState(STATE_STAND_UP);
-
-                // Запускаем корутин который последовательно переключит Walk → SitIdle
+                // Запускаємо послідовність, але НЕ чекаємо —
+                // аудіо ще продовжує грати паралельно
                 StartCoroutine(FinishAnimation());
             }
 
-            // Субтитры
             int activeLine = -1;
             for (int i = 0; i < subtitles.Length; i++)
             {
@@ -264,12 +241,19 @@ public class NPCInteraction : MonoBehaviour
 
         StartCoroutine(FadeText("", false));
 
-        // Если StandUp не успел начаться — запускаем последовательность
+        // Якщо аудіо закінчилось до timeStandUp — запускаємо анімацію зараз
         if (!didStandUp)
-            StartCoroutine(FinishAnimation());
-
-        // Ждём пока NPC сядет
-        yield return StartCoroutine(WaitForAnimation("SitIdle"));
+        {
+            SetState(STATE_STAND_UP);
+            yield return StartCoroutine(FinishAnimation());
+        }
+        else
+        {
+            // Чекаємо поки FinishAnimation доведе NPC до SitIdle
+            yield return new WaitUntil(() =>
+                npcAnimator.GetCurrentAnimatorStateInfo(0).IsName("SitIdle") &&
+                npcAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.05f);
+        }
 
         SetPlayerMovement(true);
         isTalking = false;
@@ -279,52 +263,73 @@ public class NPCInteraction : MonoBehaviour
         if (playerNear)
             InteractionHint.instance.Show("Press E to talk");
     }
+
+    // FinishAnimation не викликає SetState(STAND_UP) — це вже зроблено ззовні
     IEnumerator FinishAnimation()
     {
-        // Встаёт
-        SetState(STATE_STAND_UP);
-        yield return new WaitForSeconds(2f); // подбери под длину анимации StandUp
+        // Чекаємо початку StandUp
+        yield return StartCoroutine(WaitForAnimationStart("StandUp"));
+        // Чекаємо кінця StandUp
+        yield return StartCoroutine(WaitForAnimationEnd("StandUp"));
 
-        // Шаг
+        // Переходимо в Walk
         SetState(STATE_WALK);
-        yield return new WaitForSeconds(2f); // подбери под длину анимации Walk
+        yield return StartCoroutine(WaitForAnimationStart("Walk"));
 
-        // Садится
+        yield return new WaitForSeconds(2f);
+
+        // Walk → SitIdle напряму (State=0, перехід без Exit Time в Animator)
         SetState(STATE_SIT_IDLE);
+
+        // Страховка: якщо через 0.3с всё ще Walk — форсуємо ще раз
+        yield return new WaitForSeconds(0.3f);
+        if (npcAnimator != null && npcAnimator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+        {
+            Debug.LogWarning("[NPC] Walk застряг — повторний SetState SitIdle");
+            npcAnimator.Play("SitIdle", 0, 0f);
+        }
     }
-    // -------------------------------------------------------
-    IEnumerator WaitForAnimation(string stateName)
+
+    IEnumerator WaitForAnimationStart(string stateName)
     {
         if (npcAnimator == null) yield break;
-
-        // Ждём пока состояние начнётся
-        float timeout = 5f;
-        float waited = 0f;
+        float timeout = 5f, waited = 0f;
         while (!npcAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
             waited += Time.deltaTime;
             if (waited >= timeout)
             {
-                Debug.LogWarning($"[NPC] WaitForAnimation timeout: {stateName}");
+                Debug.LogWarning($"[NPC] Timeout WaitForAnimationStart: {stateName}");
                 yield break;
             }
             yield return null;
         }
+    }
 
-        // Ждём пока закончится
+    IEnumerator WaitForAnimationEnd(string stateName)
+    {
+        if (npcAnimator == null) yield break;
+        float timeout = 10f, waited = 0f;
+
+        while (!npcAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        {
+            waited += Time.deltaTime;
+            if (waited >= timeout) yield break;
+            yield return null;
+        }
+
         while (npcAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {
-            float progress = npcAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            if (progress >= 0.95f) break;
+            if (npcAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f) break;
+            waited += Time.deltaTime;
+            if (waited >= timeout) yield break;
             yield return null;
         }
     }
 
-    // -------------------------------------------------------
     IEnumerator ScreenFade(float from, float to)
     {
         if (fadePanel == null) yield break;
-
         float elapsed = 0f;
         while (elapsed < fadeDuration)
         {
@@ -332,18 +337,15 @@ public class NPCInteraction : MonoBehaviour
             fadePanel.color = new Color(0f, 0f, 0f, Mathf.Lerp(from, to, elapsed / fadeDuration));
             yield return null;
         }
-
         fadePanel.color = new Color(0f, 0f, 0f, to);
     }
 
-    // -------------------------------------------------------
     IEnumerator ReturnToSeat()
     {
         if (seatTransform == null || navAgent == null) yield break;
         if (isReturning) yield break;
 
         isReturning = true;
-
         navAgent.enabled = true;
         navAgent.isStopped = false;
         navAgent.SetDestination(seatTransform.position);
@@ -365,24 +367,19 @@ public class NPCInteraction : MonoBehaviour
         isReturning = false;
     }
 
-    // -------------------------------------------------------
     IEnumerator RotateToInitial()
     {
-        float duration = 0.5f;
-        float elapsed = 0f;
+        float duration = 0.5f, elapsed = 0f;
         Quaternion from = transform.rotation;
-
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             transform.rotation = Quaternion.Slerp(from, initialRotation, elapsed / duration);
             yield return null;
         }
-
         transform.rotation = initialRotation;
     }
 
-    // -------------------------------------------------------
     IEnumerator FadeText(string text, bool show)
     {
         if (subtitleText == null) yield break;
