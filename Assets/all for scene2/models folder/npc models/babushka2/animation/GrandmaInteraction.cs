@@ -1,10 +1,9 @@
+﻿using System.Collections;
 using UnityEngine;
-using System.Collections;
 
 public class GrandmaInteraction : MonoBehaviour
 {
     public Animator animator;
-
     public float standupDelay = 1f;
     public float standDelay = 1f;
     public float walkDelay = 2f;
@@ -36,7 +35,6 @@ public class GrandmaInteraction : MonoBehaviour
 
         animator.SetTrigger("SitDown");
         yield return new WaitForSeconds(sitDelay);
-
 
         isInteracting = false;
     }
