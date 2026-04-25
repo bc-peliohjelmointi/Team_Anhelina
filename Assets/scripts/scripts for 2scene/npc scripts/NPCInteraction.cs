@@ -42,10 +42,22 @@ public class NPCInteraction : MonoBehaviour
     [Header("Skip Hint")]
     public TextMeshProUGUI skipHintText;
 
+    [Header("Background NPC")]
+    public BackgroundNPC backgroundNPC;
+
+    [Header("Animation Settings")]
+    public Animator animator;
+    public float animationStartDelay = 19f;
+    public float standupDelay = 1f;
+    public float standDelay = 1f;
+    public float walkDelay = 2f;
+    public float sitDelay = 2f;
+
     private AudioSource audioSource;
     private bool playerNear = false;
     private bool isTalking = false;
     private bool isReturning = false;
+    private bool isAnimating = false;
     private CharacterController playerController;
     private Quaternion initialRotation;
 
@@ -74,15 +86,30 @@ public class NPCInteraction : MonoBehaviour
 
     void Update()
     {
-        if (playerNear && Input.GetKeyDown(KeyCode.E) && !isTalking && !autoPlayOnEnter && !isReturning)
+        if (playerNear && Input.GetKeyDown(KeyCode.E) && !autoPlayOnEnter)
         {
-            if (missionSystem == null || missionSystem.GetCurrentMission() == missionID)
+            Debug.Log($"[NPC] E pressed | isTalking={isTalking} isAnimating={isAnimating} isReturning={isReturning}");
+
+            bool missionOk = missionSystem == null || missionSystem.GetCurrentMission() == missionID;
+
+            if (missionOk || isTalking || isAnimating || isReturning)
             {
+                if (isTalking || isAnimating || isReturning)
+                    StopDialogue();
+
                 StartCoroutine(PlayDialogue());
-                if (missionSystem != null)
+
+                if (missionSystem != null && missionOk)
                     missionSystem.CompleteMission(missionID);
             }
+            else
+            {
+                Debug.Log($"[NPC] Blocked by mission. Current={missionSystem.GetCurrentMission()} needed={missionID}");
+            }
         }
+
+        if ((isTalking || isAnimating) && Input.GetKeyDown(KeyCode.S))
+            StopDialogue();
     }
 
     void OnTriggerEnter(Collider other)
@@ -115,11 +142,12 @@ public class NPCInteraction : MonoBehaviour
 
     void StopDialogue()
     {
-        if (!isTalking) return;
-
         StopAllCoroutines();
         audioSource.Stop();
+
         isTalking = false;
+        isAnimating = false;
+        isReturning = false;
 
         SetPlayerMovement(true);
 
@@ -135,6 +163,21 @@ public class NPCInteraction : MonoBehaviour
             subtitleText.color = new Color(subtitleText.color.r, subtitleText.color.g, subtitleText.color.b, 0f);
         }
 
+        if (animator != null)
+        {
+            animator.ResetTrigger("StandUp");
+            animator.ResetTrigger("Stand");
+            animator.ResetTrigger("Walk");
+            animator.ResetTrigger("SitDown");
+            animator.Play("Sit", 0, 0f);
+        }
+
+        if (playerNear)
+            InteractionHint.instance.Show("Press E to talk");
+
+        if (backgroundNPC != null)
+            backgroundNPC.OnDialogueEnd();
+
         StartCoroutine(ReturnToSeat());
     }
 
@@ -143,6 +186,9 @@ public class NPCInteraction : MonoBehaviour
         isTalking = true;
         InteractionHint.instance.Hide();
         SetPlayerMovement(false);
+
+        if (backgroundNPC != null)
+            backgroundNPC.OnDialogueStart();
 
         yield return StartCoroutine(ScreenFade(0f, 1f));
 
@@ -170,16 +216,13 @@ public class NPCInteraction : MonoBehaviour
             audioSource.Play();
         }
 
+        // Анимации запускаются параллельно с диалогом
+        StartCoroutine(AnimationSequence());
+
         int currentSubtitle = -1;
 
         while (audioSource.isPlaying)
         {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                audioSource.Stop();
-                break;
-            }
-
             float elapsed = audioSource.time;
 
             int activeLine = -1;
@@ -214,10 +257,36 @@ public class NPCInteraction : MonoBehaviour
         SetPlayerMovement(true);
         isTalking = false;
 
-        StartCoroutine(ReturnToSeat());
+        if (backgroundNPC != null)
+            backgroundNPC.OnDialogueEnd();
 
         if (playerNear)
             InteractionHint.instance.Show("Press E to talk");
+    }
+
+    IEnumerator AnimationSequence()
+    {
+        if (animator == null) yield break;
+
+        isAnimating = true;
+
+        yield return new WaitForSeconds(animationStartDelay);
+
+        animator.SetTrigger("StandUp");
+        yield return new WaitForSeconds(standupDelay);
+
+        animator.SetTrigger("Stand");
+        yield return new WaitForSeconds(standDelay);
+
+        animator.SetTrigger("Walk");
+        yield return new WaitForSeconds(walkDelay);
+
+        animator.SetTrigger("SitDown");
+        yield return new WaitForSeconds(sitDelay);
+
+        isAnimating = false;
+
+        yield return StartCoroutine(ReturnToSeat());
     }
 
     IEnumerator ScreenFade(float from, float to)
