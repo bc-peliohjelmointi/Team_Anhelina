@@ -4,24 +4,29 @@ using System.Collections;
 public class MonsterSpawnTrigger : MonoBehaviour
 {
     [Header("Monster Settings")]
-    public GameObject monsterPrefab; // Hirviön prefab, josta luodaan pelästysefekti
-    public Transform spawnPoint;     // Sijainti, johon hirviö ilmestyy
-    public float visibleTime = 3f;   // Kuinka kauan hirviö on näkyvissä sekunteissa
+    public GameObject monsterPrefab;
+    public Transform spawnPoint;
+    public float visibleTime = 3f;
+
+    [Header("Peek Animation")]
+    public float moveOutDistance = 1.5f;
+    public float moveOutDuration = 2f;
+    public float moveBackDuration = 0.5f;
 
     [Header("Sound")]
-    public AudioSource sound; // Äänikomponentti hirviön ilmestymiseen
+    public AudioSource sound;
 
     [Header("Behaviour")]
-    public bool destroyAfterUse = true; // Jos true, poistetaan trigger hirviön katoamisen jälkeen
+    public bool destroyAfterUse = true;
 
-    private bool triggered = false; // Onko trigger jo lauennut
+    [Header("Animation")]
+    public string walkBackTrigger = "WalkBack"; // Название триггера для анимации назад
+
+    private bool triggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        // Jos trigger on jo lauennut, ei tehdä mitään
         if (triggered) return;
-
-        // Käynnistetään hirviön ilmestyminen, kun pelaaja astuu alueelle
         if (other.CompareTag("Player"))
         {
             triggered = true;
@@ -31,34 +36,61 @@ public class MonsterSpawnTrigger : MonoBehaviour
 
     IEnumerator SpawnMonster()
     {
-        // Jos hirviön prefab tai ilmestymispiste puuttuu, lopetetaan
         if (monsterPrefab == null || spawnPoint == null)
             yield break;
 
-        // Luodaan hirviö määritettyyn sijaintiin ja suuntaan
-        GameObject monster = Instantiate(
-            monsterPrefab,
-            spawnPoint.position,
-            spawnPoint.rotation
-        );
+        GameObject monster = Instantiate(monsterPrefab, spawnPoint.position, spawnPoint.rotation * Quaternion.Euler(0f, 0f, 0f));
+        Animator anim = monster.GetComponent<Animator>();
 
-        // Toistetaan pelästysääni
         if (sound != null)
             sound.Play();
 
-        // Odotetaan niin kauan kuin hirviö on näkyvissä
+        Vector3 startPos = spawnPoint.position;
+        Vector3 peekPos = spawnPoint.position + spawnPoint.forward * moveOutDistance;
+
+        // Выход вперёд — Walk играет автоматически через Entry
+        yield return StartCoroutine(MoveMonster(monster, startPos, peekPos, moveOutDuration, EaseOut));
+
+        // Стоит на виду
         yield return new WaitForSeconds(visibleTime);
 
-        // Pysäytetään ääni hirviön katoamisen jälkeen
         if (sound != null)
             sound.Stop();
 
-        // Poistetaan hirviö scenestä
+        // Активируем триггер — переключает на WalkBack
+        if (anim != null)
+            anim.SetTrigger(walkBackTrigger);
+
+        // Уходит назад
+        yield return StartCoroutine(MoveMonster(monster, peekPos, startPos, moveBackDuration, EaseIn));
+
         if (monster != null)
             Destroy(monster);
 
-        // Poistetaan trigger-objekti, jos se on asetettu kertakäyttöiseksi
         if (destroyAfterUse)
             Destroy(gameObject);
     }
+
+    IEnumerator MoveMonster(GameObject monster, Vector3 from, Vector3 to, float duration, System.Func<float, float> easing)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            if (monster == null) yield break;
+
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float easedT = easing(t);
+
+            monster.transform.position = Vector3.Lerp(from, to, easedT);
+            yield return null;
+        }
+
+        if (monster != null)
+            monster.transform.position = to;
+    }
+
+    float EaseOut(float t) => 1f - Mathf.Pow(1f - t, 3f);
+    float EaseIn(float t) => t * t * t;
 }
