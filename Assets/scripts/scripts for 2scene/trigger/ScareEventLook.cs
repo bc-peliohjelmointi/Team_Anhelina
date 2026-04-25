@@ -53,7 +53,7 @@ public class ScareEventLook : MonoBehaviour
         Vector3 directionToPlayer = (playerTransform.position - spawnPosition).normalized;
 
         // Lasketaan hirviön suunta — +90 astetta korjaa mallin suunnan
-        Quaternion monsterRotation = Quaternion.LookRotation(directionToPlayer) * Quaternion.Euler(0f, 90f, 0f);
+        Quaternion monsterRotation = Quaternion.LookRotation(directionToPlayer) * Quaternion.Euler(0f, 0f, 0f);
 
         // Luodaan hirviö laskettuun sijaintiin
         GameObject spawnedMonster = Instantiate(monsterPrefab, spawnPosition, monsterRotation);

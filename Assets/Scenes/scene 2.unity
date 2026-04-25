@@ -118127,6 +118127,78 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!1001 &1225415591
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -123.642426
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.060000177
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -244.37283
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      propertyPath: m_Name
+      value: Zombie Punching
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1405669090}
+  m_SourcePrefab: {fileID: 100100000, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
 --- !u!1001 &1225674571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134727,6 +134799,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7d3a162b3d54c504bbe95e1fae9314c2, type: 3}
   m_PrefabInstance: {fileID: 1969647514}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1405669089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1ae2af6bc70fe4a49b9e39afd1b13168, type: 3}
+  m_PrefabInstance: {fileID: 1225415591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1405669090
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405669089}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 69897af2885111d49aae00d419ba7ec6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1405790230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162616,12 +162715,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c63c41892e51c34983ff9d98bb90a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScareEventLook
-  monsterPrefab: {fileID: 3015368613944847900, guid: 458be2a979bf59742bc5fb0b4c247f1f, type: 3}
-  monsterVisibleTime: 1
+  monsterPrefab: {fileID: 1405669089}
+  monsterVisibleTime: 5
   spawnDistance: 5
   playerTransform: {fileID: 332555524}
   lookSpeed: 4
-  lookDuration: 0.5
+  lookDuration: 1
   playerController: {fileID: 1986571417}
   audioSource: {fileID: 114038352}
   scareSound: {fileID: 8300000, guid: fd87ccf73e60b4a4eb214360611ffb36, type: 3}
@@ -194589,3 +194688,4 @@ SceneRoots:
   - {fileID: 3469895}
   - {fileID: 990848183}
   - {fileID: 969586601}
+  - {fileID: 1225415591}
