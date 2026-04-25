@@ -78790,7 +78790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: bf76fe16488def94c85ee1a1da00413b, type: 3}
       propertyPath: m_Name
-      value: Sitting Idle
+      value: npc1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5465940246521907071, guid: bf76fe16488def94c85ee1a1da00413b, type: 3}
       propertyPath: m_LocalRotation.x
@@ -89556,7 +89556,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910116800}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c13a73081732fd043acd7d0d632b931a, type: 3}
   m_Name: 
@@ -89597,8 +89597,6 @@ MonoBehaviour:
   subtitleText: {fileID: 1819036172}
   fadeSpeed: 1
   autoPlayOnEnter: 0
-  npcAnimator: {fileID: 910116802}
-  timeStandUp: 10
   navAgent: {fileID: 910116806}
   seatTransform: {fileID: 1696939470}
   returnStopDistance: 0.3
@@ -89641,10 +89639,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrandmaInteraction
   animator: {fileID: 910116802}
-  standupDelay: 1
-  standDelay: 5
-  walkDelay: 2
-  sitDelay: 7
+  animationStartDelay: 26
+  standupDelay: 4
+  standDelay: 2
+  walkDelay: 1
+  sitDelay: 4
 --- !u!114 &910116810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96604,13 +96603,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982595915}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -190.85098, y: 0.19, z: -247.03526}
+  m_LocalRotation: {x: 0.40945563, y: 0.40945563, z: 0.5764947, w: 0.5764947}
+  m_LocalPosition: {x: -189.92, y: 0.19, z: -247.03526}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 70.769, z: 90}
 --- !u!65 &982595917
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -172389,8 +172388,6 @@ MonoBehaviour:
   subtitleText: {fileID: 0}
   fadeSpeed: 3
   autoPlayOnEnter: 0
-  npcAnimator: {fileID: 0}
-  timeStandUp: 20
   navAgent: {fileID: 0}
   seatTransform: {fileID: 0}
   returnStopDistance: 0.3
