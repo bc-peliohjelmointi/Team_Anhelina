@@ -322,6 +322,14 @@ public class PlayerMovement : MonoBehaviour
 
         Rigidbody rb = hit.collider.attachedRigidbody;
 
+        // смерть от монстра
+        if (hit.collider.CompareTag("Monster"))
+        {
+            Die();
+            return;
+        }
+
+
         if (rb != null && !rb.isKinematic)
         {
             Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
