@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.227451, g: 0.23137257, b: 0.23137257, a: 1}
   m_FogMode: 2
   m_FogDensity: 0.067
@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientIntensity: 1.1
-  m_AmbientMode: 3
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.101960786, g: 0.07058824, b: 0.03137255, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 2d056ac30ecc9e542b26e06133f23602, type: 2}
   m_HaloStrength: 0.61
@@ -90217,7 +90217,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 4f216f9dd09fae747812ee861756c627, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -90296,7 +90296,7 @@ MonoBehaviour:
   fadeSpeed: 1
   autoPlayOnEnter: 0
   navAgent: {fileID: 910116806}
-  seatTransform: {fileID: 1696939470}
+  seatTransform: {fileID: 0}
   returnStopDistance: 0.3
   playerStandPoint: {fileID: 982595916}
   fadePanel: {fileID: 652681429}
@@ -90304,7 +90304,7 @@ MonoBehaviour:
   skipHintText: {fileID: 1817677451}
   backgroundNPC: {fileID: 1281428175}
   animator: {fileID: 910116802}
-  animationStartDelay: 2
+  animationStartDelay: 19
   standupDelay: 1
   standDelay: 1
   walkDelay: 2
@@ -157568,7 +157568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1696939469
 BoxCollider:
   m_ObjectHideFlags: 0
