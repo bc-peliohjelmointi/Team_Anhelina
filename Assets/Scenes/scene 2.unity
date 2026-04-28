@@ -49720,7 +49720,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538744138}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &538744143
 Transform:
   m_ObjectHideFlags: 0
@@ -61651,7 +61651,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630759480}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &630759485
 Transform:
   m_ObjectHideFlags: 0
@@ -99600,7 +99600,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011560036}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1011560041
 Camera:
   m_ObjectHideFlags: 0
@@ -124108,18 +124108,18 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: cee0f6cb1361d724abae9a1ed7b175c4, type: 3}
+  m_Resource: {fileID: 8300000, guid: ebbd263d9c29b1d40b0e406127bcbc00, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 3
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -124154,7 +124154,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -155759,8 +155759,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.1
-  MaxDistance: 0.5
+  MinDistance: 8
+  MaxDistance: 20
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -155795,7 +155795,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -162286,7 +162286,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764110859}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &1764110864
 Transform:
   m_ObjectHideFlags: 0
@@ -173146,7 +173146,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872687495}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &1872687499
 Transform:
   m_ObjectHideFlags: 0
@@ -190113,7 +190113,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094652086}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &2094652091
 Transform:
   m_ObjectHideFlags: 0
