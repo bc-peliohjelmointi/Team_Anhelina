@@ -4,31 +4,79 @@ using System.Collections;
 public class BossIntroSequence : MonoBehaviour
 {
     public Animator animator;
-    public string[] introAnimations;
-    public string idleAnimation = "Idle standing mad";
-    public float delay = 0f;
-    public float crossFadeDuration = 0.3f;
+    public Transform target;
+    public float walkSpeed = 2f;
+    public float rotateDuration = 1f;
+    public float finalRotationY = -450.217f; // góc Y muốn nhìn về khi đến nơi
 
-    IEnumerator Start()
+    private bool isWalking = false;
+
+    void Start()
     {
         if (animator == null)
             animator = GetComponent<Animator>();
+    }
 
-        yield return new WaitForSeconds(delay);
-
-        foreach (string animName in introAnimations)
+    void Update()
+    {
+        if (!isWalking && animator.GetCurrentAnimatorStateInfo(0).IsName("walk"))
         {
-            animator.CrossFade(animName, crossFadeDuration);
+            isWalking = true;
+            StartCoroutine(WalkRoutine());
+        }
+    }
 
-            // chờ đến khi state đúng tên mới chạy
-            yield return new WaitUntil(() =>
-                animator.GetCurrentAnimatorStateInfo(0).IsName(animName));
+    IEnumerator WalkRoutine()
+    {
+        yield return StartCoroutine(RotateBy(-170f));
 
-            // chờ animation đó chạy xong
-            yield return new WaitUntil(() =>
-                animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+        while (Vector3.Distance(transform.position, target.position) > 0.5f)
+        {
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                new Vector3(target.position.x, transform.position.y, target.position.z),
+                walkSpeed * Time.deltaTime
+            );
+            yield return null;
         }
 
-        animator.CrossFade(idleAnimation, crossFadeDuration);
+        yield return StartCoroutine(RotateTo(finalRotationY));
+
+        animator.CrossFade("idle standing mad", 0.3f);
+        isWalking = false;
+    }
+
+    IEnumerator RotateBy(float degrees)
+    {
+        Quaternion startRot = transform.rotation;
+        Quaternion endRot = transform.rotation * Quaternion.Euler(0, degrees, 0);
+        float timer = 0f;
+
+        while (timer < rotateDuration)
+        {
+            timer += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, timer / rotateDuration);
+            transform.rotation = Quaternion.Slerp(startRot, endRot, t);
+            yield return null;
+        }
+
+        transform.rotation = endRot;
+    }
+
+    IEnumerator RotateTo(float targetYDegrees)
+    {
+        Quaternion startRot = transform.rotation;
+        Quaternion endRot = Quaternion.Euler(0, targetYDegrees, 0);
+        float timer = 0f;
+
+        while (timer < rotateDuration)
+        {
+            timer += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, timer / rotateDuration);
+            transform.rotation = Quaternion.Slerp(startRot, endRot, t);
+            yield return null;
+        }
+
+        transform.rotation = endRot;
     }
 }
