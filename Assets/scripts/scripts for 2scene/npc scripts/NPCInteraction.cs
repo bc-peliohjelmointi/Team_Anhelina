@@ -53,11 +53,15 @@ public class NPCInteraction : MonoBehaviour
     public float walkDelay = 2f;
     public float sitDelay = 2f;
 
+    [Header("Spawn Trigger")]
+    public GameObject spawnTrigger;
+
     private AudioSource audioSource;
     private bool playerNear = false;
     private bool isTalking = false;
     private bool isReturning = false;
     private bool isAnimating = false;
+    private bool dialogueCompleted = false; // флаг: диалог был начат и не скипнут до старта
     private CharacterController playerController;
     private Quaternion initialRotation;
 
@@ -108,8 +112,15 @@ public class NPCInteraction : MonoBehaviour
             }
         }
 
+        // Скип диалога клавишей S
         if ((isTalking || isAnimating) && Input.GetKeyDown(KeyCode.S))
+        {
+            // Если диалог уже запустился (аудио играет) — активируем триггер
+            if (dialogueCompleted && spawnTrigger != null)
+                spawnTrigger.SetActive(true);
+
             StopDialogue();
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -131,6 +142,7 @@ public class NPCInteraction : MonoBehaviour
         playerNear = false;
         playerController = null;
         InteractionHint.instance.Hide();
+        // При выходе из зоны НЕ активируем триггер — игрок просто ушёл
         StopDialogue();
     }
 
@@ -148,6 +160,7 @@ public class NPCInteraction : MonoBehaviour
         isTalking = false;
         isAnimating = false;
         isReturning = false;
+        dialogueCompleted = false;
 
         SetPlayerMovement(true);
 
@@ -184,6 +197,7 @@ public class NPCInteraction : MonoBehaviour
     IEnumerator PlayDialogue()
     {
         isTalking = true;
+        dialogueCompleted = false;
         InteractionHint.instance.Hide();
         SetPlayerMovement(false);
 
@@ -215,6 +229,9 @@ public class NPCInteraction : MonoBehaviour
             audioSource.clip = dialogueAudio;
             audioSource.Play();
         }
+
+        // Диалог официально начался — теперь скип тоже активирует триггер
+        dialogueCompleted = true;
 
         // Анимации запускаются параллельно с диалогом
         StartCoroutine(AnimationSequence());
@@ -256,6 +273,11 @@ public class NPCInteraction : MonoBehaviour
 
         SetPlayerMovement(true);
         isTalking = false;
+        dialogueCompleted = false;
+
+        // Активируем триггер спавна после естественного конца диалога
+        if (spawnTrigger != null)
+            spawnTrigger.SetActive(true);
 
         if (backgroundNPC != null)
             backgroundNPC.OnDialogueEnd();

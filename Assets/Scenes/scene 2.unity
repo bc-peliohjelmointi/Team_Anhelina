@@ -31100,7 +31100,7 @@ Transform:
   m_GameObject: {fileID: 325720339}
   serializedVersion: 2
   m_LocalRotation: {x: -0.15766889, y: -0.15766889, z: -0.6893044, w: -0.6893044}
-  m_LocalPosition: {x: -171.92, y: 0.19, z: -256.03528}
+  m_LocalPosition: {x: -0.91999817, y: 0.19, z: -259.03528}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37308,6 +37308,7 @@ MonoBehaviour:
   standDelay: 1
   walkDelay: 2
   sitDelay: 2
+  spawnTrigger: {fileID: 1752788884}
 --- !u!65 &373528835
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37338,7 +37339,7 @@ Transform:
   m_GameObject: {fileID: 373528833}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -170.4674, y: 2.34542, z: -258.73834}
+  m_LocalPosition: {x: -0.46740723, y: 2.34542, z: -262.73834}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58743,7 +58744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &603385980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58776,8 +58777,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7, y: 2, z: 4}
-  m_Center: {x: 0, y: 0.5, z: -1.5}
+  m_Size: {x: 7, y: 2, z: 7}
+  m_Center: {x: -5, y: 0.5, z: 1}
 --- !u!4 &603385982
 Transform:
   m_ObjectHideFlags: 0
@@ -58787,7 +58788,7 @@ Transform:
   m_GameObject: {fileID: 603385979}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -51.61, y: -1.38408, z: -36.56955}
+  m_LocalPosition: {x: -53.61, y: -1.38408, z: -42.56955}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90584,6 +90585,7 @@ MonoBehaviour:
   standDelay: 1
   walkDelay: 2
   sitDelay: 2
+  spawnTrigger: {fileID: 0}
 --- !u!195 &910116806
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -136734,7 +136736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c54b40ee6b43e8447941e02670e9590f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.3900003
+      value: -1.6100006
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c54b40ee6b43e8447941e02670e9590f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -136742,7 +136744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c54b40ee6b43e8447941e02670e9590f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 45.93045
+      value: 89.93045
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c54b40ee6b43e8447941e02670e9590f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -136907,7 +136909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c50c7deb8643240ae41d2f1335ef9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAttack
-  animator: {fileID: 0}
+  animator: {fileID: 1422698128}
 --- !u!1 &1425882565 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ac17b45a4026b6f4c8e1d1a2d17788a6, type: 3}
@@ -161336,7 +161338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 61c276b2f3922a44fb8aee6aab4e3478, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -172
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 61c276b2f3922a44fb8aee6aab4e3478, type: 3}
       propertyPath: m_LocalPosition.y
@@ -161344,7 +161346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 61c276b2f3922a44fb8aee6aab4e3478, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -259
+      value: -263
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 61c276b2f3922a44fb8aee6aab4e3478, type: 3}
       propertyPath: m_LocalRotation.w
@@ -161860,6 +161862,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MSpawn
   monster: {fileID: 1422698124}
+  playerTransform: {fileID: 0}
+  rotateDuration: 0.5
+  voiceClip: {fileID: 8300000, guid: bd865fb1bdb8d20449a0be328ae68ad4, type: 3}
+  voiceDelay: 0.2
 --- !u!65 &1752788886
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -161879,8 +161885,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 2, z: 3}
-  m_Center: {x: -1, y: -0.5, z: 1}
+  m_Size: {x: 13, y: 2, z: 9}
+  m_Center: {x: -1, y: -0.5, z: -2}
 --- !u!4 &1752788887
 Transform:
   m_ObjectHideFlags: 0
@@ -161890,7 +161896,7 @@ Transform:
   m_GameObject: {fileID: 1752788884}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -177480,7 +177486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fa7ba6fe8f84e5e47ac2a345c3c908a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -169.27899
+      value: 0.7210083
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fa7ba6fe8f84e5e47ac2a345c3c908a1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -177488,7 +177494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fa7ba6fe8f84e5e47ac2a345c3c908a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -259.04614
+      value: -263.04614
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fa7ba6fe8f84e5e47ac2a345c3c908a1, type: 3}
       propertyPath: m_LocalRotation.w
