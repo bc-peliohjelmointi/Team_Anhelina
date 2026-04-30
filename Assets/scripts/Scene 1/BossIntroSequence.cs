@@ -41,7 +41,7 @@ public class BossIntroSequence : MonoBehaviour
     IEnumerator WalkRoutine()
     {
         Debug.Log("=== BossIntro: Start RotateBy -170");
-        yield return StartCoroutine(RotateBy(-170f));
+        yield return StartCoroutine(RotateBy(-168f));
         Debug.Log("=== BossIntro: Rotate done, start walking. Distance = " + Vector3.Distance(transform.position, target.position));
 
         while (Vector3.Distance(transform.position, target.position) > 0.5f)
