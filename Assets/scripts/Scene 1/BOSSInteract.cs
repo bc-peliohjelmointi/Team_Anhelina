@@ -37,9 +37,11 @@ public class BOSSInteract : MonoBehaviour
         isInteracting = true;
 
         string anim = interactAnimations[Random.Range(0, interactAnimations.Length)];
-        animator.CrossFade(anim, 0.3f);
 
-        yield return new WaitForSeconds(0.35f);
+        animator.StopPlayback();
+        animator.Play(anim, 0, 0f);
+
+        yield return new WaitForSeconds(0.1f);
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
         animator.CrossFade(idleAnimation, 0.3f);

@@ -3669,7 +3669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2c8c7f9cbaa269249863e301573f62eb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2c8c7f9cbaa269249863e301573f62eb, type: 3}
       propertyPath: m_Controller
@@ -17177,7 +17177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77bb69e4e1f90c247890b5823701ba3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  rotateDegrees: 175
+  rotateDegrees: 148
   rotateDuration: 1
 --- !u!95 &927216646 stripped
 Animator:
