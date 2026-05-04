@@ -6,6 +6,7 @@ public class InteractPrompt : MonoBehaviour
     public Transform npc;
     public float showDistance = 3f;
     public BOSSInteract bossInteract;
+    public GameObject npcObject;
 
     private Transform player;
 
@@ -19,9 +20,15 @@ public class InteractPrompt : MonoBehaviour
     {
         if (player == null) return;
 
+        
+        if (npcObject != null && !npcObject.activeSelf)
+        {
+            promptUI.SetActive(false);
+            return;
+        }
+
         float dist = Vector3.Distance(npc.position, player.position);
 
-        // ẩn F khi đang interact hoặc cooldown
         if (bossInteract != null && (bossInteract.isInteracting || bossInteract.onCooldown))
         {
             promptUI.SetActive(false);
