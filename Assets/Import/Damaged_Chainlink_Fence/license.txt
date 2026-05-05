@@ -1,0 +1,11 @@
+Model Information:
+* title:	Damaged Chainlink Fence
+* source:	https://sketchfab.com/3d-models/damaged-chainlink-fence-2de20806f13e42179db627d263901ff4
+* author:	Arsen Ismailov (https://sketchfab.com/fdgasd7)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Damaged Chainlink Fence" (https://sketchfab.com/3d-models/damaged-chainlink-fence-2de20806f13e42179db627d263901ff4) by Arsen Ismailov (https://sketchfab.com/fdgasd7) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
