@@ -17,19 +17,625 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Frosttrap--Jumpscare_Tuned' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'Hip_Bn' has translation animation
+      that will be discarded.\n\t'Spine_Bn' has translation animation that will be
+      discarded.\n\t'L_Arm_03_Bn' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'Head_Bn' has translation animation that
+      will be discarded.\n\t'L_Eye_Bn' has translation animation that will be discarded.\n\t'R_Eye_Bn'
+      has translation animation that will be discarded.\n\nClip 'Frosttrap--JumpscareFinalPose_Tuned'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'L_Arm_03_Bn'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Head_Bn'
+      has translation animation that will be discarded.\n\t'L_Eye_Bn' has translation
+      animation that will be discarded.\n\t'R_Eye_Bn' has translation animation that
+      will be discarded.\n\nClip 'Frosttrap--ChargePose' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Hip_Bn' has translation animation that
+      will be discarded.\n\t'Hip_Bn' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'L_Leg_01_Bn' has translation animation
+      that will be discarded.\n\t'L_Leg_02_Bn' has translation animation that will
+      be discarded.\n\t'L_Leg_03_Bn' has translation animation that will be discarded.\n\t'Spine_Bn'
+      has translation animation that will be discarded.\n\t'Head_Bn' has translation
+      animation that will be discarded.\n\t'L_Eye_Bn' has translation animation that
+      will be discarded.\n\t'R_Eye_Bn' has translation animation that will be discarded.\n\nClip
+      'Frosttrap--Shutdown' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'Hip_Bn'
+      has translation animation that will be discarded.\n\t'Hip_Bn' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'Spine_Bn'
+      has translation animation that will be discarded.\n\t'L_Arm_03_Bn' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'L_Finger01_01_Bn'
+      has translation animation that will be discarded.\n\t'Neck_Bn' has translation
+      animation that will be discarded.\n\t'Head_Bn' has translation animation that
+      will be discarded.\n\t'Jaw_Bn' has translation animation that will be discarded.\n\t'L_Eye_Bn'
+      has translation animation that will be discarded.\n\t'R_Eye_Bn' has translation
+      animation that will be discarded.\n\nClip 'Frosttrap--Idle_Tuned' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'Hip_Bn' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'Spine_Bn'
+      has translation animation that will be discarded.\n\t'L_Arm_03_Bn' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'Neck_Bn'
+      has translation animation that will be discarded.\n\t'Head_Bn' has translation
+      animation that will be discarded.\n\t'Jaw_Bn' has translation animation that
+      will be discarded.\n\t'L_Eye_Bn' has translation animation that will be discarded.\n\t'R_Eye_Bn'
+      has translation animation that will be discarded.\n\t'R_Finger01_01_Bn' has
+      translation animation that will be discarded.\n\t'R_Finger02_01_Bn' has translation
+      animation that will be discarded.\n\nClip 'Frosttrap--Charge' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'Hip_Bn' has translation animation
+      that will be discarded.\n\t'Hip_Bn' is inbetween humanoid transforms and has
+      rotation animation that will be discarded.\n\t'L_Leg_01_Bn' has translation
+      animation that will be discarded.\n\t'L_Leg_02_Bn' has translation animation
+      that will be discarded.\n\t'L_Leg_03_Bn' has translation animation that will
+      be discarded.\n\t'R_Leg_01_Bn' has translation animation that will be discarded.\n\t'R_Leg_02_Bn'
+      has translation animation that will be discarded.\n\t'R_Leg_03_Bn' has translation
+      animation that will be discarded.\n\t'Spine_Bn' has translation animation that
+      will be discarded.\n\t'Head_Bn' has translation animation that will be discarded.\n\nClip
+      'Frosttrap--CPU_Lurch_Tuned' has import animation warnings that might lower
+      retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
+      quality.\n\t'Hip_Bn' has translation animation that will be discarded.\n\t'Spine_Bn'
+      has translation animation that will be discarded.\n\t'L_Arm_03_Bn' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'Head_Bn'
+      has translation animation that will be discarded.\n\nClip 'Frosttrap--CPU_Shutdown_Tuned'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'Hip_Bn'
+      has translation animation that will be discarded.\n\t'Hip_Bn' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'Spine_Bn'
+      has translation animation that will be discarded.\n\t'L_Arm_03_Bn' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'Neck_Bn'
+      has translation animation that will be discarded.\n\t'Head_Bn' has translation
+      animation that will be discarded.\n\t'Jaw_Bn' has translation animation that
+      will be discarded.\n\t'L_Eye_Bn' has translation animation that will be discarded.\n\t'R_Eye_Bn'
+      has translation animation that will be discarded.\n\t'R_Clavicle_Bn' has translation
+      animation that will be discarded.\n\nClip 'Frosttrap--Haywire' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'Hip_Bn' has translation animation
+      that will be discarded.\n\t'Spine_Bn' has translation animation that will be
+      discarded.\n\t'L_Arm_03_Bn' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'Neck_Bn' has translation animation that
+      will be discarded.\n\t'Head_Bn' has translation animation that will be discarded.\n\t'L_Eye_Bn'
+      has translation animation that will be discarded.\n\t'R_Eye_Bn' has translation
+      animation that will be discarded.\n\nClip 'Frosttrap--CPU_ShutdownFinalPose_Tuned'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'L_Arm_03_Bn'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Neck_Bn'
+      has translation animation that will be discarded.\n\t'Head_Bn' has translation
+      animation that will be discarded.\n\t'R_Clavicle_Bn' has translation animation
+      that will be discarded.\n\nClip 'Frosttrap--ShutdownFinalPose' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'L_Arm_03_Bn' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'Frosttrap--CPU_Revive_Tuned' has import animation warnings that might lower
+      retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
+      quality.\n\t'Hip_Bn' has translation animation that will be discarded.\n\t'Hip_Bn'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'R_Leg_01_Bn'
+      has translation animation that will be discarded.\n\t'R_Leg_02_Bn' has translation
+      animation that will be discarded.\n\t'R_Leg_03_Bn' has translation animation
+      that will be discarded.\n\t'Spine_Bn' has translation animation that will be
+      discarded.\n\t'L_Arm_03_Bn' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'Neck_Bn' has translation animation that
+      will be discarded.\n\t'Head_Bn' has translation animation that will be discarded.\n\t'Jaw_Bn'
+      has translation animation that will be discarded.\n\t'L_Eye_Bn' has translation
+      animation that will be discarded.\n\t'R_Eye_Bn' has translation animation that
+      will be discarded.\n\t'R_Clavicle_Bn' has translation animation that will be
+      discarded.\n\nClip 'Frosttrap--Shocked' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Hip_Bn' has translation animation that
+      will be discarded.\n\t'Hip_Bn' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n\t'Spine_Bn' has translation animation that
+      will be discarded.\n\t'L_Arm_03_Bn' is inbetween humanoid transforms and has
+      rotation animation that will be discarded.\n\t'L_Finger01_01_Bn' has translation
+      animation that will be discarded.\n\t'Neck_Bn' has translation animation that
+      will be discarded.\n\t'Head_Bn' has translation animation that will be discarded.\n\t'Jaw_Bn'
+      has translation animation that will be discarded.\n\t'L_Eye_Bn' has translation
+      animation that will be discarded.\n\t'R_Eye_Bn' has translation animation that
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: jumpsace
+      takeName: Frosttrap--Jumpscare_Tuned
+      internalID: -6456087517846794847
+      firstFrame: 1.5
+      lastFrame: 14.9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Glimpse
+      takeName: Frosttrap--Glimpse (1)
+      internalID: -4388542542283018956
+      firstFrame: 0
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--JumpscareFinalPose_Tuned
+      takeName: Frosttrap--JumpscareFinalPose_Tuned
+      internalID: -1008421504136641779
+      firstFrame: 0
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--ChargePose
+      takeName: Frosttrap--ChargePose
+      internalID: 2279679911042714912
+      firstFrame: 0
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Shutdown
+      takeName: Frosttrap--Shutdown
+      internalID: -4498412150437692118
+      firstFrame: 0
+      lastFrame: 119
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Idle_Tuned
+      takeName: Frosttrap--Idle_Tuned
+      internalID: 3550332704317677315
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Charge
+      takeName: Frosttrap--Charge
+      internalID: -7522149307661608495
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Glimpse (1)
+      takeName: Frosttrap--Glimpse
+      internalID: -6865215412932635339
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--CPU_Lurch_Tuned
+      takeName: Frosttrap--CPU_Lurch_Tuned
+      internalID: 6650909049836656649
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--CPU_Shutdown_Tuned
+      takeName: Frosttrap--CPU_Shutdown_Tuned
+      internalID: 5954157176041004389
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Decloaked_Tuned
+      takeName: Frosttrap--Decloaked_Tuned
+      internalID: -178081107770704635
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: 1pose
+      takeName: Frosttrap--Haywire
+      internalID: 7539920651865093504
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--CPU_ShutdownFinalPose_Tuned
+      takeName: Frosttrap--CPU_ShutdownFinalPose_Tuned
+      internalID: 3235717518815441662
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--ShutdownFinalPose
+      takeName: Frosttrap--ShutdownFinalPose
+      internalID: 3023193083136049295
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--CPU_Revive_Tuned
+      takeName: Frosttrap--CPU_Revive_Tuned
+      internalID: -1042807868914410623
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Shocked
+      takeName: Frosttrap--Shocked
+      internalID: 7036978285254220486
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Frosttrap--Glimpse (2)
+      takeName: Frosttrap--Glimpse (2)
+      internalID: -1316233692780381834
+      firstFrame: 0
+      lastFrame: 469
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -82,8 +688,673 @@ ModelImporter:
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
-    human: []
-    skeleton: []
+    human:
+    - boneName: Root_Bn
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Leg_01_Bn
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Leg_01_Bn
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Leg_02_Bn
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Leg_02_Bn
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Leg_03_Bn
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Leg_03_Bn
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Spine_Bn
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Neck_Bn
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Head_Bn
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Clavicle_Bn
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Clavicle_Bn
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Arm_01_Bn
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Arm_01_Bn
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Arm_02_Bn
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Arm_02_Bn
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Finger01_01_Bn
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Arm_03_Bn
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Eye_Bn
+      humanName: LeftEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Eye_Bn
+      humanName: RightEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Jaw_Bn
+      humanName: Jaw
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Finger01_02_Bn
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: L_Finger01_03_Bn
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger01_01_Bn
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger01_02_Bn
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger01_03_Bn
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger02_01_Bn
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger02_02_Bn
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger02_03_Bn
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger03_01_Bn
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger03_02_Bn
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger03_03_Bn
+      humanName: Right Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger04_01_Bn
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger04_02_Bn
+      humanName: Right Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: R_Finger04_03_Bn
+      humanName: Right Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Plushtrap_FrostPrefab (merge)(Clone)
+      parentName: 
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Plushtrap_FrostPrefab
+      parentName: Plushtrap_FrostPrefab (merge)(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Frosttrap
+      parentName: Plushtrap_FrostPrefab
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Body_Geo
+      parentName: Frosttrap
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Chair
+      parentName: Frosttrap
+      position: {x: -0, y: -0.008909999, z: -0.02076}
+      rotation: {x: 6.123234e-17, y: 1, z: -6.123234e-17, w: 6.123234e-17}
+      scale: {x: 1.3, y: 1.3, z: 1.3}
+    - name: Transform_Bn
+      parentName: Frosttrap
+      position: {x: -0, y: -0.0075, z: -0.011999999}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Root_Bn
+      parentName: Transform_Bn
+      position: {x: 0, y: 0.008490343, z: 0.012114631}
+      rotation: {x: 0.000000011641534, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: EyePlane
+      parentName: Root_Bn
+      position: {x: -0, y: 0, z: -0.01}
+      rotation: {x: -6.1232336e-17, y: 1, z: 6.1232336e-17, w: -0.00000004371139}
+      scale: {x: 1, y: 1, z: 1}
+    - name: AudioEmitter
+      parentName: Root_Bn
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Spine_Bn
+      parentName: Root_Bn
+      position: {x: 0.0000067186966, y: 0.0016286188, z: 0.000060074603}
+      rotation: {x: -0.000000011641534, y: 0.000000002910383, z: -3.3881325e-17, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Spine_Lightning
+      parentName: Spine_Bn
+      position: {x: -0, y: 0.00048000008, z: 0.000010000002}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.183689, y: 0.21415603, z: 0.15319647}
+    - name: Lightning
+      parentName: Spine_Lightning
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Neck_Bn
+      parentName: Spine_Bn
+      position: {x: -0.0000000012964764, y: 0.001247699, z: -0.00006050331}
+      rotation: {x: -0, y: -4.440892e-16, z: 0.0000000029103826, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Head_Bn
+      parentName: Neck_Bn
+      position: {x: -0.00000009903548, y: 0.000620237, z: -0.00005037761}
+      rotation: {x: -0.000000011641534, y: -0.000000008731149, z: 0.0000000029103844, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 1}
+    - name: Head_Lightning
+      parentName: Head_Bn
+      position: {x: -0, y: 0.0007399999, z: 0.00056}
+      rotation: {x: -0.40918982, y: 0, z: -0, w: 0.9124493}
+      scale: {x: 0.23262164, y: 0.26594144, z: 0.2191832}
+    - name: Lightning
+      parentName: Head_Lightning
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: EyeGlow_Grp
+      parentName: Head_Bn
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_Eye_Glow
+      parentName: EyeGlow_Grp
+      position: {x: -0.00055, y: 0.00112, z: 0.00112}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: R_Eye_Glow
+      parentName: EyeGlow_Grp
+      position: {x: 0.00055, y: 0.00112, z: 0.00112}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: EyeGlow_PointLight
+      parentName: EyeGlow_Grp
+      position: {x: -0, y: 0.002, z: 0.002}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: EyeGlow_Collider
+      parentName: EyeGlow_Grp
+      position: {x: -0, y: 0.00042399997, z: 0.002334}
+      rotation: {x: -0, y: 0, z: 0.7071068, w: 0.7071068}
+      scale: {x: 0.19415908, y: 0.2082742, z: 0.19415905}
+    - name: Jaw_Bn
+      parentName: Head_Bn
+      position: {x: 2.664535e-19, y: 0.00024058072, z: 0.00006749822}
+      rotation: {x: 0.000000011641534, y: 0.000000011641532, z: -0.000000005093171, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: L_Eye_Bn
+      parentName: Head_Bn
+      position: {x: -0.00034828074, y: 0.0010877501, z: 0.00090511347}
+      rotation: {x: -0.032279015, y: -0.0010204752, z: -0.00003295587, w: 0.9994784}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_UpperLid_Bn
+      parentName: Head_Bn
+      position: {x: -0.0003481166, y: 0.0010876815, z: 0.00090837356}
+      rotation: {x: 0.000000011641534, y: -0, z: -0.000000002910384, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: L_LowerLid_Bn
+      parentName: Head_Bn
+      position: {x: -0.0003481166, y: 0.0010876815, z: 0.00090837356}
+      rotation: {x: 0.000000034924597, y: -0, z: -0.0000000101863415, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: R_Eye_Bn
+      parentName: Head_Bn
+      position: {x: 0.00042288436, y: 0.0010828115, z: 0.0008877331}
+      rotation: {x: -0.033011477, y: -0.015428497, z: -0.00049554737, w: 0.99933577}
+      scale: {x: 0.9999999, y: 1, z: 1}
+    - name: R_UpperLid_Bn
+      parentName: Head_Bn
+      position: {x: 0.00042296347, y: 0.0010828282, z: 0.0008899981}
+      rotation: {x: 0.000000011641534, y: -0, z: -0.000000002910384, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: R_LowerLid_Bn
+      parentName: Head_Bn
+      position: {x: 0.00042296347, y: 0.0010828282, z: 0.0008899981}
+      rotation: {x: 0.00000005820766, y: 0.000000014551915, z: -0.0000000029103848, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: L_Ear_Bn
+      parentName: Head_Bn
+      position: {x: -0.00068555545, y: 0.0015850426, z: 0.0004069839}
+      rotation: {x: 0.7071068, y: -0.7071068, z: -0.000000055564698, w: -0.0000000020579511}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000005}
+    - name: L_Ear_01_Bn
+      parentName: L_Ear_Bn
+      position: {x: -0.0011230482, y: 0.00000092159627, z: -0.0000044568633}
+      rotation: {x: -0.000000002910387, y: 0.000000017462293, z: -0, w: -1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: L_Ear_02_Bn
+      parentName: L_Ear_01_Bn
+      position: {x: -0.0007681757, y: 0.0000010413127, z: 1.4153738e-11}
+      rotation: {x: -0.000000017462296, y: 0.000000011641523, z: 0.00000008940697, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: R_Ear_Bn
+      parentName: Head_Bn
+      position: {x: 0.00068390806, y: 0.0015716269, z: 0.00040698412}
+      rotation: {x: 0.000000012347712, y: -0.000000045274938, z: 0.7071068, w: 0.7071068}
+      scale: {x: 1.0000002, y: 1.0000001, z: 0.99999994}
+    - name: R_Ear_01_Bn
+      parentName: R_Ear_Bn
+      position: {x: 0.0011120156, y: 0.00000092159627, z: -0.0000044569397}
+      rotation: {x: -0.000000009458751, y: -0.000000017462304, z: 7.9409355e-16, w: 1}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000004}
+    - name: R_Ear_02_Bn
+      parentName: R_Ear_01_Bn
+      position: {x: 0.0007531215, y: 0.0000010413127, z: -5.1558095e-11}
+      rotation: {x: -0.00000001673469, y: 3.5527133e-15, z: 4.3833929e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_Clavicle_Bn
+      parentName: Spine_Bn
+      position: {x: -0.00016685565, y: 0.0012134752, z: -0.000037294765}
+      rotation: {x: 0.9999335, y: -0.0011389569, z: -0.011476069, w: 0.00001307653}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: L_Arm_01_Bn
+      parentName: L_Clavicle_Bn
+      position: {x: -0.0006916061, y: -0.000002937668, z: 0.00004044738}
+      rotation: {x: 0.00021961235, y: -0.013603811, z: -0.018416708, w: 0.99973786}
+      scale: {x: 0.9999999, y: 0.9999999, z: 1.0000002}
+    - name: L_Arm_02_Bn
+      parentName: L_Arm_01_Bn
+      position: {x: -0.0009869401, y: 1.4210854e-18, z: 4.973799e-18}
+      rotation: {x: -0.0028769278, y: 0.10232168, z: 0.013154213, w: 0.99466026}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000002}
+    - name: L_Arm_03_Bn
+      parentName: L_Arm_02_Bn
+      position: {x: -0.00085396116, y: 2.9132252e-17, z: -1.1723954e-17}
+      rotation: {x: 0.000000020343577, y: 0.000000018626451, z: -4.092033e-12, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: L_Finger01_01_Bn
+      parentName: L_Arm_03_Bn
+      position: {x: -0.00019073214, y: 0.0000017162303, z: -0.00024183205}
+      rotation: {x: -0.7074867, y: -0.012223773, z: -0.7065155, w: 0.012210011}
+      scale: {x: 0.9999996, y: 0.99999964, z: 0.9999997}
+    - name: L_Finger01_02_Bn
+      parentName: L_Finger01_01_Bn
+      position: {x: -0.00017020978, y: 0, z: -3.3861802e-19}
+      rotation: {x: -0.00000046193594, y: -0.73533124, z: -0.0215196, w: 0.6773662}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000002}
+    - name: L_Finger01_03_Bn
+      parentName: L_Finger01_02_Bn
+      position: {x: -0.00017018554, y: -5.3883835e-11, z: -1.8769149e-10}
+      rotation: {x: -0.00000015087424, y: -0.00000059259764, z: 0.00000020954758, w: 1}
+      scale: {x: 1.0000005, y: 1.0000002, z: 1.0000004}
+    - name: L_Finger02_01_Bn
+      parentName: L_Arm_03_Bn
+      position: {x: -0.0005941513, y: -0.000024065503, z: -0.00017189245}
+      rotation: {x: -0.9999629, y: -0.0027771024, z: 0.008159207, w: -0.00002183127}
+      scale: {x: 0.9999999, y: 0.99999964, z: 0.9999996}
+    - name: L_Finger02_02_Bn
+      parentName: L_Finger02_01_Bn
+      position: {x: -0.0001702094, y: -2.8421709e-18, z: -3.5527136e-19}
+      rotation: {x: 0.000000005653419, y: -0.000000015017312, z: -0.000000011101207, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1.0000004}
+    - name: L_Finger02_03_Bn
+      parentName: L_Finger02_02_Bn
+      position: {x: -0.0001701859, y: 1.3238831e-14, z: -1.1790614e-11}
+      rotation: {x: -0.000000010448274, y: -0.000000048254677, z: 0.000000022231347, w: 1}
+      scale: {x: 1.0000004, y: 1, z: 1.0000002}
+    - name: L_Finger03_01_Bn
+      parentName: L_Arm_03_Bn
+      position: {x: -0.00063123245, y: -0.000024058265, z: -0.0000021136063}
+      rotation: {x: -0.9999629, y: -0.0027770938, z: 0.008159571, w: -0.000021834761}
+      scale: {x: 0.99999994, y: 0.9999996, z: 0.9999998}
+    - name: L_Finger03_02_Bn
+      parentName: L_Finger03_01_Bn
+      position: {x: -0.00017021017, y: 0, z: -3.5527136e-19}
+      rotation: {x: -0.000000002206434, y: 0.000000007508611, z: 0.000000007421817, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: L_Finger03_03_Bn
+      parentName: L_Finger03_02_Bn
+      position: {x: -0.00017018554, y: 4.738074e-11, z: 5.506564e-14}
+      rotation: {x: 0.00000003558671, y: 0.000000010421864, z: -0.000000113184015, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000004}
+    - name: L_Finger04_01_Bn
+      parentName: L_Arm_03_Bn
+      position: {x: -0.0005958242, y: -0.000024049676, z: 0.0001957363}
+      rotation: {x: -0.99996287, y: -0.0027772947, z: 0.008159295, w: -0.00002184454}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1.0000001}
+    - name: L_Finger04_02_Bn
+      parentName: L_Finger04_01_Bn
+      position: {x: -0.00017020978, y: 2.8421709e-18, z: 7.105427e-19}
+      rotation: {x: -0.000000005336915, y: -0.0000000036100263, z: 0.000000048369373, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000002}
+    - name: L_Finger04_03_Bn
+      parentName: L_Finger04_02_Bn
+      position: {x: -0.00017018554, y: -4.735392e-11, z: 2.3737302e-11}
+      rotation: {x: -0.000000009753418, y: 0.000000055992405, z: 0.00000014144723, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: R_Clavicle_Bn
+      parentName: Spine_Bn
+      position: {x: 0.00016685599, y: 0.0012134796, z: -0.00003729472}
+      rotation: {x: -0.000013042533, y: -0.011476098, z: 0.0011389921, w: 0.99993354}
+      scale: {x: 1, y: 1, z: 1}
+    - name: R_Arm_01_Bn
+      parentName: R_Clavicle_Bn
+      position: {x: 0.00069160527, y: 0.000002934468, z: -0.000040447656}
+      rotation: {x: 0.00021959335, y: -0.013603768, z: -0.018416727, w: 0.9997378}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000002}
+    - name: R_Arm_02_Bn
+      parentName: R_Arm_01_Bn
+      position: {x: 0.0009869412, y: 0.0000000027273852, z: 2.4247238e-10}
+      rotation: {x: -0.000000008018105, y: -0.000000014901161, z: 0.0000000033430752, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: R_Arm_03_Bn
+      parentName: R_Arm_02_Bn
+      position: {x: 0.0008539636, y: -0.0000000021731617, z: -1.6010018e-10}
+      rotation: {x: 0.000000026309863, y: 0.0000000037252903, z: 0.000000035389576, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: R_Finger01_01_Bn
+      parentName: R_Arm_03_Bn
+      position: {x: 0.00019072942, y: -0.0000017205629, z: 0.00024183243}
+      rotation: {x: 0.9807045, y: 0.019274045, z: 0.19454075, w: -0.0010355142}
+      scale: {x: 1, y: 0.9999998, z: 0.99999994}
+    - name: R_Finger01_02_Bn
+      parentName: R_Finger01_01_Bn
+      position: {x: 0.00017020947, y: -7.311034e-10, z: 0.0000000013829836}
+      rotation: {x: 0.000000013038514, y: -1.45519135e-11, z: -9.3132246e-10, w: 1}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000002}
+    - name: R_Finger01_03_Bn
+      parentName: R_Finger01_02_Bn
+      position: {x: 0.0001701855, y: -7.3099504e-10, z: 2.124731e-10}
+      rotation: {x: 0.0000002449378, y: 2.1827909e-10, z: 0.000000012107192, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: R_Finger02_01_Bn
+      parentName: R_Arm_03_Bn
+      position: {x: 0.0005941506, y: 0.000024064635, z: 0.00017189287}
+      rotation: {x: 0.99808043, y: 0.008637325, z: 0.061326224, w: 0.000017283995}
+      scale: {x: 0.9999999, y: 1, z: 0.9999998}
+    - name: R_Finger02_02_Bn
+      parentName: R_Finger02_01_Bn
+      position: {x: 0.00017020402, y: -0.000000001133756, z: 1.4496306e-10}
+      rotation: {x: -0.000000017795173, y: -0.000000018277248, z: 0.0000000016370478, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: R_Finger02_03_Bn
+      parentName: R_Finger02_02_Bn
+      position: {x: 0.000170184, y: -4.418245e-10, z: 1.7011212e-10}
+      rotation: {x: 0.000000033649485, y: 0.000000011467703, z: -0.000000033101145, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000002}
+    - name: R_Finger03_01_Bn
+      parentName: R_Arm_03_Bn
+      position: {x: 0.0006312263, y: 0.000024055737, z: 0.0000021139}
+      rotation: {x: 0.99808055, y: 0.008636629, z: 0.061324637, w: 0.000017175991}
+      scale: {x: 1, y: 0.9999998, z: 0.9999997}
+    - name: R_Finger03_02_Bn
+      parentName: R_Finger03_01_Bn
+      position: {x: 0.000170214, y: -0.0000000015269286, z: 2.2831645e-10}
+      rotation: {x: 0.0000000049585647, y: 0.00000003719686, z: -0.000000091230085, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: R_Finger03_03_Bn
+      parentName: R_Finger03_02_Bn
+      position: {x: 0.00017018402, y: -4.896971e-10, z: -1.3430027e-10}
+      rotation: {x: 0.00000016475859, y: -0.000000013331617, z: 0.00000008782793, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: R_Finger04_01_Bn
+      parentName: R_Arm_03_Bn
+      position: {x: 0.00059581985, y: 0.000024052295, z: -0.00019573623}
+      rotation: {x: 0.99808043, y: 0.008649845, z: 0.06132442, w: 0.000020987676}
+      scale: {x: 1.0000001, y: 0.99999994, z: 0.9999998}
+    - name: R_Finger04_02_Bn
+      parentName: R_Finger04_01_Bn
+      position: {x: 0.00017021438, y: 0.000000008560838, z: -3.9352147e-10}
+      rotation: {x: 0.00000001740409, y: -2.9050617e-10, z: -0.000000022131104, w: 1}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000004}
+    - name: R_Finger04_03_Bn
+      parentName: R_Finger04_02_Bn
+      position: {x: 0.000170184, y: -3.9445833e-10, z: 1.4095922e-10}
+      rotation: {x: 0.00000013945828, y: 2.32613e-10, z: 0.000000011116271, w: 1}
+      scale: {x: 1.0000002, y: 1, z: 1.0000002}
+    - name: Hip_Bn
+      parentName: Root_Bn
+      position: {x: -0, y: 0.0015276895, z: -0.000041647367}
+      rotation: {x: 0.00000001164153, y: -0.000000002910384, z: -0.0000000058207674, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: Spine_Lightning
+      parentName: Hip_Bn
+      position: {x: 1.4551998e-11, y: 0.00165, z: 0.00028}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.46965492, y: 0.6087193, z: 0.5266193}
+    - name: Lightning
+      parentName: Spine_Lightning
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_Leg_01_Bn
+      parentName: Hip_Bn
+      position: {x: -0.0004984948, y: -0.00023939031, z: -0.00007298428}
+      rotation: {x: -0.07604972, y: 0.052525133, z: 0.6884282, w: 0.7193915}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: L_Leg_02_Bn
+      parentName: L_Leg_01_Bn
+      position: {x: -0.000999432, y: 1.4210854e-18, z: -6.6044056e-13}
+      rotation: {x: 0.000000070780516, y: -0.14802611, z: -0.0000000018626451, w: 0.9889835}
+      scale: {x: 1, y: 1, z: 0.9999998}
+    - name: L_Leg_03_Bn
+      parentName: L_Leg_02_Bn
+      position: {x: -0.0010421909, y: -3.241686e-11, z: -1.0674329e-10}
+      rotation: {x: -0.000000026723814, y: -0, z: -0.000000027546953, w: 1}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1.0000004}
+    - name: R_Leg_01_Bn
+      parentName: Hip_Bn
+      position: {x: 0.000498495, y: -0.00023938961, z: -0.00007298463}
+      rotation: {x: 0.7193915, y: -0.6884282, z: 0.052525137, w: 0.076049685}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000006}
+    - name: R_Leg_02_Bn
+      parentName: R_Leg_01_Bn
+      position: {x: 0.0009994303, y: -1.3549158e-10, z: -6.591446e-10}
+      rotation: {x: -0.0000000018626451, y: -0.14802612, z: 0.000000029802322, w: 0.9889835}
+      scale: {x: 0.9999997, y: 0.9999997, z: 0.99999994}
+    - name: R_Leg_03_Bn
+      parentName: R_Leg_02_Bn
+      position: {x: 0.0010421933, y: 1.5015571e-10, z: -1.3730071e-10}
+      rotation: {x: 0.000000004799104, y: -0, z: -0.0000000308526, w: 1}
+      scale: {x: 1.0000005, y: 1, z: 0.99999994}
+    - name: Plane_Bn
+      parentName: Root_Bn
+      position: {x: -1.1021821e-18, y: 0.0024920977, z: -0.005512356}
+      rotation: {x: 1, y: -0, z: -0, w: 0.000000011641534}
+      scale: {x: 1, y: 1.0000001e-12, z: 1.0000001}
+    - name: VisibilityCollider
+      parentName: Plushtrap_FrostPrefab
+      position: {x: -0, y: 0.0085, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -98,9 +1369,9 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
