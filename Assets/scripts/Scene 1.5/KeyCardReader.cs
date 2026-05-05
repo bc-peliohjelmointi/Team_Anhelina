@@ -1,27 +1,34 @@
-using DG.Tweening.Core.Easing;
-using UnityEngine;
-// card reader device, two of these in the scene
-// AlarmRoom reader: stops alarm and opens alarm room door
-// ExitDoor reader: opens the final exit door
+﻿using UnityEngine;
+// card reader device - two in the scene
+// OfficeDoor reader: lets player EXIT the office after solving the puzzle
+//   placed near the office door on the INSIDE of the alarm room
+//   opens the office door and advances game flow
+// ExitScene reader: loads the next scene, placed at the final exit point
 // only shows glow and prompt if player actually has the card
 // requires Unity 2022 for FindFirstObjectByType
 public class KeyCardReader : MonoBehaviour
 {
-    public enum ReaderType { AlarmRoom, ExitDoor }
-    // set this to AlarmRoom or ExitDoor in inspector
+    public enum ReaderType
+    {
+        // reader that opens the office exit door (letting player leave the alarm room)
+        OfficeDoor,
+        // reader at the very end that triggers scene transition
+        ExitScene
+    }
+
     public ReaderType readerType;
     public float interactionDistance = 2f;
     public KeyCode useKey = KeyCode.E;
-    // canvas prompt "E - Swipe card"
+    // "E - Провести картой" prompt
     public GameObject interactionPrompt;
-    // the door this reader controls
+    // the door this reader controls (OfficeDoor reader only)
     public DoorController controlledDoor;
-    // only needed for AlarmRoom reader
-    public AlarmSystem alarmSystem;
     public GameFlowManager gameFlowManager;
     public AudioSource audioSource;
     public AudioClip successSound;
-    // the small LED indicator on the reader device
+    // sound when player tries without having the card
+    public AudioClip deniedSound;
+    // LED on the reader body
     public Renderer indicatorRenderer;
     public Color idleColor = Color.red;
     public Color successColor = Color.green;
@@ -39,44 +46,42 @@ public class KeyCardReader : MonoBehaviour
         if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         if (interactionPrompt != null) interactionPrompt.SetActive(false);
-        // starts red, goes green after successful swipe
         SetIndicator(idleColor);
     }
 
     void Update()
     {
-        // exit door reader does nothing after its been used
-        if (hasBeenUsed && readerType == ReaderType.ExitDoor) return;
-
+        if (hasBeenUsed) return;
         bool hasCard = boardController != null && boardController.HasCard();
         Camera cam = Camera.main;
         if (cam == null) return;
-
         bool lookingAt = Physics.Raycast(
             new Ray(cam.transform.position, cam.transform.forward),
             out RaycastHit hit, interactionDistance)
             && hit.collider.gameObject == gameObject;
-
         if (lookingAt != isNearby)
         {
             isNearby = lookingAt;
-            // only glow if player actually has the card
             if (aura != null) aura.SetGlow(isNearby && hasCard);
             if (interactionPrompt != null) interactionPrompt.SetActive(isNearby && hasCard);
         }
-
-        if (isNearby && hasCard && Input.GetKeyDown(useKey)) UseCard();
+        if (isNearby && Input.GetKeyDown(useKey))
+        {
+            if (hasCard) UseCard();
+            else if (deniedSound != null) audioSource.PlayOneShot(deniedSound);
+        }
     }
 
     void UseCard()
     {
+        hasBeenUsed = true;
         if (successSound != null) audioSource.PlayOneShot(successSound);
         SetIndicator(successColor);
-
-        if (readerType == ReaderType.AlarmRoom)
+        if (interactionPrompt != null) interactionPrompt.SetActive(false);
+        if (aura != null) aura.SetGlow(false);
+        if (readerType == ReaderType.OfficeDoor)
         {
-            // stop alarm and unlock the room door
-            if (alarmSystem != null) alarmSystem.StopAlarm();
+            // open alarm room door so player can leave
             if (controlledDoor != null) controlledDoor.OpenDoor();
             if (gameFlowManager != null) gameFlowManager.OnAlarmDeactivated();
             if (TaskManager.Instance != null)
@@ -87,15 +92,11 @@ public class KeyCardReader : MonoBehaviour
         }
         else
         {
-            // open the final exit door
-            hasBeenUsed = true;
-            if (controlledDoor != null) controlledDoor.OpenDoor();
+            // exit the scene entirely
             if (gameFlowManager != null) gameFlowManager.OnExitUnlocked();
             if (TaskManager.Instance != null)
                 TaskManager.Instance.CompleteTask(TaskManager.Instance.task_SwipeExit);
         }
-
-        if (interactionPrompt != null) interactionPrompt.SetActive(false);
     }
 
     void SetIndicator(Color color)
