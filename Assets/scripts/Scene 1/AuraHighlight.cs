@@ -2,6 +2,8 @@ using UnityEngine;
 
 // attach to any object you want to highlight when player looks at it
 // switches shader to Standard/Lit with emission - guaranteed to work
+// FIXED FOR BUILD: uses material.EnableKeyword instead of Shader.Find
+// works in both editor and standalone build
 public class AuraHighlight : MonoBehaviour
 {
     [Header("Glow Settings")]
@@ -10,16 +12,12 @@ public class AuraHighlight : MonoBehaviour
     public float glowSpeed = 3f;
     public bool usePulse = true;
 
-    [Header("Outline Settings")]
-    public bool useOutline = false;
-    public Color outlineColor = Color.yellow;
-    public float outlineWidth = 0.02f;
-
     [Header("Debug")]
     public bool debugMode = false;
 
     private Renderer[] renderers;
     private Material[][] originalMaterials;
+    // instanced copies of original materials with emission enabled
     private Material[][] glowMaterials;
     private bool isGlowing = false;
     private float pulseTimer = 0f;
@@ -34,68 +32,43 @@ public class AuraHighlight : MonoBehaviour
         originalMaterials = new Material[renderers.Length][];
         glowMaterials = new Material[renderers.Length][];
 
-        // find the best available lit shader on this machine
-        Shader litShader = FindLitShader();
-
-        if (debugMode)
-            Debug.Log($"[AuraHighlight] using shader: {litShader.name}");
-
         for (int i = 0; i < renderers.Length; i++)
         {
             if (renderers[i] == null) continue;
 
-            Material[] orig = renderers[i].materials;
-            originalMaterials[i] = orig;
+            // sharedMaterials = original assets, materials = instanced copies
+            originalMaterials[i] = renderers[i].sharedMaterials;
 
+            Material[] orig = renderers[i].sharedMaterials;
             Material[] glow = new Material[orig.Length];
+
             for (int j = 0; j < orig.Length; j++)
             {
                 if (orig[j] == null) continue;
 
-                // create a copy and force it onto a shader that definitely has emission
-                glow[j] = new Material(litShader);
+                // create an instanced copy of the SAME material
+                // this keeps the original shader so it is guaranteed present in build
+                glow[j] = new Material(orig[j]);
 
-                // copy the main texture and color so the object still looks right
-                if (orig[j].HasProperty("_MainTex"))
-                    glow[j].SetTexture("_MainTex", orig[j].GetTexture("_MainTex"));
-                if (orig[j].HasProperty("_BaseMap"))
-                    glow[j].SetTexture("_BaseMap", orig[j].GetTexture("_BaseMap"));
-                if (orig[j].HasProperty("_Color"))
-                    glow[j].SetColor("_Color", orig[j].GetColor("_Color"));
-                if (orig[j].HasProperty("_BaseColor"))
-                    glow[j].SetColor("_BaseColor", orig[j].GetColor("_BaseColor"));
-
-                // enable emission
+                // enable emission on the copy
                 glow[j].EnableKeyword("_EMISSION");
-                glow[j].SetFloat("_EmissionEnabled", 1f);
-                glow[j].SetColor("_EmissionColor", glowColor * glowIntensity);
+
+                // URP uses _EmissionColor, Built-in also uses _EmissionColor
+                // both paths covered here
+                if (glow[j].HasProperty("_EmissionColor"))
+                    glow[j].SetColor("_EmissionColor", glowColor * glowIntensity);
+
+                // URP also needs globalIlluminationFlags cleared to see emission
+                glow[j].globalIlluminationFlags =
+                    MaterialGlobalIlluminationFlags.RealtimeEmissive;
 
                 if (debugMode)
-                    Debug.Log($"[AuraHighlight] renderer[{i}] mat[{j}] original shader was: {orig[j].shader.name}");
+                    Debug.Log($"[AuraHighlight] glow mat created for renderer[{i}] mat[{j}] " +
+                              $"shader={orig[j].shader.name}");
             }
+
             glowMaterials[i] = glow;
         }
-    }
-
-    // tries to find a shader that definitely supports emission, from most to least preferred
-    Shader FindLitShader()
-    {
-        string[] candidates = new string[]
-        {
-            "Universal Render Pipeline/Lit",
-            "Lit",
-            "Standard",
-            "Legacy Shaders/Diffuse",
-        };
-
-        foreach (string name in candidates)
-        {
-            Shader s = Shader.Find(name);
-            if (s != null) return s;
-        }
-
-        // absolute fallback - should never happen
-        return Shader.Find("Standard");
     }
 
     void Update()
@@ -111,7 +84,7 @@ public class AuraHighlight : MonoBehaviour
             if (renderers[i] == null || glowMaterials[i] == null) continue;
             foreach (Material mat in glowMaterials[i])
             {
-                if (mat != null)
+                if (mat != null && mat.HasProperty("_EmissionColor"))
                     mat.SetColor("_EmissionColor", glowColor * intensity);
             }
         }
@@ -126,15 +99,20 @@ public class AuraHighlight : MonoBehaviour
         {
             if (renderers[i] == null) continue;
 
-            renderers[i].materials = on ? glowMaterials[i] : originalMaterials[i];
-
             if (on)
             {
+                // switch to instanced glow materials
+                renderers[i].materials = glowMaterials[i];
                 foreach (Material mat in glowMaterials[i])
                 {
-                    if (mat != null)
+                    if (mat != null && mat.HasProperty("_EmissionColor"))
                         mat.SetColor("_EmissionColor", glowColor * glowIntensity);
                 }
+            }
+            else
+            {
+                // restore original shared materials
+                renderers[i].sharedMaterials = originalMaterials[i];
             }
 
             if (debugMode)
@@ -145,4 +123,16 @@ public class AuraHighlight : MonoBehaviour
     public bool IsGlowing() => isGlowing;
 
     void OnDisable() => SetGlow(false);
+
+    void OnDestroy()
+    {
+        // clean up instanced materials to avoid memory leaks
+        if (glowMaterials == null) return;
+        foreach (Material[] arr in glowMaterials)
+        {
+            if (arr == null) continue;
+            foreach (Material mat in arr)
+                if (mat != null) Destroy(mat);
+        }
+    }
 }
