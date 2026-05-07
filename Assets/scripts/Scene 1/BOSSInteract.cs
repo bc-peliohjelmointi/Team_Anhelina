@@ -9,6 +9,10 @@ public class BOSSInteract : MonoBehaviour
         public string animationName;
         public AudioClip line1;
         public AudioClip line2;
+        public GameObject line1Text;
+        public GameObject line2Text;
+        public float line1TextDelay = 0f; // voice play X giây rồi text mới hiện
+        public float line2TextDelay = 0f;
     }
 
     [Header("Animation + Voice pairs")]
@@ -73,6 +77,9 @@ public class BOSSInteract : MonoBehaviour
                 StopAllCoroutines();
                 audioSource.Stop();
                 onLine1 = false;
+                // skip → tắt text ngay
+                if (currentPair.line1Text != null) currentPair.line1Text.SetActive(false);
+                if (skipPromptUI != null) skipPromptUI.SetActive(false);
                 StartCoroutine(PlayLine2Routine(currentPair));
             }
             else if (onLine2)
@@ -80,6 +87,8 @@ public class BOSSInteract : MonoBehaviour
                 StopAllCoroutines();
                 audioSource.Stop();
                 onLine2 = false;
+                // skip → tắt text ngay
+                if (currentPair.line2Text != null) currentPair.line2Text.SetActive(false);
 
                 if (!specialVoiceOnCooldown && specialVoice != null)
                 {
@@ -121,9 +130,16 @@ public class BOSSInteract : MonoBehaviour
 
         onLine1 = true;
         if (skipPromptUI != null) skipPromptUI.SetActive(true);
-        audioSource.PlayOneShot(currentPair.line1);
-        yield return new WaitForSeconds(currentPair.line1.length);
+        audioSource.PlayOneShot(currentPair.line1); 
+
+
+        yield return new WaitForSeconds(currentPair.line1TextDelay);
+        if (currentPair.line1Text != null) currentPair.line1Text.SetActive(true);
+
+
+        yield return new WaitForSeconds(currentPair.line1.length - currentPair.line1TextDelay);
         onLine1 = false;
+        if (currentPair.line1Text != null) currentPair.line1Text.SetActive(false); 
 
         if (skipPromptUI != null) skipPromptUI.SetActive(false);
         yield return new WaitForSeconds(linePause);
@@ -135,9 +151,16 @@ public class BOSSInteract : MonoBehaviour
     {
         onLine2 = true;
         if (skipPromptUI != null) skipPromptUI.SetActive(true);
-        audioSource.PlayOneShot(pair.line2);
-        yield return new WaitForSeconds(pair.line2.length);
+        audioSource.PlayOneShot(pair.line2); 
+
+
+        yield return new WaitForSeconds(pair.line2TextDelay);
+        if (pair.line2Text != null) pair.line2Text.SetActive(true);
+
+
+        yield return new WaitForSeconds(pair.line2.length - pair.line2TextDelay);
         onLine2 = false;
+        if (pair.line2Text != null) pair.line2Text.SetActive(false); 
 
         if (skipPromptUI != null) skipPromptUI.SetActive(false);
 

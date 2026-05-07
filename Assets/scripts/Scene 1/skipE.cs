@@ -22,7 +22,7 @@ public class SkipE : MonoBehaviour
 
         float dist = Vector3.Distance(npc.position, player.position);
 
-        // chỉ hiện khi đang có voice line đang play VÀ trong zone
+
         bool voicePlaying = bossInteract != null &&
                            (bossInteract.onLine1 || bossInteract.onLine2) &&
                            dist <= hideDistance;
