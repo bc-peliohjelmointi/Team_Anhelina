@@ -1,6 +1,13 @@
 using UnityEngine;
-// handles grabbing, dragging, snapping paper objects
-// detects buttons and highlights hovered objects with aura
+// ============================================================
+// ObjectDragRay.cs  — UPDATED VERSION
+// ============================================================
+// Changes from original:
+//   + PSButton1 detection (power button for PC)
+//   + PSDesktopIcon detection (icons on desktop)
+//   + PSDesktopIcon hover highlight via SetHover()
+// All original functionality (drag, throw, snap, zoom) unchanged
+// ============================================================
 public class ObjectDragRay : MonoBehaviour
 {
     public float maxDistance = 6f;
@@ -22,14 +29,11 @@ public class ObjectDragRay : MonoBehaviour
     public float auraCheckDistance = 6f;
 
     [Header("Controls while holding paper")]
-    // Z/X = rotate left/right, Q/E = push/pull distance
     public float rotationSpeed = 180f;
     public float distanceAdjustSpeed = 4f;
 
     [Header("Zoom Settings")]
-    // how much to zoom in when right mouse is held
     public float zoomFOV = 30f;
-    // how fast the zoom transitions in and out
     public float zoomSpeed = 10f;
 
     private Texture2D dotTexture;
@@ -51,14 +55,15 @@ public class ObjectDragRay : MonoBehaviour
     private float defaultFOV;
     private bool isZooming = false;
 
+    // desktop icon hover tracking
+    private PSDesktopIcon currentHoveredIcon;
+
     void Awake()
     {
         dotTexture = new Texture2D(1, 1);
         dotTexture.SetPixel(0, 0, dotColor);
         dotTexture.Apply();
         recentVelocities = new Vector3[velocitySamples];
-
-        // grab the camera and save its default FOV
         cam = GetComponentInChildren<Camera>();
         if (cam == null) cam = Camera.main;
         if (cam != null) defaultFOV = cam.fieldOfView;
@@ -67,7 +72,10 @@ public class ObjectDragRay : MonoBehaviour
     void Update()
     {
         if (!isDragging)
+        {
             CheckForAura();
+            CheckForDesktopIconHover();
+        }
 
         HandleZoom();
 
@@ -76,7 +84,15 @@ public class ObjectDragRay : MonoBehaviour
             Ray ray = new Ray(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
             {
-                // check light switch first
+                // ---- NEW: PSButton1 (PC power button) ----
+                PSButton1 psButton1 = hit.collider.GetComponent<PSButton1>();
+                if (psButton1 != null) { psButton1.Press(); return; }
+
+                // ---- NEW: PSDesktopIcon ----
+                PSDesktopIcon desktopIcon = hit.collider.GetComponent<PSDesktopIcon>();
+                if (desktopIcon != null) { desktopIcon.Press(); return; }
+
+                // ---- original button checks ----
                 LightSwitch lightSwitch = hit.collider.GetComponent<LightSwitch>();
                 if (lightSwitch != null) { lightSwitch.Toggle(); return; }
 
@@ -86,6 +102,7 @@ public class ObjectDragRay : MonoBehaviour
                 PSButton psButton = hit.collider.GetComponent<PSButton>();
                 if (psButton != null) { psButton.Press(); return; }
 
+                // ---- original drag check ----
                 DraggableObject draggable = hit.collider.GetComponent<DraggableObject>();
                 if (draggable != null && draggable.canBeGrabbed && draggable.isPaper)
                 {
@@ -98,22 +115,17 @@ public class ObjectDragRay : MonoBehaviour
 
         if (isDragging && currentObject != null)
         {
-            // scroll to push or pull
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0)
             {
                 objectDistance += scroll * scrollSpeed;
                 objectDistance = Mathf.Clamp(objectDistance, 1f, maxDistance);
             }
-
-            // rotate with Z/X
             float rotDelta = 0f;
             if (Input.GetKey(KeyCode.Z)) rotDelta -= rotationSpeed * Time.deltaTime;
             if (Input.GetKey(KeyCode.X)) rotDelta += rotationSpeed * Time.deltaTime;
             if (rotDelta != 0f)
                 currentObject.transform.Rotate(0f, rotDelta, 0f, Space.Self);
-
-            // adjust distance with Q/E
             float distanceDelta = 0f;
             if (Input.GetKey(KeyCode.Q)) distanceDelta += distanceAdjustSpeed * Time.deltaTime;
             if (Input.GetKey(KeyCode.E)) distanceDelta -= distanceAdjustSpeed * Time.deltaTime;
@@ -124,30 +136,40 @@ public class ObjectDragRay : MonoBehaviour
             ReleaseObject();
     }
 
-    // smoothly zooms in when right mouse is held, zooms back out on release
+    // check if player is hovering over a desktop icon and update its highlight
+    void CheckForDesktopIconHover()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        PSDesktopIcon hoveredIcon = null;
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
+            hoveredIcon = hit.collider.GetComponent<PSDesktopIcon>();
+
+        if (hoveredIcon != currentHoveredIcon)
+        {
+            if (currentHoveredIcon != null) currentHoveredIcon.SetHover(false);
+            currentHoveredIcon = hoveredIcon;
+            if (currentHoveredIcon != null) currentHoveredIcon.SetHover(true);
+        }
+    }
+
     void HandleZoom()
     {
         if (cam == null) return;
-
         isZooming = Input.GetMouseButton(1);
         float targetFOV = isZooming ? zoomFOV : defaultFOV;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
     }
 
-    // shoots a ray forward and glows whatever the player is looking at
     void CheckForAura()
     {
         Ray ray = new Ray(transform.position, transform.forward);
         AuraHighlight aura = null;
-
         if (Physics.Raycast(ray, out RaycastHit hit, auraCheckDistance))
         {
             aura = hit.collider.GetComponent<AuraHighlight>();
             if (aura == null) aura = hit.collider.GetComponentInParent<AuraHighlight>();
             if (aura == null) aura = hit.collider.GetComponentInChildren<AuraHighlight>();
         }
-
-        // only swap if something actually changed
         if (aura != currentAura)
         {
             if (currentAura != null) currentAura.SetGlow(false);
@@ -164,15 +186,10 @@ public class ObjectDragRay : MonoBehaviour
         lastWorldPoint = hit.point;
         originalLinearDamping = currentRb.linearDamping;
         originalAngularDamping = currentRb.angularDamping;
-
         currentObject.StartDragging();
-
         currentRb.linearVelocity = Vector3.zero;
         currentRb.angularVelocity = Vector3.zero;
-
-        for (int i = 0; i < velocitySamples; i++)
-            recentVelocities[i] = Vector3.zero;
-
+        for (int i = 0; i < velocitySamples; i++) recentVelocities[i] = Vector3.zero;
         velocityIndex = 0;
         isDragging = true;
     }
@@ -182,15 +199,10 @@ public class ObjectDragRay : MonoBehaviour
         if ((Input.GetMouseButton(0) || Input.GetKey(interactKey)) && isDragging && currentObject != null && currentRb != null)
         {
             Vector3 targetWorldPoint = transform.position + transform.forward * objectDistance;
-
-            // offset so the exact grab point follows the ray, not the pivot
             Vector3 worldGrabPoint = currentObject.transform.TransformPoint(localGrabPoint);
             Vector3 offset = worldGrabPoint - currentRb.position;
             Vector3 targetPosition = targetWorldPoint - offset;
-
             currentObject.UpdateDragTarget(targetPosition);
-
-            // sample velocity for throw on release
             Vector3 velocity = (targetWorldPoint - lastWorldPoint) / Time.fixedDeltaTime;
             recentVelocities[velocityIndex] = velocity;
             velocityIndex = (velocityIndex + 1) % velocitySamples;
@@ -201,11 +213,9 @@ public class ObjectDragRay : MonoBehaviour
     void ReleaseObject()
     {
         if (currentObject == null || currentRb == null) return;
-
         Transform slot = GetClosestSlot(currentRb.position);
         if (slot != null)
         {
-            // snap into slot and freeze it there
             currentRb.position = slot.position;
             currentRb.rotation = originalRotation;
             currentRb.linearVelocity = Vector3.zero;
@@ -213,22 +223,15 @@ public class ObjectDragRay : MonoBehaviour
         }
         else
         {
-            // average last few frames of movement for a natural throw
             Vector3 averageVelocity = Vector3.zero;
-            for (int i = 0; i < velocitySamples; i++)
-                averageVelocity += recentVelocities[i];
+            for (int i = 0; i < velocitySamples; i++) averageVelocity += recentVelocities[i];
             averageVelocity /= velocitySamples;
-
             Vector3 throwVelocity = averageVelocity * throwForceMultiplier;
-            if (throwVelocity.magnitude > 25f)
-                throwVelocity = throwVelocity.normalized * 25f;
-
+            if (throwVelocity.magnitude > 25f) throwVelocity = throwVelocity.normalized * 25f;
             currentRb.linearVelocity = throwVelocity;
             currentRb.angularVelocity = Vector3.Cross(throwVelocity, Vector3.right) * 0.3f;
         }
-
         currentObject.StopDragging();
-
         currentObject = null;
         currentRb = null;
         isDragging = false;
@@ -243,11 +246,7 @@ public class ObjectDragRay : MonoBehaviour
         {
             if (slot == null) continue;
             float d = Vector3.Distance(position, slot.position);
-            if (d < bestDistance)
-            {
-                bestDistance = d;
-                bestSlot = slot;
-            }
+            if (d < bestDistance) { bestDistance = d; bestSlot = slot; }
         }
         return bestSlot;
     }
@@ -264,14 +263,8 @@ public class ObjectDragRay : MonoBehaviour
 
     void OnDisable()
     {
-        // restore FOV if script gets disabled mid-zoom
-        if (cam != null)
-            cam.fieldOfView = defaultFOV;
-
-        if (currentAura != null)
-        {
-            currentAura.SetGlow(false);
-            currentAura = null;
-        }
+        if (cam != null) cam.fieldOfView = defaultFOV;
+        if (currentAura != null) { currentAura.SetGlow(false); currentAura = null; }
+        if (currentHoveredIcon != null) { currentHoveredIcon.SetHover(false); currentHoveredIcon = null; }
     }
 }
