@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class SkipE : MonoBehaviour
 {
@@ -7,18 +8,24 @@ public class SkipE : MonoBehaviour
     public float hideDistance = 18f;
     public BOSSInteract bossInteract;
 
-    private Transform player;
+    public Transform player;
+
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;
+
         if (skipUI != null) skipUI.SetActive(false);
+
     }
+
+
+
 
     void Update()
     {
         if (player == null) return;
         if (skipUI == null) return;
+
 
         float dist = Vector3.Distance(npc.position, player.position);
 

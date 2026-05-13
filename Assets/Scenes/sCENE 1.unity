@@ -678,7 +678,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4146,7 +4146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2c8c7f9cbaa269249863e301573f62eb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2c8c7f9cbaa269249863e301573f62eb, type: 3}
       propertyPath: m_Controller
@@ -6789,7 +6789,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -9627,8 +9627,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
-  m_SizeDelta: {x: 266.5759, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: -364}
+  m_SizeDelta: {x: 769.5245, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &456665770
 MonoBehaviour:
@@ -9650,7 +9650,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- ohyeee babyyyy'
+  m_text: '- Everything what you need to do, is on the board!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
@@ -9812,8 +9812,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
-  m_SizeDelta: {x: 266.5759, y: 0}
+  m_AnchoredPosition: {x: -0.000015258789, y: -364}
+  m_SizeDelta: {x: 411.18, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &468504208
 MonoBehaviour:
@@ -9835,7 +9835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- Fuck you'
+  m_text: '- What are you staring at me?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
@@ -19671,30 +19671,30 @@ MonoBehaviour:
     line1: {fileID: 8300000, guid: c3bb544153d5668459903c66781e1718, type: 3}
     line2: {fileID: 8300000, guid: 99a66f1e9306caa4db783c81caaa7a85, type: 3}
     line1Text: {fileID: 468504206}
-    line2Text: {fileID: 2110759794}
+    line2Text: {fileID: 456665768}
     line1TextDelay: 0.1
-    line2TextDelay: 0
+    line2TextDelay: 0.1
   - animationName: af
     line1: {fileID: 8300000, guid: 6e4dc39e2d90e574781dfc95633e6259, type: 3}
     line2: {fileID: 8300000, guid: c1c084ccf331ebc43a964241e84395f9, type: 3}
-    line1Text: {fileID: 456665768}
-    line2Text: {fileID: 1579352977}
+    line1Text: {fileID: 1572963594}
+    line2Text: {fileID: 1917582673}
     line1TextDelay: 1.1
-    line2TextDelay: 0
+    line2TextDelay: 0.2
   - animationName: afterFpart3
     line1: {fileID: 8300000, guid: 0fbc36d56944b2a4486496a5e5917914, type: 3}
     line2: {fileID: 8300000, guid: 73ac5dfb7590a5543b331abd2931a2be, type: 3}
-    line1Text: {fileID: 1572963594}
-    line2Text: {fileID: 0}
+    line1Text: {fileID: 2110759794}
+    line2Text: {fileID: 1579352977}
     line1TextDelay: 0.1
-    line2TextDelay: 0
+    line2TextDelay: 0.2
   - animationName: dance 0
     line1: {fileID: 8300000, guid: 625054405d8cd21499e65072548f7a5c, type: 3}
     line2: {fileID: 8300000, guid: 90a29482596272f41a327841c4a80ada, type: 3}
-    line1Text: {fileID: 1917582673}
-    line2Text: {fileID: 0}
-    line1TextDelay: 0
-    line2TextDelay: 0
+    line1Text: {fileID: 1417985384}
+    line2Text: {fileID: 2081121010}
+    line1TextDelay: 0.1
+    line2TextDelay: 0.1
   idleAnimation: Idle standing mad
   interactDistance: 18
   cooldown: 4.5
@@ -19703,6 +19703,7 @@ MonoBehaviour:
   specialVoiceCooldown: 10
   skipPromptUI: {fileID: 537753334}
   animator: {fileID: 927216646}
+  player: {fileID: 1329006810}
   isInteracting: 0
   onCooldown: 0
   onLine1: 0
@@ -20464,7 +20465,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -365}
+  m_AnchoredPosition: {x: -0.000030517578, y: -365}
   m_SizeDelta: {x: 812.2823, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &959462682
@@ -23302,7 +23303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1108825171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27203,7 +27204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: -341}
+  m_AnchoredPosition: {x: -0.000045776367, y: -365}
   m_SizeDelta: {x: 409.7675, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1285326718
@@ -27955,7 +27956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1298315184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28824,6 +28825,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f240b7d1d48c4545bece92be8df3ae8, type: 3}
+--- !u!4 &1329006810 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1384802293593688904, guid: 4401dd40c3f0d9641bc45c6b8264ea15, type: 3}
+  m_PrefabInstance: {fileID: 1817629217}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1329272327
 GameObject:
   m_ObjectHideFlags: 0
@@ -31036,8 +31042,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
-  m_SizeDelta: {x: 266.5759, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: -393}
+  m_SizeDelta: {x: 604.6306, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1417985386
 MonoBehaviour:
@@ -31059,7 +31065,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- Fuck fuck fuck fuck fuck'
+  m_text: '- Oh yeah, baby, look how Im dancing, gonna get some girls tonight!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
@@ -33614,7 +33620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1552130108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34518,8 +34524,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
-  m_SizeDelta: {x: 266.5759, y: 0}
+  m_AnchoredPosition: {x: -0.000045776367, y: -393}
+  m_SizeDelta: {x: 555.793, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1572963596
 MonoBehaviour:
@@ -34541,7 +34547,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- nhiam nhiam'
+  m_text: "- This don't working, that don't working! Oh my god!! I told ya\u2026"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
@@ -35016,8 +35022,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
-  m_SizeDelta: {x: 266.5759, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: -364}
+  m_SizeDelta: {x: 516.9705, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1579352979
 MonoBehaviour:
@@ -35039,7 +35045,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- Fuck fuck fuck fuck fuck'
+  m_text: '- Also, turn tv by pressing red button.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
@@ -37101,6 +37107,7 @@ MonoBehaviour:
   showDistance: 18.07
   bossInteract: {fileID: 927216648}
   npcObject: {fileID: 927216644}
+  player: {fileID: 1329006810}
 --- !u!114 &1620807176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37117,6 +37124,7 @@ MonoBehaviour:
   npc: {fileID: 927216647}
   hideDistance: 18.07
   bossInteract: {fileID: 927216648}
+  player: {fileID: 1329006810}
 --- !u!1001 &1630151991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43973,7 +43981,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
+  m_AnchoredPosition: {x: 0.000019073486, y: -364}
   m_SizeDelta: {x: 266.5759, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1917582675
@@ -43996,7 +44004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- qwewqeqqdaasdsa'
+  m_text: '- Idiot.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
@@ -46939,8 +46947,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
-  m_SizeDelta: {x: 266.5759, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: -364}
+  m_SizeDelta: {x: 472.2971, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2081121012
 MonoBehaviour:
@@ -46962,7 +46970,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- Fuck fuck fuck fuck fuck'
+  m_text: '- And you, continue do you work.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
@@ -47344,8 +47352,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019073486, y: -341}
-  m_SizeDelta: {x: 266.5759, y: 0}
+  m_AnchoredPosition: {x: -36.70169, y: -393}
+  m_SizeDelta: {x: 1042.8683, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2110759796
 MonoBehaviour:
@@ -47367,7 +47375,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- \xE1dasdadsadadasasdasasdad"
+  m_text: '- Whats else you don''t understanding here? Everything is on the board.
+    Just read carefully, don''t mess up anything. Please, can you work with your
+    heart? Im already so tired, please, be super careful with this. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}
   m_sharedMaterial: {fileID: 3830509031272028262, guid: 1a3086f40b873da4caeca9d39a1ad336, type: 2}

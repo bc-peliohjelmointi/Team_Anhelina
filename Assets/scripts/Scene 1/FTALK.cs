@@ -8,11 +8,11 @@ public class InteractPrompt : MonoBehaviour
     public BOSSInteract bossInteract;
     public GameObject npcObject;
 
-    private Transform player;
+    public Transform player;
 
     void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;
+
         promptUI.SetActive(false);
     }
 

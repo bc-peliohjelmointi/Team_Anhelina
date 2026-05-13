@@ -33,7 +33,7 @@ public class BOSSInteract : MonoBehaviour
 
     public Animator animator;
     private AudioSource audioSource;
-    private Transform player;
+    public Transform player;
 
     public bool isInteracting = false;
     public bool onCooldown = false;
@@ -51,7 +51,7 @@ public class BOSSInteract : MonoBehaviour
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
-        player = GameObject.FindWithTag("Player").transform;
+
 
         if (skipPromptUI != null)
             skipPromptUI.SetActive(false);
@@ -77,7 +77,7 @@ public class BOSSInteract : MonoBehaviour
                 StopAllCoroutines();
                 audioSource.Stop();
                 onLine1 = false;
-                // skip → tắt text ngay
+
                 if (currentPair.line1Text != null) currentPair.line1Text.SetActive(false);
                 if (skipPromptUI != null) skipPromptUI.SetActive(false);
                 StartCoroutine(PlayLine2Routine(currentPair));
@@ -87,7 +87,7 @@ public class BOSSInteract : MonoBehaviour
                 StopAllCoroutines();
                 audioSource.Stop();
                 onLine2 = false;
-                // skip → tắt text ngay
+
                 if (currentPair.line2Text != null) currentPair.line2Text.SetActive(false);
 
                 if (!specialVoiceOnCooldown && specialVoice != null)
@@ -129,9 +129,9 @@ public class BOSSInteract : MonoBehaviour
         animator.Play(currentPair.animationName, 0, 0f);
 
         onLine1 = true;
-        if (skipPromptUI != null) skipPromptUI.SetActive(true);
-        audioSource.PlayOneShot(currentPair.line1); 
-
+  
+        audioSource.PlayOneShot(currentPair.line1);
+        StartCoroutine(ShowSkipUI());
 
         yield return new WaitForSeconds(currentPair.line1TextDelay);
         if (currentPair.line1Text != null) currentPair.line1Text.SetActive(true);
@@ -150,8 +150,9 @@ public class BOSSInteract : MonoBehaviour
     IEnumerator PlayLine2Routine(AnimationVoices pair)
     {
         onLine2 = true;
-        if (skipPromptUI != null) skipPromptUI.SetActive(true);
-        audioSource.PlayOneShot(pair.line2); 
+
+        audioSource.PlayOneShot(pair.line2);
+        StartCoroutine(ShowSkipUI());
 
 
         yield return new WaitForSeconds(pair.line2TextDelay);
@@ -177,4 +178,11 @@ public class BOSSInteract : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactDistance);
     }
+
+    IEnumerator ShowSkipUI()
+    {
+        yield return new WaitForSeconds(1.1f);
+        if (skipPromptUI != null) skipPromptUI.SetActive(true);
+    }
 }
+
