@@ -3,7 +3,7 @@ using System.Collections;
 
 public class bosscode : MonoBehaviour
 {
-    public float rotateDegrees = 175f;
+    public float rotateDegrees = 148f;
     public float rotateDuration = 1f;
 
     void OnEnable()

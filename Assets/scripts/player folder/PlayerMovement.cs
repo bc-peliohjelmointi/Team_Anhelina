@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     public CreditsSlideshow slideshow;
 
     private Vector3 velocity; // vertical velocity
-    private float xRotation = 0f; // camera X rotation
+    public float xRotation = 0f; // camera X rotation
     private float currentRunEnergy;
     private bool isOverheated;
     private bool isDead;
