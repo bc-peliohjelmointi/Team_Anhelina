@@ -46798,9 +46798,9 @@ MonoBehaviour:
   playerObject: {fileID: 1989195045}
   playerCamera: {fileID: 222779377}
   playerMovement: {fileID: 1989195048}
-  delay: 1
+  delay: 0.7
   ghostDuration: 7
-  monsterDelay: 1.5
+  monsterDelay: 1
   rotateDuration: 0.15
   freezeDuration: 2
 --- !u!114 &2064613815
